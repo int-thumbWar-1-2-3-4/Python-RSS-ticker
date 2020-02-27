@@ -1,1 +1,2 @@
 Connor Drummond
+Hector Delgado
