@@ -1,2 +1,5 @@
-Connor Drummond
-Hector Delgado
+### Authors 
+
+* Connor Drummond
+* Hector Delgado
+* James Coleman
