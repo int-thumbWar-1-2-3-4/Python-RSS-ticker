@@ -3,9 +3,17 @@ python:
   # current default Python on Travis CI
   - "3.7"
 
+addons:
+  sonarcloud:
+    organization: "int-thumbwar-1-2-3-4"
+    token:
+      secure: "ab60f1e93f0d65d5c8824dffb330452e22d97e94" # encrypted value of your token
+
 # command to install dependencies
 install:
   - pip install -r requirements.txt
-# command to run tests
+
+# the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
 script:
   - pytest
+  - sonar-scanner
