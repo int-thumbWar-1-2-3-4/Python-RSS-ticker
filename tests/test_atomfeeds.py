@@ -1,6 +1,15 @@
-from .context import ams
+import sys
 
-def test_answer():
-    assert  ams.atomfeedDemoModule() == 'inside atom feed Demo Module'
+sys.path.append('/Users/jamescoleman/PycharmProjects/Python-RSS-ticker/Controller')
+
+import unittest
+from atomfeeds import feed as ams
+
+class TestAtomFeed(unittest.TestCase):
+
+    def test_answer(self):
+        assert  ams.atomfeedDemoModule() == 'inside atom feed Demo Module'
 
 
+if __name__ == '__main__':
+    unittest.main()

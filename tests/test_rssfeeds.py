@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append('/Users/jamescoleman/PycharmProjects/Python-RSS-ticker/')
+sys.path.append('/Users/jamescoleman/PycharmProjects/Python-RSS-ticker/Controller')
 
 import unittest
 from rssfeeds import feed as rs
