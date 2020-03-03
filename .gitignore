@@ -4,6 +4,9 @@ __pytestcache__/
 
 
 # Distribution / packaging
+.DS_Store
+Controller/.DS_Store
+Controller/atomfeeds/.DS_Store
 .Python
 build/
 develop-eggs/

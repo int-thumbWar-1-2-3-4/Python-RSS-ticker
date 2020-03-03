@@ -1,6 +1,5 @@
-from .context import ams
+from .context import atomfeed
+
 
 def test_answer():
-    assert  ams.atomfeedDemoModule() == 'inside atom feed Demo Module'
-
-
+    assert atomfeed.atomfeedDemoModule() == 'inside atom feed Demo Module'

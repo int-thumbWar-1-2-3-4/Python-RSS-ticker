@@ -1,4 +1,5 @@
-from .context import rs
+from .context import rssfeed
+
 
 def test_answer():
-    assert rs.rssFeedDemoModule() == 'inside rss Feed Demo Module'
+    assert rssfeed.rssFeedDemoModule() == 'inside rss Feed Demo Module'
