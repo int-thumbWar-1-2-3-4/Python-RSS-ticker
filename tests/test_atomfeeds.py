@@ -7,7 +7,7 @@ from atomfeeds import feed as ams
 
 class TestAtomFeed(unittest.TestCase):
 
-    def test_answer(self):
+    def test_atomFeedDemo(self):
         assert  ams.atomfeedDemoModule() == 'inside atom feed Demo Module'
 
 
