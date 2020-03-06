@@ -1,10 +1,5 @@
-import sys
 import unittest
-
-
-sys.path.append('/Users/jamescoleman/Programming/Python Projects/Python-RSS-ticker/Controller')
-
-from rssfeeds import feed as rs
+from Controller.rssfeeds import feed as rs
 
 
 class TestRSSFeed(unittest.TestCase):
