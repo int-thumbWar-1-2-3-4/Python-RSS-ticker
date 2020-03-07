@@ -1,8 +1,8 @@
 from tkinter import *
-import UI.userinterface
+
 # root window created. Here, that would be the only window, but
 # you can later have windows within windows.
-from UI import userinterface
+import userinterface
 
 root = Tk()
 
