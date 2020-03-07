@@ -1,5 +1,5 @@
 import unittest
-from Controller.rssfeeds import feed as rs
+from  import feed as rs
 
 
 class TestRSSFeed(unittest.TestCase):

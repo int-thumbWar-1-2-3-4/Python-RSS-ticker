@@ -1,6 +1,7 @@
 import unittest
 from Controller.atomfeeds import feed as ams
 
+
 class TestAtomFeed(unittest.TestCase):
 
     def test_atomFeedDemo(self):
