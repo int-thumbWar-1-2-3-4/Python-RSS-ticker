@@ -6,3 +6,4 @@
 * Selamawit Abdo
 * Liang Chen
 * Nestor Ayala
+* Brendan Bassett
