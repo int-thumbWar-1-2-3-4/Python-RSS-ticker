@@ -8,8 +8,8 @@ python:
 addons:
   sonarcloud:
     organization: "int-thumbwar-1-2-3-4"
-    token:
-      secure: "ab60f1e93f0d65d5c8824dffb330452e22d97e94" # encrypted value of your token
+    token: "ab60f1e93f0d65d5c8824dffb330452e22d97e94" # encrypted value of your token
+      
 
 # command to install dependencies
 install:
