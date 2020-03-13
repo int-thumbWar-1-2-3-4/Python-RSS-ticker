@@ -1,5 +1,19 @@
-from .context import atomfeed
+import unittest
+import sys
+import os
+
+directory = os.path.dirname(__file__)
+relativePath = directory[0: len(directory) - 5]
+
+sys.path.append(relativePath)
+from Controller.atomfeeds import feed as ams
 
 
-def test_answer():
-    assert atomfeed.atomfeedDemoModule() == 'inside atom feed Demo Module'
+class TestAtomFeed(unittest.TestCase):
+
+    def test_atomFeedDemo(self):
+        assert ams.atomfeedDemoModule() == 'inside atom feed Demo Module'
+
+
+if __name__ == '__main__':
+    unittest.main()
