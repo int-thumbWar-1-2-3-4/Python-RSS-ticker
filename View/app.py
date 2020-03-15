@@ -4,6 +4,11 @@ from tkinter import *
 # you can later have windows within windows.
 import View.userinterface as ui
 
+
+def whereAmI():
+    return 'Inside app.py'
+
+
 root = Tk()
 
 root.geometry("400x300")
