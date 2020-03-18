@@ -1,6 +1,6 @@
 import unittest
 from tkinter import Tk
-from View import app
+from view import app
 
 
 class TestApp(unittest.TestCase):

@@ -6,7 +6,7 @@ directory = os.path.dirname(__file__)
 relativePath = directory[0: len(directory) - 5]
 
 sys.path.append(relativePath)
-from Controller.rssfeeds import feed as rs
+from controller.rssfeeds import feed as rs
 
 
 class TestRSSFeed(unittest.TestCase):

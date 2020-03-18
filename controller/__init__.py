@@ -1,5 +1,5 @@
 import tkinter as tk
-from View.main_window import MainWindow
+from view.main_window import MainWindow
 
 root = tk.Tk()
 app = MainWindow(master=root)

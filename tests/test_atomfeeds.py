@@ -6,7 +6,7 @@ directory = os.path.dirname(__file__)
 relativePath = directory[0: len(directory) - 5]
 
 sys.path.append(relativePath)
-from Controller.atomfeeds import feed as ams
+from controller.atomfeeds import feed as ams
 
 
 class TestAtomFeed(unittest.TestCase):
