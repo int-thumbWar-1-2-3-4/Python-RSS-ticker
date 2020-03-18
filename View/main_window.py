@@ -1,8 +1,7 @@
 import tkinter as tk
 import feedparser
-import time
 
-class Application(tk.Frame):
+class MainWindow(tk.Frame):
 
     articles = {}
 
@@ -12,7 +11,7 @@ class Application(tk.Frame):
         self.winfo_toplevel().title("Python RSS Ticker")
         self.pack()
 
-        self.load_articles()
+        self.load_entries()
         self.create_widget()
 
 
@@ -22,11 +21,7 @@ class Application(tk.Frame):
         self.content_label.pack(side="top")
 
 
-    def load_articles(self):
+    def load_entries(self):
         feed = feedparser.parse('https://www.theguardian.com/world/rss')
         for entry in feed.entries:
             self.articles[entry.title] = entry.link
-
-root = tk.Tk()
-app = Application(master=root)
-app.mainloop()
