@@ -2,7 +2,6 @@ from tkinter import *
 
 # root window created. Here, that would be the only window, but
 # you can later have windows within windows.
-import view.userinterface as ui
 
 
 def whereAmI():
