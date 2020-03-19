@@ -1,6 +1,6 @@
 import tkinter as tk
-from view.main_window import MainWindow
+from view.main_view import MainView
 
 root = tk.Tk()
-app = MainWindow(master=root)
+app = MainView(master=root)
 app.mainloop()
