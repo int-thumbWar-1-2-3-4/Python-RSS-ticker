@@ -1,4 +1,5 @@
 import tkinter as tk
+import webbrowser
 
 
 class MainView(tk.Frame):
@@ -12,9 +13,12 @@ class MainView(tk.Frame):
         self.master = master
         self.winfo_toplevel().title("Python RSS Ticker")
 
-        self.content_label = tk.Label(self)
+        self.content_label = tk.Label(self, cursor="gumby")
         self.content_label.pack(side="top")
         self.content_label["text"] = self.__entry_title
+        self.content_label.bind("<Button-1>", lambda event,
+                                content_label=self.__entry_link:
+                                self.open_article(self.__entry_link))
 
         self.pack()
 
@@ -26,3 +30,6 @@ class MainView(tk.Frame):
 
         self.content_label["text"] = self.__entry_title
         self.content_label.update()
+
+    def open_article(self, link):
+        webbrowser.open_new(link)
