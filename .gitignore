@@ -4,6 +4,9 @@ __pytestcache__/
 
 
 # Distribution / packaging
+.DS_Store
+controller/.DS_Store
+controller/atomfeeds/.DS_Store
 .Python
 build/
 develop-eggs/
@@ -23,6 +26,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+get-pip.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
