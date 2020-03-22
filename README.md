@@ -1,2 +1,2 @@
-# Python-RSS-ticker https://travis-ci.com/int-thumbWar-1-2-3-4/Python-RSS-ticker.svg?branch=development
+# Python-RSS-ticker 
 RSS Ticker using Python and Tkinter
