@@ -1,2 +1,2 @@
-# Python-RSS-ticker build:started
+# Python-RSS-ticker 
 RSS Ticker using Python and Tkinter
