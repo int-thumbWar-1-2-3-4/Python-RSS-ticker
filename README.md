@@ -1,2 +1,9 @@
 # Python-RSS-ticker  [![Build Status](https://travis-ci.com/int-thumbWar-1-2-3-4/Python-RSS-ticker.svg?branch=development)](https://travis-ci.com/int-thumbWar-1-2-3-4/Python-RSS-ticker)
-RSS Ticker using Python and Tkinter
+
+Design Structure
+
+MVC - Model-View-Controller
+
+Tkinter - GUI methode that is commenly used in phyton
+
+Application Flow 
