@@ -33,3 +33,4 @@ class MainView(tk.Frame):
 
     def open_article(self, link):
         webbrowser.open_new(link)
+        self.content_label.update()
