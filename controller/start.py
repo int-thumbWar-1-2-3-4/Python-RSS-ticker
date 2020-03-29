@@ -14,18 +14,22 @@ model.load_entries("https://www.theguardian.com/us/rss")
 
 def ten_second_loop():
     """
-    Python-RSS-ticker.controller.start.ten_second_loop should be spawned
-    in a separate thread from tkinter and should call model.switch_displayed_entry
-    and then sleep for 10 seconds
+    Python-RSS-ticker.controller.start.ten_second_loop spawns a thread every 10
+    seconds which calls call_switch_display
     """
-    while True:
-        model.switch_displayed_entry()
-        time.sleep(10)
+    red_thread = th.Timer(10, ten_second_loop)
+    red_thread.daemon = True
+    red_thread.start()
+    call_switch_display()
+
+def call_switch_display():
+    """ Python-RSS-ticker.controller.start.call_switch_display calls
+    model.model.switch_displayed_entry """
+    model.switch_displayed_entry()
 
 
 # Thread setup, execution and termination
-with ThreadPoolExecutor(max_workers=1) as spool:
-    spool.submit(ten_second_loop())
+ten_second_loop()
 
 # KEEP THIS LAST
 mainView.mainloop()

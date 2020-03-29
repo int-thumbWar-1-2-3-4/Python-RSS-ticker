@@ -1,15 +1,14 @@
 from unittest.mock import Mock, patch
-from model.model import Model
 from controller import start
 import unittest
 
 
 class TestStart(unittest.TestCase):
 
-    @patch('model.model.Model.switch_displayed_entry')
-    def test_ten_second_loop(self, mock_switch):
+    @patch('controller.start.call_switch_display')
+    @patch('controller.start.th.Timer')
+    def test_ten_second_loop(self, mock_timer, mock_call_switch):
         start.ten_second_loop()
-        self.assertTrue(mock_switch().called)
-
-    def test_headline_update_thread(self):
-        pass
+        mock_timer.assert_called_with(10, start.ten_second_loop())
+        assert mock_timer.called
+        assert mock_call_switch.called
