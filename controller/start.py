@@ -21,6 +21,7 @@ def ten_second_loop():
     call_switch_display()
 
 
+
 def call_switch_display():
     """ Python-RSS-ticker.controller.start.call_switch_display calls
     model.model.switch_displayed_entry """
