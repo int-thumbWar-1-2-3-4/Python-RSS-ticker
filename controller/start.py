@@ -9,8 +9,9 @@ mainView = MainView(master=root)
 model = Model(mainView)
 model.load_entries("https://www.theguardian.com/us/rss")
 
-# Thread setup, execution and termination
-ten_second_loop(mainView)
+# This is a call to controller.title_loop with the view and the amount of
+# time between ticker changes
+ten_second_loop(mainView, 5)
 
 # KEEP THIS LAST
 mainView.mainloop()

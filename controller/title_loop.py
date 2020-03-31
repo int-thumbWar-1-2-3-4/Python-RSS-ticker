@@ -9,19 +9,22 @@ test_feed = get_titles_links()
 test_feed.reverse()
 
 
-def ten_second_loop(mv):
+def ten_second_loop(mv, t):
     """
-    Python-RSS-ticker.controller.start.ten_second_loop spawns a thread every 10
+    Python-RSS-ticker.controller.start.ten_second_loop spawns a thread every <t>
     seconds which calls call_switch_display
     """
-    looping_thread = th.Timer(10, ten_second_loop, [mv])
+    looping_thread = th.Timer(t, ten_second_loop, [mv, t])
     looping_thread.daemon = True
     looping_thread.start()
+    # I may merge ten_second_loop and call_switch_display in the future
     call_switch_display(mv)
 
 
 def call_switch_display(main_view):
     """ Python-RSS-ticker.controller.start.call_switch_display calls
-    model.model.switch_displayed_entry """
+    view.main_view.display_entry """
+    # This is a temporary data set. It is not dynamic
     temp_tuple = test_feed.pop()
+
     main_view.display_entry(temp_tuple[0], temp_tuple[1])
