@@ -1,5 +1,5 @@
 from unittest.mock import Mock, patch
-from controller.start import ten_second_loop, call_switch_display
+from controller.start import ten_second_loop
 import unittest
 
 
