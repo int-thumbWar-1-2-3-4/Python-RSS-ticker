@@ -1,59 +1,87 @@
 import feedparser
 
 from view.main_view import MainView
+from typing import List
 
 
-class Model():
-    # This class loads the feed entries and stores them in a dictionary of title, link pairs.
+class Article:
+    # A single rss item, i.e. a single news article
 
-    # The entries currently loaded  from the feed
-    __feed_titles = []
-    __feed_entries = {}
-    __displayed_entry_title = "[BLANK Entry Title]"
+    def __init__(self, title: str, link: str, datetime: str):
+        self.title = title
+        self.link = link
+        self.datetime = datetime
 
-    def __init__(self, main_view: MainView):
-        self.__main_view = main_view
 
-    def load_entries(self, feed_link: str):
-        # Loads all of the entries from the feed at the specified location.
+class Feed:
+    # A collection of articles from a single feed.
 
-        feed = feedparser.parse(feed_link)
-        for entry in feed.entries:
-            self.__feed_titles.append(entry.title)
-            self.__feed_entries[entry.title] = entry.link
+    def __init__(self, name: str):
+        self.__list_of_articles = List[Article]
+        self.__position = -1    # -1 here means the list of articles is empty
 
-        if not self.is_empty():
-            first_title = self.__feed_titles[0]
-            self.__main_view.display_entry(first_title, self.__feed_entries.get(first_title))
+        self.name = name
 
-    def switch_displayed_entry(self):
-        # Finds the next entry's title and link and prompts the view to display it.
-        print('switched_displayed_entry')
-        # Output an error message if the dictionary is empty and skip the rest of the method.
-        if self.is_empty():
-            print("ERROR The dictionary of feed entries is empty!")
-            self.__main_view.display_entry("BLANK Title", "BLANK Link")
-            return
+    def sort(self):
+        # Sort the list of articles by datetime from newest to oldest.
+        # TODO: Fill in Feed.sort() method
+        pass
 
-        # Search the dictionary of feed entries for the one that is currently displayed.
-        for index, entry in enumerate(self.__feed_entries, start=0):
+    def update(self, new_list_of_articles: List[Article]):
+        # Compare the new version of the rss feed, adding in new articles and removing old ones.
+        #   Order from newest to oldest by datetime.
+        # TODO: Fill in Feed.update() method
+        pass
 
-            # If this entry is the last one in the dictionary, display the first title, link pair.
-            if (index + 1) == len(self.__feed_entries):
-                first_title = self.__feed_titles[0]
-                self.__main_view.display_entry(first_title, self.__feed_entries.get(first_title))
+    def get_next(self) -> Article:
+        # Return the article at the next position.
+        # TODO: Fill in Feed.get_next() method
+        pass
 
-            # The entry is not at the end, so see if this title matches the one being displayed.
-            #   Display the next title, link pair in the dictionary.
-            elif entry.title == self.__displayed_entry_title:
-                next_title = self.__feed_titles[index + 1]
-                self.__displayed_entry_title = next_title
-                self.__main_view.display_entry(next_title, self.__feed_entries.get(next_title))
+    def add(self, new_article: Article):
+        # Add the new article at the proper position in the list. Increment position if necessary.
+        # TODO: Fill in Feed.add() method
+        pass
 
-    def is_empty(self):
-        # Determines whether the dictionary of entries is empty
 
-        if len(self.__feed_titles) == 0:
-            return True
-        else:
-            return False
+class Model:
+    # Holds all of the feeds this instance of Python-RSS-Ticker displays.
+
+    def __init__(self):
+        self.__list_of_feeds = List[Feed]
+        self.__current_feed: Feed = None
+
+    def add(self, new_list_of_articles: List[Article], feed_name: str) -> bool:
+        # Create a new Feed object if one doesnt already exist. Update the list with the new list of articles.
+        # Return true if successful
+        # TODO: Fill in Model.add(list) method
+        return False
+
+    def add(self, new_article: Article, feed_name: str) -> bool:
+        # Create a new Feed object if one doesnt already exist. Add the article to it.
+        # Return true if successful
+        # TODO: Fill in Model.add(article) method
+        return False
+
+    def remove(self, feedName: str) -> bool:
+        # Remove the feed and make sure its contents are no longer displayed.
+        # Return true if successful
+        # TODO: Fill in Model.remove() method
+        return False
+
+
+def parse(feed_link: str) -> List[Article]:
+    # Get the contents of an atom or rss feed using the feedparser library. Return all the relevant
+    #   information as Articles (unsorted).
+
+    feed = feedparser.parse(feed_link)
+    article_list = List[Article]
+
+    for entry in feed.entries:
+        title = entry.title
+        link = entry.link
+        datetime = feed.updated_parsed
+
+        article_list.append(Article(title, link, datetime))
+
+    return article_list

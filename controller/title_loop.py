@@ -1,6 +1,6 @@
 import threading as th
 from view.main_view import MainView
-from model.feedparser import get_titles_links
+from model.feed_manager import get_titles_links
 
 # These line grab test data from model.feedparser. This only temporary.
 # Eventually I believe that model.model should have a function that returns a
