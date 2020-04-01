@@ -28,7 +28,7 @@ class Model():
 
     def switch_displayed_entry(self):
         # Finds the next entry's title and link and prompts the view to display it.
-
+        print('switched_displayed_entry')
         # Output an error message if the dictionary is empty and skip the rest of the method.
         if self.is_empty():
             print("ERROR The dictionary of feed entries is empty!")
