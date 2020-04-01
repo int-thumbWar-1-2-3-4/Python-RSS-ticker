@@ -8,13 +8,13 @@ class ModelTestCase(unittest.TestCase):
     def test_article(self):
         title = "title"
         link = "link"
-        date = "date"
+        datetime = "datetime"
 
-        article = Article(title, link, date)
+        article = Article(title, link, datetime)
 
         self.assertEqual(article.title, title)
         self.assertEqual(article.link, link)
-        self.assertEqual(article.date, date)
+        self.assertEqual(article.datetime, datetime)
 
     def test_feed(self):
         feed_name = "test feed"
