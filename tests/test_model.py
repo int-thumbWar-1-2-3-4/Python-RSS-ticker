@@ -17,13 +17,21 @@ class ModelTestCase(unittest.TestCase):
         self.assertEqual(article.datetime, datetime)
 
     def test_feed(self):
-        feed_name = "test feed"
+        feed_name = "Feed Name"
 
         feed = Feed(feed_name)
 
         self.assertEqual(feed.name, feed_name)
 
     def test_feed_sort(self):
+        feed_name = "Feed Name"
+        article_1 = Article("Article 1", "Link 1", "Datetime 1")
+        article_2 = Article("Article 2", "Link 2", "Datetime 2")
+        article_3 = Article("Article 3", "Link 3", "Datetime 3")
+
+        feed = Feed(feed_name)
+
+
         # TODO: Create test for Feed.sort()
         pass
 

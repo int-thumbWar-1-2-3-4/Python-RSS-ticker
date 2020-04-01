@@ -68,3 +68,20 @@ class Model:
         # Return true if successful
         # TODO: Fill in Model.remove() method
         return False
+
+
+def parse(feed_link: str) -> List[Article]:
+    # Get the contents of an atom or rss feed using the feedparser library. Return all the relevant
+    #   information as Articles (unsorted).
+
+    feed = feedparser.parse(feed_link)
+    article_list = List[Article]
+
+    for entry in feed.entries:
+        title = entry.title
+        link = entry.link
+        datetime = feed.updated_parsed
+
+        article_list.append(Article(title, link, datetime))
+
+    return article_list
