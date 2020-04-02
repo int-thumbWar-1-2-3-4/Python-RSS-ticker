@@ -21,13 +21,14 @@ class Feed:
 
     def __init__(self, name: str, list_of_articles: []):
 
+        self.__position = None
         self.name = name
         self.__list_of_articles = list_of_articles
 
         if len(self.__list_of_articles) == 0:
             self.__position = -1    # -1 here means that the list is empty, so there is no position
         else:
-            self.__position == 0    # Start the position at the first entry (index == 0)
+            self.__position = 0    # Start the position at the first entry (index == 0)
 
     def sort(self):
         # Sort the list of articles by datetime from newest to oldest.
