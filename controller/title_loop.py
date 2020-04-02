@@ -1,12 +1,10 @@
 import threading as th
-from view.main_view import MainView
-from model.feed_manager import get_titles_links
+from model.model import parse
 
 # These line grab test data from model.feedparser. This only temporary.
 # Eventually I believe that model.model should have a function that returns a
 # similar list
-test_feed = get_titles_links()
-test_feed.reverse()
+test_feed = parse("https://www.theguardian.com/us/rss")
 
 
 def ten_second_loop(mv, t):
@@ -25,6 +23,6 @@ def call_switch_display(main_view):
     """ Python-RSS-ticker.controller.start.call_switch_display calls
     view.main_view.display_entry """
     # This is a temporary data set. It is not dynamic
-    temp_tuple = test_feed.pop()
+    article = test_feed.pop()
 
-    main_view.display_entry(temp_tuple[0], temp_tuple[1])
+    main_view.display_entry(article.title, article.link)

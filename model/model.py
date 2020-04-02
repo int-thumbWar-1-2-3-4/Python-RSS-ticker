@@ -1,6 +1,4 @@
 import feedparser
-
-from view.main_view import MainView
 from typing import List
 
 
@@ -75,13 +73,15 @@ def parse(feed_link: str) -> List[Article]:
     #   information as Articles (unsorted).
 
     feed = feedparser.parse(feed_link)
-    article_list = List[Article]
+    article_list = []
 
     for entry in feed.entries:
         title = entry.title
         link = entry.link
-        datetime = feed.updated_parsed
+        datetime = entry.date
 
-        article_list.append(Article(title, link, datetime))
+        temp_article = Article(title, link, datetime)
+
+        article_list.append(temp_article)
 
     return article_list
