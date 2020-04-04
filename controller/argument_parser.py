@@ -12,4 +12,5 @@ def parse_args():
                         help ="optionally enter a .yaml config file", nargs='*')
     args = parser.parse_args()
     return
+
 #return an object with attribut .file and .url

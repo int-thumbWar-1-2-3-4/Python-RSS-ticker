@@ -5,7 +5,7 @@ from model.model import parse
 # Eventually I believe that model.model should have a function that returns a
 # similar list
 test_feed = parse("https://www.theguardian.com/us/rss")
-
+test_feed.reverse()
 
 def ten_second_loop(mv, t):
     """
