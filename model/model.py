@@ -30,6 +30,11 @@ class Feed:
         else:
             self.__position = 0    # Start the position at the first entry (index == 0)
 
+    def __is_sorted(self):
+        # Assess whether the list of articles is sorted from newest to oldest
+        # TODO: Fill in Feed.__is_sorted() method
+        pass
+
     def sort(self):
         # Sort the list of articles by datetime from newest to oldest.
         # TODO: Fill in Feed.sort() method
