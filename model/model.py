@@ -7,6 +7,7 @@ from view.main_view import MainView
 from typing import List
 
 
+# TODO: Split this class into its own file
 class Article:
     # A single rss item, i.e. a single news article
 
@@ -16,6 +17,7 @@ class Article:
         self.datetime = datetime    # time.struct_time object
 
 
+# TODO: Split this class into its own file
 class Feed:
     # A collection of articles from a single feed.
 
@@ -31,7 +33,7 @@ class Feed:
             self.__position_of_current = 0    # Start the position at the first entry (index == 0)
 
     def __position_of(self, article: Article) -> int:
-        # Returns the index of the article given. -1 if article not found. Compares by title
+        # Returns the index of the article given. -1 if article not found. Compares by title.
 
         for index in range(0, len(self.__list_of_articles)):
             list_article = self.__list_of_articles[index]
@@ -56,9 +58,16 @@ class Feed:
 
             self.__list_of_articles[position] = current_article
 
-    def add(self, new_article: Article):
-        # Adds an article to the feed and sorts the feed after
-        pass
+    def add(self, new_article: Article) -> bool:
+        # Adds an article to the feed and sorts the feed after. Will not add a duplicate or None.
+        #        Returns True is added. False if duplicate.
+
+        if self.__position_of(new_article) != -1 or new_article is None:
+            return False
+
+        self.__list_of_articles.append(new_article)
+        self.__sort()
+        return True
 
     def is_empty(self) -> bool:
         return len(self.__list_of_articles) == 0
@@ -109,9 +118,9 @@ class Feed:
             return self.__list_of_articles[self.__position_of_current]
 
     def update(self, new_list_of_articles: List[Article]):
-        # Updates the articles contained in this feed to the new one. Will not update if new list is empty.
+        # Updates the articles contained in this feed to the new one. Will not update if new list is empty or None
 
-        if len(new_list_of_articles) == 0:
+        if len(new_list_of_articles) == 0 or new_list_of_articles is None:
             return
 
         current_article = self.get_current()
@@ -122,8 +131,6 @@ class Feed:
         self.__position_of_current = self.__position_of(current_article)
         if self.__position_of_current == -1: # Default to newest if the current article is no longer in the list.
             self.__position_of_current = 0
-
-
 
 class Model:
     # Holds all of the feeds this instance of Python-RSS-Ticker displays.

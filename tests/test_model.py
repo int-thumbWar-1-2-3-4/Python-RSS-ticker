@@ -25,7 +25,7 @@ class ModelTestCase(unittest.TestCase):
         feed_name = "Feed Name"
         feed = Feed(feed_name)
 
-        self.assertTrue(feed.is_empty())
+        self.assertFalse(feed.add(None))
 
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago
         feed.add(article_1)
@@ -138,6 +138,9 @@ class ModelTestCase(unittest.TestCase):
 
         self.assertEqual(feed.get_current(), article_1)
 
+        feed.update(None) # Should not replace with None
+        self.assertEqual(feed.get_current(), article_1)
+
         article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 3 days ago
         feed.update([article_2, article_3, article_4])
 
@@ -149,9 +152,6 @@ class ModelTestCase(unittest.TestCase):
 
         feed.update([article_1, article_4, article_2])
         self.assertEqual(feed.get_current(), article_4) # Current should stay the same between updates if possible.
-
-
-
 
     def test_model(self):
         # TODO: Create test for Model
