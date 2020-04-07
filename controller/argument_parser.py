@@ -9,8 +9,11 @@ parser.add_argument('--file', dest='file', action='store', default="",
                     help="enter a file name to parse", nargs='*')
 parser.add_argument('--config', dest='config', action='store', default='',
                     help="optionally enter a .yaml config file", nargs='*')
+parser.add_argument('--timer', dest='timer', action='store', type=int, default=10)
 args = parser.parse_args()
 
 feed = parse(args.url[0])
-execute(feed)
+feed.reverse()
+seconds = args.timer
+execute(feed, seconds)
 # return an object with attribut .file and .url
