@@ -26,6 +26,6 @@ def call_switch_display(main_view):
     """ Python-RSS-ticker.controller.start.call_switch_display calls
     view.main_view.display_entry """
     # This is a temporary data set. It is not dynamic
-    temp_tuple = test_feed.pop()
+    temp_tuple = test_feed.get_next()
 
     main_view.display_entry(temp_tuple[0], temp_tuple[1])

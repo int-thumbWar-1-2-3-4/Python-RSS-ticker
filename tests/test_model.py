@@ -21,85 +21,137 @@ class ModelTestCase(unittest.TestCase):
         self.assertEqual(article.link, article_link)
         self.assertEqual(article.datetime, article_datetime)
 
-    def test_feed(self):
+    def test_feed_add(self):
+        feed_name = "Feed Name"
+        feed = Feed(feed_name)
+
+        self.assertTrue(feed.is_empty())
+
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago
+        feed.add(article_1)
+
+        self.assertFalse(feed.is_empty())
+        self.assertEqual(feed.get_current(), article_1)
+
+    def test_feed_is_empty(self):
+        feed_name = "Feed Name"
+        feed = Feed(feed_name)
+
+        self.assertTrue(feed.is_empty())
+
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago
+        feed.add(article_1)
+
+        self.assertFalse(feed.is_empty())
+
+    def test_feed_is_sorted(self):
+        feed_name = "Feed Name"
+        feed = Feed(feed_name)
+
+        self.assertFalse(feed.is_sorted())
+
+        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        feed.add(article_2)
+
+        self.assertTrue(feed.is_sorted())
+
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
+        feed.add(article_1)
+
+        self.assertTrue(feed.is_sorted())
+
+        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
+        feed.add(article_3)
+
+        self.assertTrue(feed.is_sorted())
+
+        article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
+        feed.update([article_1, article_4, article_2, article_3])
+
+        self.assertTrue(feed.is_sorted())
+
+    def test_feed_get_current(self):
+        feed_name = "Feed Name"
+        feed = Feed(feed_name)
+
+        self.assertIsNone(feed.get_current())
+
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago
+        feed.add(article_1)
+
+        self.assertEqual(feed.get_current(), article_1)
+
+        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
+        article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
+        feed.update([article_1, article_2, article_3, article_4])
+
+        self.assertEqual(feed.get_current(), article_1)
+        self.assertEqual(feed.get_current(), article_1) # Should be the same when it's called multiple times
+
+        feed.get_next()
+        self.assertEqual(feed.get_current(), article_2) # Should be next entry
+        self.assertEqual(feed.get_current(), article_2) # Should be the same when it's called multiple times
+
+        feed.update([article_2, article_4])
+        self.assertEqual(feed.get_current(), article_2) # Should stay the same as long as it exists after updating.
+
+    def test_feed_get_next(self):
+        feed_name = "Feed Name"
+        feed = Feed(feed_name)
+
+        self.assertIsNone(feed.get_next())
+
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago
+        feed.add(article_1)
+
+        self.assertEqual(feed.get_next(), feed.get_current()) # These are the same when there is only one article.
+
+        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
+        article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
+        feed.update([article_1, article_2, article_3, article_4])
+
+        self.assertEqual(feed.get_next(), article_1)
+        self.assertEqual(feed.get_next(), article_2)
+        self.assertEqual(feed.get_next(), article_3)
+        self.assertEqual(feed.get_next(), article_4)
+        self.assertEqual(feed.get_next(), article_1) # Should loop around end to start
+
+    #       article_2 is now current
+
+        feed.update([article_2, article_4])
+        self.assertEqual(feed.get_next(), article_4)
+
+        feed.update([article_1, article_3])
+        self.assertEqual(feed.get_next(), article_1) # Should default to newest article
+
+    def test_feed_update(self):
+        # TODO: Get test_feed_sort() to work
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
         article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
 
         feed_name = "Feed Name"
-        feed = Feed(feed_name, [article_1, article_2, article_3])
+        feed = Feed(feed_name)
+        feed.update([article_1, article_2, article_3])
 
-        self.assertEqual(feed.name, feed_name)
+        self.assertEqual(feed.get_current(), article_1)
 
-    # def test_feed_sort(self):
-    #     # TODO: Get test_feed_sort() to work
-    #     article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
-    #     article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
-    #     article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
-    #     article_list = [article_3, article_2, article_1]    # Place them in reverse order to see if the sort works
-    #
-    #     feed_name = "Feed Name"
-    #     feedMock = Mock()
-    #     feed = Feed(feed_name, article_list)
-    #     with patch.object(Feed, 'sort', wraps=feed.sort()) as mock:
-    #         feed.sort()
-    #         mock.assert_called_once()
-    #
-    #
-    #     feed.sort()
-    #     previous_article = None
-    #
-    #     for article in feed.__list_of_articles:
-    #         if previous_article is not None:
-    #             self.assertGreater(previous_article.datetime, article.datetime)
-    #
-    #         previous_article = article
+        article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 3 days ago
+        feed.update([article_2, article_3, article_4])
 
-    # def test_feed_update(self):
-    #     # TODO: Get test_feed_update() to work
-    #     article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago
-    #     article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
-    #     article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=3)))    # 4 days ago
-    #     article_list_1 = [article_1, article_3, article_4]    # In order from most recent to oldest
-    #
-    #     article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
-    #     article_list_2 = [article_1, article_2, article_3]    # In order from most recent to oldest
-    #
-    #     feed_name = "Feed Name"
-    #     feed = Feed(feed_name, article_list_1)
-    #
-    #     feed.update(article_list_2)     # Should drop article_4 and add article_2 in the middle
-    #     self.assertListEqual(feed.__list_of_articles, [article_1, article_2, article_3])
+        self.assertEqual(feed.get_current(), article_2) # Should default to newest
 
-    # def test_feed_get_next(self):
-    #     # TODO: Get test_feed_get_next() to work
-    #     article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago
-    #     article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
-    #     article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
-    #     article_list = [article_1, article_2, article_3]    # In order from most recent to oldest
-    #
-    #     feed_name = "Feed Name"
-    #     feed = Feed(feed_name, article_list)
-    #     feed.__position = 0     # Initialize position at first entry in list (article_1)
-    #
-    #     self.assertLess(feed.get_next(), article_1)
+        feed.get_next()
+        feed.get_next()
+        # article_4 is now current
 
-    # def test_feed_add(self):
-    #     # TODO: Get test_feed_add() to work
-    #     article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago
-    #     article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
-    #     article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=3)))    # 4 days ago
-    #     article_list = [article_1, article_3, article_4]    # In order from most recent to oldest
-    #
-    #     feed_name = "Feed Name"
-    #     feed = Feed(feed_name, article_list)
-    #     feed.__position = 1     # Initialize position at second entry in list (article_3)
-    #
-    #     article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
-    #     feed.add(article_2)
-    #
-    #     self.assertListEqual(feed.__list_of_articles, [article_1, article_2, article_3, article_4])
-    #     self.assertEqual(feed.__position, 2)
+        feed.update([article_1, article_4, article_2])
+        self.assertEqual(feed.get_current(), article_4) # Current should stay the same between updates if possible.
+
+
+
 
     def test_model(self):
         # TODO: Create test for Model

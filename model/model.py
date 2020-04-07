@@ -19,42 +19,110 @@ class Article:
 class Feed:
     # A collection of articles from a single feed.
 
-    def __init__(self, name: str, list_of_articles: []):
+    __list_of_articles: List[Article] = list()
 
-        self.__position = None
+    def __init__(self, name: str):
+        self.__position_of_current = None # TODO: Change __position_of_current: int to current_article: Article
         self.name = name
-        self.__list_of_articles = list_of_articles
 
         if len(self.__list_of_articles) == 0:
-            self.__position = -1    # -1 here means that the list is empty, so there is no position
+            self.__position_of_current = -1    # -1 here means that the list is empty, so there is no position
         else:
-            self.__position = 0    # Start the position at the first entry (index == 0)
+            self.__position_of_current = 0    # Start the position at the first entry (index == 0)
 
-    def __is_sorted(self):
-        # Assess whether the list of articles is sorted from newest to oldest
-        # TODO: Fill in Feed.__is_sorted() method
-        pass
+    def __position_of(self, article: Article) -> int:
+        # Returns the index of the article given. -1 if article not found. Compares by title
 
-    def sort(self):
-        # Sort the list of articles by datetime from newest to oldest.
-        # TODO: Fill in Feed.sort() method
-        pass
+        for index in range(0, len(self.__list_of_articles)):
+            list_article = self.__list_of_articles[index]
+            if list_article.title == article.title:
+                return index
 
-    def update(self, new_list_of_articles: []):
-        # Compare the new version of the rss feed, adding in new articles and removing old ones.
-        #   Order from newest to oldest by datetime.
-        # TODO: Fill in Feed.update() method
-        pass
+        return -1
 
-    def get_next(self) -> Article:
-        # Return the article at the next position.
-        # TODO: Fill in Feed.get_next() method
-        pass
+    def __sort(self):
+        # Sorts all of the articles on this feed from newest to oldest. Uses the insertion sort process.
+
+        #   Refactored from code at:
+        #   https://runestone.academy/runestone/books/published/pythonds/SortSearch/TheInsertionSort.html
+
+        for index in range(1, len(self.__list_of_articles)):
+            current_article = self.__list_of_articles[index]
+            position = index
+
+            while position > 0 and self.__list_of_articles[position-1].datetime < current_article.datetime:
+                self.__list_of_articles[position] = self.__list_of_articles[position - 1]
+                position -= 1
+
+            self.__list_of_articles[position] = current_article
 
     def add(self, new_article: Article):
-        # Add the new article at the proper position in the list. Increment position if necessary.
-        # TODO: Fill in Feed.add() method
+        # Adds an article to the feed and sorts the feed after
         pass
+
+    def is_empty(self) -> bool:
+        return len(self.__list_of_articles) == 0
+
+    def is_sorted(self):
+        # Determines whether the articles are sorted by age or not. Returns false if there are no articles in this feed.
+
+        if len(self.__list_of_articles) == 0:
+            return False
+
+        previous_article: Article = None
+        for article in self.__list_of_articles:
+            if previous_article is not None and previous_article.datetime < article.datetime:
+                return False
+            previous_article = article
+
+        return True
+
+    def get_current(self) -> Article:
+        # Retreives the current article in this feed. May return None if the feed is empty.
+
+        if len(self.__list_of_articles) == -1:
+            return None
+        else:
+            if self.__position_of_current >= len(self.__list_of_articles): # Make sure the position is not too large
+                self.__position_of_current = 0
+
+            return self.__list_of_articles[self.__position_of_current]
+
+    def get_next(self) -> Article:
+        # Retreives the next article in order by age. May return None if the feed is empty.
+        #           Returns the current if the feed has only one article. Loops around end to start.
+
+        if len(self.__list_of_articles) == -1:
+            return None
+
+        else:
+            if self.__position_of_current >= len(self.__list_of_articles): # Make sure the position is not too large
+                self.__position_of_current = 0
+
+        if len(self.__list_of_articles) == 1:
+            return self.get_current()
+        elif len(self.__list_of_articles) == self.__position_of_current:
+            self.__position_of_current = 0
+            return self.get_current()
+        else:
+            self.__position_of_current += 1
+            return self.__list_of_articles[self.__position_of_current]
+
+    def update(self, new_list_of_articles: List[Article]):
+        # Updates the articles contained in this feed to the new one. Will not update if new list is empty.
+
+        if len(new_list_of_articles) == 0:
+            return
+
+        current_article = self.get_current()
+
+        self.__list_of_articles = new_list_of_articles
+        self.__sort()
+
+        self.__position_of_current = self.__position_of(current_article)
+        if self.__position_of_current == -1: # Default to newest if the current article is no longer in the list.
+            self.__position_of_current = 0
+
 
 
 class Model:
