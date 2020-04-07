@@ -7,7 +7,12 @@ from unittest.mock import call, patch, PropertyMock
 class TestMainView(unittest.TestCase):
 
     def test_build_window_winfo_toplevel(self):
-        pass
+        expected_text = 'Python RSS Ticker'
+
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.build_window()
+        self.assertTrue(test_view.winfo_toplevel().title, expected_text)
 
     def test_build_window_content_label(self):
         """
