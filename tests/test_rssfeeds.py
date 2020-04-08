@@ -1,5 +1,20 @@
-from .context import rssfeed
+import unittest
+import sys
+import os
+
+directory = os.path.dirname(__file__)
+relativePath = directory[0: len(directory) - 5]
+
+sys.path.append(relativePath)
+from controller.rssfeeds import feed as rs
 
 
-def test_answer():
-    assert rssfeed.rssFeedDemoModule() == 'inside rss Feed Demo Module'
+class TestRSSFeed(unittest.TestCase):
+
+    def test_rssFeedDemo(self):
+        assert rs.rssFeedDemoModule() == 'inside rss Feed Demo Module'
+
+
+if __name__ == '__main__':
+    unittest.main()
+
