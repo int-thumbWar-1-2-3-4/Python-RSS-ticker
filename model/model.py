@@ -8,17 +8,21 @@ from model.feed import Feed
 
 class Model:
     # Holds all of the feeds this instance of Python-RSS-Ticker displays.
+    __list_of_feeds = List[Feed]
 
-    def __init__(self):
-        self.__list_of_feeds = List[Feed]
-
-    def add(self, new_article: Article, feed_name: str) -> bool:
+    def update_feed(self, article_list: List[Article], feed_name: str) -> bool:
         # Create a new Feed object if one doesnt already exist. Add the article.py to it.
         # Return true if successful
-        # TODO: Fill in Model.add(article.py) method
+        # TODO: Fill in Model.add_feed(article_list) method
         return False
 
-    def remove(self, feedName: str) -> bool:
+    def add_article(self, new_article: Article, feed_name: str) -> bool:
+        # Create a new Feed object if one doesnt already exist. Add the article.py to it.
+        # Return true if successful
+        # TODO: Fill in Model.add(article) method
+        return False
+
+    def remove_feed(self, feedName: str) -> bool:
         # Remove the feed and make sure its contents are no longer displayed.
         # Return true if successful
         # TODO: Fill in Model.remove() method

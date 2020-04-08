@@ -133,16 +133,17 @@ class FeedTestCase(unittest.TestCase):
 
 class ModelTestCase(unittest.TestCase):
 
-    def test_model(self):
-        # TODO: Create test for Model
-        pass
+    def test_model_update_feed(self):
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
+        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
+        article_list = [article_1, article_2, article_3]
+        feed_name = "Test Feed Name"
 
-    def test_model_add_list(self):
-        # TODO: Create test for Model.add(list_of_articles)
-        pass
+        test_model = model.update_feed(article_list, )
 
     def test_model_add_article(self):
-        # TODO: Create test for Model.add(article.py)
+        # TODO: Create test for Model.add(article)
         pass
 
     def test_model_remove(self):
