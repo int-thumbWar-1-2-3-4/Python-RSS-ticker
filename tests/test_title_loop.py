@@ -22,3 +22,5 @@ class TestTitleLoop(unittest.TestCase):
         test_feed = [Article('test title', "test url", "date")]
         call_switch_display(mock_main_view, test_feed)
         mock_main_view.display_entry.assert_called_with('test title', "test url")
+
+
