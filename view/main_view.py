@@ -13,8 +13,20 @@ class MainView(tk.Frame):
         super().__init__(master)
         self.master = master
         self.content_label = tk.Label(self, cursor="gumby")
+
         self.pack()
         self.build_window()
+        self.menubar()
+
+    def menubar(self):
+        self.menubar = tk.Menu(self)
+        self.dropdown_menu = tk.Menu(self.menubar, tearoff=0)
+        self.dropdown_menu.add_command(label='red', command=self.red_color)
+        self.menubar.add_cascade(label='bg color', menu=self.dropdown_menu)
+        self.master.config(menu=self.menubar)
+
+    def red_color(self):
+        self.content_label['bg'] = 'red'
 
     def build_window(self):
         self.winfo_toplevel().title("Python RSS Ticker")
@@ -23,7 +35,7 @@ class MainView(tk.Frame):
         self.content_label["text"] = self.entry_title
         self.content_label.bind("<Button-1>",
                                 lambda event,
-                                content_label=self.entry_link:
+                                       content_label=self.entry_link:
                                 self.open_article(self.entry_link))
         self.pack()
 
