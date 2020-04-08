@@ -1,9 +1,9 @@
 import threading as th
-from model.model import parse
 
 # These line grab test data from model.feedparser. This only temporary.
 # Eventually I believe that model.model should have a function that returns a
 # similar list
+
 
 def ten_second_loop(mv, t, f):
     """
