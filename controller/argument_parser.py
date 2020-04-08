@@ -14,7 +14,11 @@ args = parser.parse_args()
 
 feed = parse(args.url[0])
 feed.reverse()
-seconds = args.timer
+seconds = 10
+
+if args.timer is not None:
+    seconds = args.timer
+
 execute(feed, seconds)
 
 
