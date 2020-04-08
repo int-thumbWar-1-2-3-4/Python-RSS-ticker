@@ -1,6 +1,7 @@
 import unittest
 import os
 import sys
+from unittest.mock import patch
 
 from model.feed import Feed
 
@@ -13,8 +14,11 @@ from model.model import *
 class ArticleTestCase(unittest.TestCase):
 
     def test_article(self):
-        # TODO: Create test for Article
-        pass
+        # TODO: Test Article creation with mock of datetime
+        article_title = "Test Article"
+        article_link = "https://www.theguardian.com/us-news/2020/apr/08/bernie-sanders-ends-2020-presidential-race"
+        # article_published_date = datetime mock
+
 
 
 class FeedTestCase(unittest.TestCase):

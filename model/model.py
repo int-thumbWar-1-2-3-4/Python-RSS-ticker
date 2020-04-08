@@ -12,12 +12,6 @@ class Model:
     def __init__(self):
         self.__list_of_feeds = List[Feed]
 
-    def add(self, new_list_of_articles: List[Article], feed_name: str) -> bool:
-        # Create a new Feed object if one doesnt already exist. Update the list with the new list of articles.
-        # Return true if successful
-        # TODO: Fill in Model.add(list) method
-        return False
-
     def add(self, new_article: Article, feed_name: str) -> bool:
         # Create a new Feed object if one doesnt already exist. Add the article.py to it.
         # Return true if successful
@@ -41,7 +35,7 @@ def parse(feed_link: str) -> []:
     for entry in feed.entries:
         title = entry.title
         link = entry.link
-        datetime = entry.updated_parsed     # time.struct_time object parsed within feedparser from string attribute
+        datetime = entry.published_parsed     # time.struct_time object parsed within feedparser from string attribute
         article = Article(title, link, datetime)
 
         article_list.append(article)

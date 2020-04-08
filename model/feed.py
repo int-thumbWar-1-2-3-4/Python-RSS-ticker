@@ -4,7 +4,6 @@ from model.article import Article
 
 
 class Feed:
-    # TODO: Split Feed class into its own file
     # A collection of articles from a single feed.
 
     __list_of_articles: List[Article] = list()
@@ -46,7 +45,7 @@ class Feed:
             current_article = self.__list_of_articles[index]
             position = index
 
-            while position > 0 and self.__list_of_articles[position-1].datetime < current_article.datetime:
+            while position > 0 and self.__list_of_articles[position-1].published_date < current_article.published_date:
                 self.__list_of_articles[position] = self.__list_of_articles[position - 1]
                 position -= 1
 
@@ -78,7 +77,7 @@ class Feed:
         previous_article = None
         for article in self.__list_of_articles:
 
-            if previous_article is not None and previous_article.datetime < article.datetime:
+            if previous_article is not None and previous_article.published_date < article.published_date:
                 return False
             previous_article = article
 
