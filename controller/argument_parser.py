@@ -16,5 +16,4 @@ feed = parse(args.url[0])
 feed.reverse()
 seconds = args.timer
 execute(feed, seconds)
-# return an object with attribut .file and .url
 
