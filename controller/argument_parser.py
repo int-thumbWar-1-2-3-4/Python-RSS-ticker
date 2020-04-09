@@ -9,7 +9,8 @@ def ticker_argument_parser():
                         help="enter a file name to parse", nargs='*')
     parser.add_argument('--config', dest='config', action='store', default='',
                         help="optionally enter a .yaml config file", nargs='*')
-    parser.add_argument('--timer', dest='timer', action='store', type=int, default=10)
+    parser.add_argument('--timer', dest='timer', action='store', type=int, default=10,
+                        help='enter an amount of time each headline should appear')
     return parser.parse_args()
 
 
