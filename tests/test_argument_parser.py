@@ -21,31 +21,42 @@ class TestArgumentParser(unittest.TestCase):
         sys.argv = ['test', '--url', fake_url[0]]
         args = ticker_argument_parser()
 
-        self.assertTrue(args.url)
+        self.assertTrue(args.url, args.timer)
         self.assertFalse(args.config)
-        assert args.url is not None
         self.assertEqual(args.url, fake_url)
 
     def test_file(self):
         fake_file = ['www.fakefile.com']
-        sys.argv = ['test', '--url', fake_file[0]]
+        sys.argv = ['test', '--file', fake_file[0]]
         args = ticker_argument_parser()
 
-        self.assertFalse(args.config)
-        assert args.url is not None
-        self.assertEqual(args.url, fake_file)
+        self.assertTrue(args.file, args.timer)
+        self.assertFalse(args.url)
+        self.assertEqual(args.file, fake_file)
 
     def test_config(self):
-        pass
+        fake_config = ['www.fakeconfig.com']
+        sys.argv = ['test', '--config', fake_config[0]]
+        args = ticker_argument_parser()
+
+        self.assertTrue(args.config, args.timer)
+        self.assertFalse(args.file)
+        self.assertEqual(args.config, fake_config)
 
     def test_timer(self):
         sys.argv = ['news ticker', '--timer', '17']
         args = ticker_argument_parser()
+
+        self.assertTrue(args.timer)
+        self.assertFalse(args.url, args.file)
         self.assertEqual(args.timer, 17)
 
     def test_default_timer(self):
         sys.argv = ['this is the prog field (the name of the program']
         args = ticker_argument_parser()
+
+        self.assertTrue(args.timer)
+        self.assertFalse(args.file, args.config)
         self.assertEqual(args.timer, 10)
 
     def test_all_args(self):
