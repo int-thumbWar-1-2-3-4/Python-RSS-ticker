@@ -3,13 +3,13 @@ import os
 import sys
 from unittest.mock import patch
 
-from model import model
+from model import feed_manager
 from model.feed import Feed
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from datetime import timedelta, date, datetime
-from model.model import *
+from model.feed_manager import *
 
 
 class ArticleTestCase(unittest.TestCase):
@@ -132,45 +132,121 @@ class FeedTestCase(unittest.TestCase):
         self.assertEqual(feed.current_article, article_4) # Current should stay the same between updates if possible.
 
 
-class ModelTestCase(unittest.TestCase):
+class FeedManagerTestCase(unittest.TestCase):
 
-    def test_model_update(self):
+    def test_feed_manager_add(self):
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
         article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
         article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
 
         article_list = [article_1, article_2, article_3]
-        test_model = Model()
-        test_model.update(article_list, "Test Feed 1")
+        test_feed_manager = Feed_Manager()
 
-        self.assertEqual(test_model.size(), 1)
+        self.assertFalse(test_feed_manager.add(article_1, "Test Feed 1")) # Dont add if feed not created through update()
 
-        article_list = [article_2, article_3, article_4]
-        test_model.update(article_list, "Test Feed 1")
+        test_feed_manager.update(article_list, "Test Feed 1")
 
-        self.assertEqual(test_model.size(), 1)
+        self.assertFalse(test_feed_manager.add(article_2, "Test Feed 2"))
+        self.assertTrue(test_feed_manager.add(article_4, "Test Feed 1"))
 
-        article_list = [article_1, article_3, article_4]
-        test_model.update(article_list, "Test Feed 2")
-
-        self.assertEqual(test_model.size(), 2)
-
-        article_list = [article_1, article_2, article_4]
-        test_model.update(article_list, "Test Feed 2")
-
-        self.assertEqual(test_model.size(), 2)
-
-    def test_model_add_article(self):
-        # TODO: Finish test for Model.add_article()
+    def test_feed_manager_get_next_article(self):
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
         article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
-        pass
+        article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
+        article_list_1 = [article_1, article_2, article_3]
 
-    def test_model_remove(self):
-        # TODO: Create test for Model.remove()
-        pass
+        article_5 = Article("Article 5", "Link 5", (datetime.now() - timedelta(days=5)))    # 5 days ago
+        article_6 = Article("Article 6", "Link 6", (datetime.now() - timedelta(days=6)))    # 6 days ago
+        article_7 = Article("Article 7", "Link 7", (datetime.now() - timedelta(days=7)))    # 7 days ago
+        article_list_2 = [article_5, article_6, article_7]
+
+        test_feed_manager = Feed_Manager()
+        test_feed_manager.update(article_list_1, "Test Feed 1")
+        test_feed_manager.update(article_list_2, "Test Feed 2")
+
+        self.assertEqual(test_feed_manager.get_next_article(), article_1)
+        self.assertEqual(test_feed_manager.get_next_article(), article_5)  # Should rotate feeds
+
+        test_feed_manager.get_next_article()
+
+        self.assertEqual(test_feed_manager.get_next_article(), article_2)  # Should wrap around to next article from first feed
+
+        article_list = [article_1, article_3, article_4]
+        test_feed_manager.update(article_list, "Test Feed 1")      # If current article in feed no longer exists after update,
+        self.assertEqual(test_feed_manager.get_next_article(), article_1)      # feed should restart at newest
+
+    def test_feed_manager_is_empty(self):
+        test_feed_manager = Feed_Manager()
+
+        self.assertTrue(test_feed_manager.is_empty())
+
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
+        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
+        article_list = [article_1, article_2, article_3]
+        test_feed_manager.update(article_list, "Test Feed")
+
+        self.assertFalse(test_feed_manager.is_empty())
+
+    def test_feed_manager_remove(self):
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
+        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
+
+        article_list = [article_1, article_2, article_3]
+        test_feed_manager = Feed_Manager()
+        test_feed_manager.update(article_list, "Test Feed 1")
+
+        self.assertFalse(test_feed_manager.remove("Test Feed 2"))
+        self.assertTrue(test_feed_manager.remove("Test Feed 1"))
+        self.assertEqual(test_feed_manager.size(), 0)
+
+    def test_feed_manager_size(self):
+        test_feed_manager = Feed_Manager()
+
+        self.assertEqual(test_feed_manager.size(), 0)
+
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
+        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
+        article_list = [article_1, article_2, article_3]
+        test_feed_manager.update(article_list, "Test Feed")
+
+        self.assertEqual(test_feed_manager.size(), 3)
+
+        article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
+        test_feed_manager.add(article_4, "Test Feed")
+
+        self.assertEqual(test_feed_manager.size(), 4)
+
+    def test_feed_manager_update(self):
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
+        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
+        article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
+
+        article_list = [article_1, article_2, article_3]
+        test_feed_manager = Feed_Manager()
+        test_feed_manager.update(article_list, "Test Feed 1")
+
+        self.assertEqual(test_feed_manager.size(), 1)
+
+        article_list = [article_2, article_3, article_4]
+        test_feed_manager.update(article_list, "Test Feed 1")
+
+        self.assertEqual(test_feed_manager.size(), 1)
+
+        article_list = [article_1, article_3, article_4]
+        test_feed_manager.update(article_list, "Test Feed 2")
+
+        self.assertEqual(test_feed_manager.size(), 2)
+
+        article_list = [article_1, article_2, article_4]
+        test_feed_manager.update(article_list, "Test Feed 2")
+
+        self.assertEqual(test_feed_manager.size(), 2)
 
     def test_parse(self):
         # TODO: Create test for parse()

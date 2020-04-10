@@ -1,12 +1,12 @@
 import threading as th
 
-from model import model
+from model import feed_manager
 from view.main_view import MainView
 
 # These line grab test data from model.feedparser. This only temporary.
 # Eventually I believe that model.model should have a function that returns a
 # similar list
-test_feed = model.parse("https://www.theguardian.com/us/rss")
+test_feed = feed_manager.parse("https://www.theguardian.com/us/rss")
 test_feed.reverse()
 
 

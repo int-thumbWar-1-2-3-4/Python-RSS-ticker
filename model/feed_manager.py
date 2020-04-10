@@ -6,26 +6,20 @@ from model.article import Article
 from model.feed import Feed
 
 
-class Model:
+class Feed_Manager:
     # Holds all of the feeds this instance of Python-RSS-Ticker displays.
     __list_of_feeds = List[Feed]
     __current_feed = None
 
-    def __next_feed(self) -> Feed:
-        # TODO: Fill in Model.__next_feed()
-        # Gets the next feed in the rotation.
+    def __change_feed(self) -> Feed:
+        # TODO: Fill in Model.__change_feed()
+        # Advances the feed to the next in rotation
         pass
 
     def add(self, new_article: Article, feed_name: str) -> bool:
         # Create a new Feed object if one doesnt already exist. Add the article.py to it.
         # Return true if successful
         # TODO: Fill in Model.add(article)
-        return False
-
-    def update(self, article_list: List[Article], feed_name: str) -> bool:
-        # Create a new Feed object if one doesnt already exist. Add the article.py to it.
-        # Return true if successful
-        # TODO: Fill in Model.update(article_list, feed_name)
         return False
 
     def get_next_article(self) -> Article:
@@ -46,7 +40,13 @@ class Model:
     def size(self) -> int:
         # Gets the number of feeds currently held
         # TODO: Fill in Model.size()
-        return 0
+        return -1
+
+    def update(self, article_list: List[Article], feed_name: str) -> bool:
+        # Create a new Feed object if one doesnt already exist. Add the article.py to it.
+        # Return true if successful
+        # TODO: Fill in Model.update(article_list, feed_name)
+        return False
 
 
 def parse(feed_link: str) -> []:
