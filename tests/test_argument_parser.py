@@ -1,58 +1,60 @@
 #https://github.com/drsjb80/MockingPython/blob/master/thecastleargv.py
-import argparse
+from controller.argument_parser import ticker_argument_parser
 import unittest
-from mock import Mock
-import controller.parser as parser
 import sys
-import controller.argument_parser as argument_parser
 
-class test_URL(unittest.TestCase):
-    def test_single_url(self):
-        sys.argv[1:] = ["--url", "google.com"]
-        args = argument_parser.parse_args()
-        self.assertEqual(args.url, ['google.com'])
-        self.assertEqual(args.file, "")
-        self.assertEqual(args.config, "")
 
-    def test_single_file(self):
-        sys.argv[1:] = ["--file", "some_file.json"]
-        args = argument_parser.parse_args()
-        self.assertEqual(args.file, ['some_file.json'])
-        self.assertEqual(args.url, "")
-        self.assertEqual(args.config, "")
+class TestArgumentParser(unittest.TestCase):
 
-    def test_single_config(self):
-        sys.argv[1:] = ["--config", "some_config.yaml"]
-        args = argument_parser.parse_args()
-        self.assertEqual(args.config, ['some_config.yaml'])
-        self.assertEqual(args.url, "")
-        self.assertEqual(args.file, "")
+    def test_help(self):
+        pass
 
-    def test_multiple_url(self):
-        sys.argv[1:] = ["--url", "google.com"]
-        args = argument_parser.parse_args()
-        self.assertEqual(args.url, ['google.com'])
-        self.assertEqual(args.file, "")
-        self.assertEqual(args.config, "")
+    def test_has_each_argument(self):
+        sys.argv = ['PRSST']
+        args = ticker_argument_parser()
+        self.assertTrue('url' in args)
+        self.assertTrue('file' in args)
+        self.assertTrue('config' in args)
+        self.assertTrue('timer' in args)
 
-    def test_urls_and_files(self):
-        sys.argv[1:] = ["--url", "google.com", "--file", "some_file.json", "another_file.json"]
-        args = argument_parser.parse_args()
-        self.assertEqual(args.url, ['google.com'])
-        self.assertEqual(args.file, ["some_file.json", "another_file.json"])
-        self.assertEqual(args.config, "")
+    def test_url(self):
+        fake_url = ['www.fakeurl.com']
+        sys.argv = ['test', '--url', fake_url[0]]
+        args = ticker_argument_parser()
+
+        self.assertTrue(args.url, args.timer)
+        self.assertFalse(args.config)
+        self.assertEqual(args.url, fake_url)
+
+    def test_file(self):
+        fake_file = ['www.fakefile.com']
+        sys.argv = ['test', '--file', fake_file[0]]
+        args = ticker_argument_parser()
+
+        self.assertTrue(args.file, args.timer)
+        self.assertFalse(args.config)
+        self.assertEqual(args.file, fake_file)
+
+    def test_config(self):
+        fake_config = ['www.fakeconfig.com']
+        sys.argv = ['test', '--config', fake_config[0]]
+        args = ticker_argument_parser()
+
+        self.assertTrue(args.config, args.timer)
+        self.assertFalse(args.file)
+        self.assertEqual(args.config, fake_config)
 
     def test_timer(self):
         sys.argv = ['news ticker', '--timer', '17']
-        args = argument_parser.parse_args()
+        args = ticker_argument_parser()
 
-        self.assertTrue(args.timer)
-        self.assertFalse(args.url, args.file)
+        self.assertTrue(args.timer, args.url)
+        self.assertFalse(args.config, args.file)
         self.assertEqual(args.timer, 17)
 
     def test_default_timer(self):
         sys.argv = ['this is the prog field (the name of the program']
-        args = argument_parser.parse_args()
+        args = ticker_argument_parser()
 
         self.assertTrue(args.timer)
         self.assertFalse(args.file, args.config)
