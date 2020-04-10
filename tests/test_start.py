@@ -1,5 +1,3 @@
-from unittest.mock import Mock, patch
-from controller.start import ten_second_loop
 import unittest
 
 
