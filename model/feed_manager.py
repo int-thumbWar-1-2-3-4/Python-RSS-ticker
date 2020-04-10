@@ -7,14 +7,27 @@ from model.feed import Feed
 
 
 class Feed_Manager:
-    # Holds all of the feeds this instance of Python-RSS-Ticker displays.
+    # Holds all of the feeds this instance of Python-RSS-Ticker displays. Manages ordering of Articles so they rotate
+    #       between feeds and repeat as little as possible.
     __list_of_feeds = List[Feed]
-    __current_feed = None
+    __current_feed_index = -1
 
-    def __change_feed(self) -> Feed:
-        # TODO: Fill in Model.__change_feed()
+    def __change_feed(self) -> bool:
         # Advances the feed to the next in rotation
-        pass
+        if self.size() == 0:
+            self.__current_feed_index = -1
+            return False
+
+        if self.size() == 1:
+            self.__current_feed_index = 0
+            return False
+
+        if self.__current_feed_index == (self.size() - 1):
+            self.__current_feed_index == 0
+            return True
+
+        self.__current_feed_index += 1
+        return True
 
     def add(self, new_article: Article, feed_name: str) -> bool:
         # Create a new Feed object if one doesnt already exist. Add the article.py to it.
