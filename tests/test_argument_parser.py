@@ -2,6 +2,7 @@
 import argparse
 import unittest
 from mock import Mock
+import controller.parser as parser
 import sys
 import controller.argument_parser as argument_parser
 
@@ -40,9 +41,22 @@ class test_URL(unittest.TestCase):
         self.assertEqual(args.url, ['google.com'])
         self.assertEqual(args.file, ["some_file.json", "another_file.json"])
         self.assertEqual(args.config, "")
+
     def test_timer(self):
-        sys.argv[1:] = ["timer"]
+        sys.argv = ['news ticker', '--timer', '17']
         args = argument_parser.parse_args()
-        self.assertEqual(args.url, "")
-        self.assertEqual(args.file, "")
-        self.assertEqual(args.config, "")
+
+        self.assertTrue(args.timer)
+        self.assertFalse(args.url, args.file)
+        self.assertEqual(args.timer, 17)
+
+    def test_default_timer(self):
+        sys.argv = ['this is the prog field (the name of the program']
+        args = argument_parser.parse_args()
+
+        self.assertTrue(args.timer)
+        self.assertFalse(args.file, args.config)
+        self.assertEqual(args.timer, 10)
+
+    def test_all_args(self):
+        pass
