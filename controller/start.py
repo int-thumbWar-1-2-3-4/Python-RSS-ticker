@@ -9,15 +9,11 @@ if __name__ == "__main__":
     arguments = ticker_argument_parser()
     feed = parse(arguments.url[0])
     feed.reverse()
-    seconds = 10
-
-    if arguments.timer is not None:
-        seconds = arguments.timer
 
     root = tk.Tk()
     mainView = MainView(master=root)
 
-    ten_second_loop(mainView, seconds, feed)
+    ten_second_loop(mainView, arguments.timer, feed)
 
     # KEEP THIS LAST
     mainView.mainloop()
