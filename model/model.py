@@ -9,24 +9,44 @@ from model.feed import Feed
 class Model:
     # Holds all of the feeds this instance of Python-RSS-Ticker displays.
     __list_of_feeds = List[Feed]
+    __current_feed = None
 
-    def update_feed(self, article_list: List[Article], feed_name: str) -> bool:
+    def __next_feed(self) -> Feed:
+        # TODO: Fill in Model.__next_feed()
+        # Gets the next feed in the rotation.
+        pass
+
+    def add(self, new_article: Article, feed_name: str) -> bool:
         # Create a new Feed object if one doesnt already exist. Add the article.py to it.
         # Return true if successful
-        # TODO: Fill in Model.add_feed(article_list) method
+        # TODO: Fill in Model.add(article)
         return False
 
-    def add_article(self, new_article: Article, feed_name: str) -> bool:
+    def update(self, article_list: List[Article], feed_name: str) -> bool:
         # Create a new Feed object if one doesnt already exist. Add the article.py to it.
         # Return true if successful
-        # TODO: Fill in Model.add(article) method
+        # TODO: Fill in Model.update(article_list, feed_name)
         return False
 
-    def remove_feed(self, feedName: str) -> bool:
+    def get_next_article(self) -> Article:
+        # TODO: Fill in Model.get_next_article()
+        # Gets the next article to be displayed
+        pass
+
+    def is_empty(self) -> bool:
+        # Determines whether the model has any feeds.
+        return len(self.__list_of_feeds) == 0
+
+    def remove(self, feedName: str) -> bool:
         # Remove the feed and make sure its contents are no longer displayed.
         # Return true if successful
-        # TODO: Fill in Model.remove() method
+        # TODO: Fill in Model.remove()
         return False
+
+    def size(self) -> int:
+        # Gets the number of feeds currently held
+        # TODO: Fill in Model.size()
+        return 0
 
 
 def parse(feed_link: str) -> []:

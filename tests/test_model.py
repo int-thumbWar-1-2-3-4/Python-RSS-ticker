@@ -3,6 +3,7 @@ import os
 import sys
 from unittest.mock import patch
 
+from model import model
 from model.feed import Feed
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -133,17 +134,38 @@ class FeedTestCase(unittest.TestCase):
 
 class ModelTestCase(unittest.TestCase):
 
-    def test_model_update_feed(self):
+    def test_model_update(self):
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
         article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
-        article_list = [article_1, article_2, article_3]
-        feed_name = "Test Feed Name"
+        article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
 
-        test_model = model.update_feed(article_list, )
+        article_list = [article_1, article_2, article_3]
+        test_model = Model()
+        test_model.update(article_list, "Test Feed 1")
+
+        self.assertEqual(test_model.size(), 1)
+
+        article_list = [article_2, article_3, article_4]
+        test_model.update(article_list, "Test Feed 1")
+
+        self.assertEqual(test_model.size(), 1)
+
+        article_list = [article_1, article_3, article_4]
+        test_model.update(article_list, "Test Feed 2")
+
+        self.assertEqual(test_model.size(), 2)
+
+        article_list = [article_1, article_2, article_4]
+        test_model.update(article_list, "Test Feed 2")
+
+        self.assertEqual(test_model.size(), 2)
 
     def test_model_add_article(self):
-        # TODO: Create test for Model.add(article)
+        # TODO: Finish test for Model.add_article()
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
+        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
         pass
 
     def test_model_remove(self):
