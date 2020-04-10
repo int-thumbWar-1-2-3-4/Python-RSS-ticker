@@ -31,7 +31,7 @@ class TestArgumentParser(unittest.TestCase):
         args = ticker_argument_parser()
 
         self.assertTrue(args.file, args.timer)
-        self.assertFalse(args.url)
+        self.assertFalse(args.config)
         self.assertEqual(args.file, fake_file)
 
     def test_config(self):
@@ -47,8 +47,8 @@ class TestArgumentParser(unittest.TestCase):
         sys.argv = ['news ticker', '--timer', '17']
         args = ticker_argument_parser()
 
-        self.assertTrue(args.timer)
-        self.assertFalse(args.url, args.file)
+        self.assertTrue(args.timer, args.url)
+        self.assertFalse(args.config, args.file)
         self.assertEqual(args.timer, 17)
 
     def test_default_timer(self):
