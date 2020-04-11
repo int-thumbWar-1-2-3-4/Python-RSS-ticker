@@ -26,7 +26,6 @@ pycodestyle==2.5.0
 pyflakes==2.1.1
 pyparsing==2.4.6
 PySimpleGUI==4.16.0
-pytest==5.3.5
 python-coveralls==2.9.3
 PyYAML==5.3.1
 radon==4.1.0
