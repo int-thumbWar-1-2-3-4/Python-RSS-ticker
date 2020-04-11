@@ -10,6 +10,9 @@ addons:
     organization: "int-thumbwar-1-2-3-4"
     token: "ab60f1e93f0d65d5c8824dffb330452e22d97e94" # encrypted value of your token
       
+# command to install coverage
+before_install:
+  - pip install coverage
 
 # command to install dependencies
 install:
