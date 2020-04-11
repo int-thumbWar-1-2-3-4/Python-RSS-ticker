@@ -12,9 +12,3 @@ def ticker_argument_parser():
     parser.add_argument('--timer', dest='timer', action='store', type=int, default=10,
                         help='enter an amount of time each headline should appear')
     return parser.parse_args()
-
-
-
-
-
-
