@@ -34,7 +34,22 @@ class MainView(tk.Frame):
         self.font_menu.add_command(label='9', command=self.font_9)
         self.font_menu.add_command(label='10', command=self.font_10)
         self.font_menu.add_command(label='11', command=self.font_11)
-        self.menubar.add_cascade(label='font size', menu=self.font_menu)
+        self.font_menu.add_command(label='12', command=self.font_12)
+        self.font_menu.add_command(label='13', command=self.font_13)
+        self.menubar.add_cascade(label='Font size', menu=self.font_menu)
+
+        self.font_color = tk.Menu(self.menubar)
+        self.font_color.add_command(label='red', command=self.font_red)
+        self.font_color.add_command(label='blue', command=self.font_blue)
+        self.font_color.add_command(label='yellow', command=self.font_yellow)
+        self.menubar.add_cascade(label='Font color', menu=self.font_color)
+
+    def font_red(self):
+        self.content_label['fg'] = 'red'
+    def font_yellow(self):
+        self.content_label['fg'] = 'yellow'
+    def font_blue(self):
+        self.content_label['fg'] = 'blue'
 
     def font_8(self):
         self.content_label['font'] = 'times 8'
@@ -44,6 +59,10 @@ class MainView(tk.Frame):
         self.content_label['font'] = 'times 10'
     def font_11(self):
         self.content_label['font'] = 'times 11'
+    def font_12(self):
+        self.content_label['font'] = 'times 12'
+    def font_13(self):
+        self.content_label['font'] = 'times 13'
 
 
     def white_color(self):
