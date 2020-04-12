@@ -1,6 +1,6 @@
 import tkinter as tk
 import webbrowser
-
+from tkinter import *
 
 class MainView(tk.Frame):
     # Shows a single entry from a feed
@@ -20,17 +20,62 @@ class MainView(tk.Frame):
 
     def menubar(self):
         self.menubar = tk.Menu(self)
+
         self.dropdown_menu = tk.Menu(self.menubar, tearoff=0)
-        self.dropdown_menu.add_command(label='default', command=self.default_color)
+        self.dropdown_menu.add_command(label='white', command=self.white_color)
         self.dropdown_menu.add_command(label='red', command=self.red_color)
+        self.dropdown_menu.add_command(label='blue', command=self.blue_color)
+        self.dropdown_menu.add_command(label='green', command=self.green_color)
         self.menubar.add_cascade(label='bg color', menu=self.dropdown_menu)
         self.master.config(menu=self.menubar)
 
-    def default_color(self):
+        self.font_menu = tk.Menu(self.menubar)
+        self.font_menu.add_command(label='8', command=self.font_8)
+        self.font_menu.add_command(label='9', command=self.font_9)
+        self.font_menu.add_command(label='10', command=self.font_10)
+        self.font_menu.add_command(label='11', command=self.font_11)
+        self.font_menu.add_command(label='12', command=self.font_12)
+        self.font_menu.add_command(label='13', command=self.font_13)
+        self.menubar.add_cascade(label='Font size', menu=self.font_menu)
+
+        self.font_color = tk.Menu(self.menubar)
+        self.font_color.add_command(label='red', command=self.font_red)
+        self.font_color.add_command(label='blue', command=self.font_blue)
+        self.font_color.add_command(label='yellow', command=self.font_yellow)
+        self.menubar.add_cascade(label='Font color', menu=self.font_color)
+
+    def font_red(self):
+        self.content_label['fg'] = 'red'
+    def font_yellow(self):
+        self.content_label['fg'] = 'yellow'
+    def font_blue(self):
+        self.content_label['fg'] = 'blue'
+
+    def font_8(self):
+        self.content_label['font'] = 'times 8'
+    def font_9(self):
+        self.content_label['font'] = 'times 9'
+    def font_10(self):
+        self.content_label['font'] = 'times 10'
+    def font_11(self):
+        self.content_label['font'] = 'times 11'
+    def font_12(self):
+        self.content_label['font'] = 'times 12'
+    def font_13(self):
+        self.content_label['font'] = 'times 13'
+
+
+    def white_color(self):
         self.content_label['bg'] = 'white'
 
     def red_color(self):
         self.content_label['bg'] = 'red'
+
+    def blue_color(self):
+        self.content_label['bg'] = 'blue'
+
+    def green_color(self):
+        self.content_label['bg'] = 'green'
 
     def build_window(self):
         self.winfo_toplevel().title("Python RSS Ticker")
