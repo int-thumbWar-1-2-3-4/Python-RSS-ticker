@@ -4,7 +4,6 @@ from view.main_view import MainView
 from tkinter import *
 
 root = tk.Tk()
-root.geometry("650x20")
 mainView = MainView(master=root)
 
 
