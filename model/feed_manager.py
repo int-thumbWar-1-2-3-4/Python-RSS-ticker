@@ -23,21 +23,56 @@ class Feed_Manager:
             return False
 
         if self.__current_feed_index == (self.size() - 1):
-            self.__current_feed_index == 0
+            self.__current_feed_index = 0
             return True
 
         self.__current_feed_index += 1
         return True
 
+    def __get_feed(self, feed_name: str) -> Feed:
+        # Gets the feed which matches the given name. May return None if match could not be found.
+
+        for feed in self.__list_of_feeds:
+            if feed.name == feed_name:
+                return feed
+
+        return None
+
     def add(self, new_article: Article, feed_name: str) -> bool:
         # Create a new Feed object if one doesnt already exist. Add the article.py to it.
         # Return true if successful
-        # TODO: Fill in Model.add(article)
+        if self.contains(new_article, feed_name):
+            return False
+
+        feed: Feed = self.__get_feed(feed_name)
+
+        if feed is None:
+            return False
+
+        feed.add_new(new_article)
+        return True
+
+    def contains(self, article: Article, feed_name: str) -> bool:
+        # Determines whether a feed with the given name and article exist
+
+        matched_feed: Feed = None
+
+        for list_feed in self.__list_of_feeds:
+            if list_feed.name == feed_name:
+                return matched_feed.contains(article)
+
+        # No feed matched the name given
         return False
 
     def get_next_article(self) -> Article:
-        # TODO: Fill in Model.get_next_article()
-        # Gets the next article to be displayed
+        # Gets the next article to be displayed. May return None if article could not be found.
+        if self.size() == 0:
+            return None
+
+        if self.size() == 1:
+            current_feed: Feed = self.__list_of_feeds[0]
+            return current_feed.get_next()
+
         pass
 
     def is_empty(self) -> bool:
@@ -45,21 +80,35 @@ class Feed_Manager:
         return len(self.__list_of_feeds) == 0
 
     def remove(self, feedName: str) -> bool:
-        # Remove the feed and make sure its contents are no longer displayed.
-        # Return true if successful
-        # TODO: Fill in Model.remove()
-        return False
+        # Removes the feed from the manager and updates the current feed if another exists.
+        # Return false if no feed matched the name given.
+
+        matched_feed: Feed = self.__get_feed(feedName)
+
+        if matched_feed is None:
+            return False
+
+        # If the feed to be removed is the current feed, advance the current feed if possible
+        if self.__list_of_feeds[self.__current_feed_index] == matched_feed:
+
+            # feed_manager is now empty
+            if self.size() == 1:
+                self.__list_of_feeds = []
+                self.__current_feed_index = -1
 
     def size(self) -> int:
         # Gets the number of feeds currently held
-        # TODO: Fill in Model.size()
-        return -1
+        return len(self.__list_of_feeds)
 
-    def update(self, article_list: List[Article], feed_name: str) -> bool:
-        # Create a new Feed object if one doesnt already exist. Add the article.py to it.
-        # Return true if successful
-        # TODO: Fill in Model.update(article_list, feed_name)
-        return False
+    def update(self, article_list: List[Article], feed_name: str):
+        # Create a new Feed object if one doesnt already exist. Update its contents with the article list given.
+
+        matched_feed: Feed = self.__get_feed(feed_name)
+
+        if matched_feed is None:
+            matched_feed = Feed(feed_name)
+
+        matched_feed.update(article_list)
 
 
 def parse(feed_link: str) -> []:

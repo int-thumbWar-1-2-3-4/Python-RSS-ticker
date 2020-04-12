@@ -1,10 +1,6 @@
 import unittest
 import os
 import sys
-from unittest.mock import patch
-
-from model import feed_manager
-from model.feed import Feed
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -19,7 +15,6 @@ class ArticleTestCase(unittest.TestCase):
         article_title = "Test Article"
         article_link = "https://www.theguardian.com/us-news/2020/apr/08/bernie-sanders-ends-2020-presidential-race"
         # article_published_date = datetime mock
-
 
 
 class FeedTestCase(unittest.TestCase):
@@ -41,6 +36,23 @@ class FeedTestCase(unittest.TestCase):
         feed.add_new(article_1)
         self.assertEqual(feed.current_article, article_1) # Should default to the new article.py
 
+    def test_feed_contains(self):
+        test_feed_name = "Test Feed"
+        test_feed = Feed(test_feed_name)
+
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
+
+        self.assertFalse(test_feed.contains(article_1))
+
+        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
+        test_feed.update([article_1, article_2, article_3])
+
+        self.assertTrue(test_feed.contains(article_1))
+
+        article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
+
+        self.assertFalse(test_feed.contains(article_4))
 
     def test_feed_is_empty(self):
         feed_name = "Feed Name"
@@ -83,30 +95,26 @@ class FeedTestCase(unittest.TestCase):
         feed_name = "Feed Name"
         feed = Feed(feed_name)
 
-        self.assertFalse(feed.move_to_next())
+        self.assertIsNone(feed.get_next())
 
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago
-        feed.add_new(article_1)
-
-        self.assertFalse(feed.move_to_next())
-
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        feed.update([article_1, article_2])
+
+        self.assertEqual(feed.get_next(), article_1)
+        self.assertEqual(feed.get_next(), article_2)
+
         article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
         article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
-        feed.update([article_2, article_3, article_4])
+        feed.update([article_1, article_3, article_4])
 
-        self.assertEqual(feed.current_article, article_2)
+        self.assertEqual(feed.get_next(), article_1) # Should default to the newest if the same article does not exist
 
-        self.assertTrue(feed.move_to_next())
-        self.assertEqual(feed.current_article, article_3)
+        self.assertEqual(feed.get_next(), article_3)
+        feed.update([article_1, article_3, article_4])
 
-        feed.move_to_next()
-
-        self.assertEqual(feed.current_article, article_4)
-
-        feed.move_to_next()
-
-        self.assertEqual(feed.current_article, article_2) # Should loop around end to start
+        self.assertEqual(feed.get_next(), article_4) # Current article should stay same between updates if possible
+        self.assertEqual(feed.get_next(), article_2) # Should loop around end to start
 
     def test_feed_update(self):
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
@@ -124,8 +132,8 @@ class FeedTestCase(unittest.TestCase):
 
         self.assertEqual(feed.current_article, article_2) # Should default to newest
 
-        feed.move_to_next()
-        feed.move_to_next()
+        feed.get_next()
+        feed.get_next()
         # article_4 is now current
 
         feed.update([article_1, article_4, article_2])
@@ -151,31 +159,53 @@ class FeedManagerTestCase(unittest.TestCase):
         self.assertTrue(test_feed_manager.add(article_4, "Test Feed 1"))
 
     def test_feed_manager_get_next_article(self):
-        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
-        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
-        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
-        article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
-        article_list_1 = [article_1, article_2, article_3]
+        article_1_1 = Article("Article 1_1", "Link 1_1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
+        article_1_2 = Article("Article 1_2", "Link 1_2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        article_1_3 = Article("Article 1_3", "Link 1_3", (datetime.now() - timedelta(days=3)))    # 3 days ago
+        article_list_1 = [article_1_1, article_1_2, article_1_3]
 
-        article_5 = Article("Article 5", "Link 5", (datetime.now() - timedelta(days=5)))    # 5 days ago
-        article_6 = Article("Article 6", "Link 6", (datetime.now() - timedelta(days=6)))    # 6 days ago
-        article_7 = Article("Article 7", "Link 7", (datetime.now() - timedelta(days=7)))    # 7 days ago
-        article_list_2 = [article_5, article_6, article_7]
+        article_2_1 = Article("Article 2_1", "Link 2_1", (datetime.now() - timedelta(days=5)))    # 5 days ago
+        article_2_2 = Article("Article 2_2", "Link 2_2", (datetime.now() - timedelta(days=6)))    # 6 days ago
+        article_2_3 = Article("Article 2_3", "Link 2_3", (datetime.now() - timedelta(days=7)))    # 7 days ago
+        article_list_2 = [article_2_1, article_2_2, article_2_3]
 
         test_feed_manager = Feed_Manager()
         test_feed_manager.update(article_list_1, "Test Feed 1")
+        self.assertEqual(test_feed_manager.get_next_article(), article_1_1)
+        self.assertEqual(test_feed_manager.get_next_article(), article_1_2) # If only 1 feed, move to next in feed.
+
         test_feed_manager.update(article_list_2, "Test Feed 2")
 
-        self.assertEqual(test_feed_manager.get_next_article(), article_1)
-        self.assertEqual(test_feed_manager.get_next_article(), article_5)  # Should rotate feeds
+        self.assertEqual(test_feed_manager.get_next_article(), article_2_1)  # Should rotate between feeds,
+                                                    # even though article_2_1 is older than all of the articles in test feed 1
 
-        test_feed_manager.get_next_article()
+        self.assertEqual(test_feed_manager.get_next_article(), article_1_3)  # Should wrap around to next article from first feed
 
-        self.assertEqual(test_feed_manager.get_next_article(), article_2)  # Should wrap around to next article from first feed
+        # article_1_3 is now the current
 
-        article_list = [article_1, article_3, article_4]
-        test_feed_manager.update(article_list, "Test Feed 1")      # If current article in feed no longer exists after update,
-        self.assertEqual(test_feed_manager.get_next_article(), article_1)      # feed should restart at newest
+        article_1_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
+        article_list = [article_1_1, article_1_2, article_1_4]
+        test_feed_manager.update(article_list, "Test Feed 1")
+                                                                # If current article in feed no longer exists after update,
+        self.assertEqual(test_feed_manager.get_next_article(), article_1_1)      # feed should restart at newest
+
+    def test_feed_manager_contains(self):
+        test_feed_manager = Feed_Manager()
+        test_feed_name = "Test Feed"
+
+        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))    # 1 day ago (most recent)
+        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))    # 2 days ago
+        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))    # 3 days ago
+
+        self.assertFalse(test_feed_manager.contains(article_1, test_feed_name)) # Feed named "Test Feed" not created yet.
+
+        test_feed_manager.update([article_1, article_2, article_3], test_feed_name)
+
+        self.assertTrue(test_feed_manager.contains(article_1, test_feed_name))
+
+        article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))    # 4 days ago
+
+        self.assertFalse(test_feed_manager.contains(article_4, test_feed_name))
 
     def test_feed_manager_is_empty(self):
         test_feed_manager = Feed_Manager()
