@@ -21,9 +21,13 @@ class MainView(tk.Frame):
     def menubar(self):
         self.menubar = tk.Menu(self)
         self.dropdown_menu = tk.Menu(self.menubar, tearoff=0)
+        self.dropdown_menu.add_command(label='default', command=self.default_color)
         self.dropdown_menu.add_command(label='red', command=self.red_color)
         self.menubar.add_cascade(label='bg color', menu=self.dropdown_menu)
         self.master.config(menu=self.menubar)
+
+    def default_color(self):
+        self.content_label['bg'] = 'white'
 
     def red_color(self):
         self.content_label['bg'] = 'red'
