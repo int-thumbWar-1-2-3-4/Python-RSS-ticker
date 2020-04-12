@@ -41,7 +41,8 @@ class Feed_Manager:
     def add(self, new_article: Article, feed_name: str) -> bool:
         # Create a new Feed object if one doesnt already exist. Add the article.py to it.
         # Return true if successful
-        if self.contains(new_article, feed_name):
+
+        if self.is_empty() or self.contains(new_article, feed_name):
             return False
 
         feed: Feed = self.__get_feed(feed_name)
@@ -54,6 +55,9 @@ class Feed_Manager:
 
     def contains(self, article: Article, feed_name: str) -> bool:
         # Determines whether a feed with the given name and article exist
+
+        if self.is_empty():
+            return False
 
         matched_feed: Feed = None
 
@@ -77,7 +81,7 @@ class Feed_Manager:
 
     def is_empty(self) -> bool:
         # Determines whether the model has any feeds.
-        return len(self.__list_of_feeds) == 0
+        return self.__list_of_feeds is None or len(self.__list_of_feeds) == 0
 
     def remove(self, feedName: str) -> bool:
         # Removes the feed from the manager and updates the current feed if another exists.
@@ -93,7 +97,7 @@ class Feed_Manager:
 
             # feed_manager is now empty
             if self.size() == 1:
-                self.__list_of_feeds = []
+                self.__list_of_feeds = List[Feed]
                 self.__current_feed_index = -1
 
     def size(self) -> int:
