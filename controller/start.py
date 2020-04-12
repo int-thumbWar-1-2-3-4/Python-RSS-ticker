@@ -1,4 +1,7 @@
 import tkinter as tk
+import sys
+
+sys.path.append("..")
 from controller.title_loop import ten_second_loop
 from controller.argument_parser import ticker_argument_parser
 from view.main_view import MainView
