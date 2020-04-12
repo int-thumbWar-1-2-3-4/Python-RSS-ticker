@@ -1,14 +1,8 @@
 import tkinter as tk
 import webbrowser
 from tkinter import *
-from tkinter.font import Font
-
-
-
-
 
 class MainView(tk.Frame):
-
     # Shows a single entry from a feed
 
     entry_title = "[BLANK Entry Title]"
@@ -18,62 +12,61 @@ class MainView(tk.Frame):
         """ Constructor """
         super().__init__(master)
         self.master = master
-        self.label_text = StringVar()
-        self.set_font = Font(family="Times New Roman", size=12)
-        self.content_label = tk.Label(self, cursor="gumby", font=self.set_font)
+        self.content_label = tk.Label(self, cursor="gumby")
+
         self.pack()
-        self.build_window(master)
+        self.build_window()
+        self.menubar()
+
+    def menubar(self):
+        self.menubar = tk.Menu(self)
+
+        self.dropdown_menu = tk.Menu(self.menubar, tearoff=0)
+        self.dropdown_menu.add_command(label='white', command=self.white_color)
+        self.dropdown_menu.add_command(label='red', command=self.red_color)
+        self.dropdown_menu.add_command(label='blue', command=self.blue_color)
+        self.dropdown_menu.add_command(label='green', command=self.green_color)
+        self.menubar.add_cascade(label='bg color', menu=self.dropdown_menu)
+        self.master.config(menu=self.menubar)
+
+        self.font_menu = tk.Menu(self.menubar)
+        self.font_menu.add_command(label='8', command=self.font_8)
+        self.font_menu.add_command(label='9', command=self.font_9)
+        self.font_menu.add_command(label='10', command=self.font_10)
+        self.font_menu.add_command(label='11', command=self.font_11)
+        self.menubar.add_cascade(label='font size', menu=self.font_menu)
+
+    def font_8(self):
+        self.content_label['font'] = 'times 8'
+    def font_9(self):
+        self.content_label['font'] = 'times 9'
+    def font_10(self):
+        self.content_label['font'] = 'times 10'
+    def font_11(self):
+        self.content_label['font'] = 'times 11'
 
 
+    def white_color(self):
+        self.content_label['bg'] = 'white'
 
-    def build_window(self, top):
+    def red_color(self):
+        self.content_label['bg'] = 'red'
 
-        # Adding a drop down menu
-        make_menu= Menu(top)
-        top.config(menu=make_menu)
+    def blue_color(self):
+        self.content_label['bg'] = 'blue'
 
-        # Create menu items
+    def green_color(self):
+        self.content_label['bg'] = 'green'
 
-
-        # Rotation time.
-        rotate_time = Menu(make_menu)
-        make_menu.add_cascade(label="Time", menu=rotate_time)
-
-        # Font Style
-        font_menu = Menu(make_menu)
-        make_menu.add_cascade(label="Font Style", menu=font_menu)
-
-        # Font size
-        size_menu = Menu(make_menu)
-        make_menu.add_cascade(label="Font size", menu=size_menu)
-        size_menu.add_command(label="8", command=MainView.change_size(self, self.set_font, 8))
-        size_menu.add_command(label="9", command=MainView.change_size(self, self.set_font, 9))
-        size_menu.add_command(label="10", command=MainView.change_size(self, self.set_font, 10))
-        size_menu.add_command(label="11", command=MainView.change_size(self, self.set_font, 11))
-        size_menu.add_command(label="12", command=MainView.change_size(self, self.set_font, 12))
-
-        # Font color
-        color_menu = Menu(make_menu)
-        make_menu.add_cascade(label="Font color", menu=color_menu)
-
-        # Background color
-        bg_color_menu = Menu(make_menu)
-        make_menu.add_cascade(label="BG color", menu=bg_color_menu)
-
-        # Url lists
-        url_menu = Menu(make_menu)
-        make_menu.add_cascade(label="URL", menu=url_menu)
-
-
+    def build_window(self):
         self.winfo_toplevel().title("Python RSS Ticker")
 
         self.content_label.pack(side="top")
         self.content_label["text"] = self.entry_title
         self.content_label.bind("<Button-1>",
                                 lambda event,
-                                content_label=self.entry_link:
+                                       content_label=self.entry_link:
                                 self.open_article(self.entry_link))
-
         self.pack()
 
     def display_entry(self, entry_title: str, entry_link: str):
@@ -88,9 +81,3 @@ class MainView(tk.Frame):
     def open_article(self, link):
         webbrowser.open_new(link)
         self.content_label.update()
-
-    @staticmethod
-    def change_size(self, font_obj, obj_size):
-        font_obj.config(size=obj_size)
-        return font_obj
-
