@@ -58,18 +58,6 @@ class Feed:
 
         return False
 
-    def is_sorted(self):
-        # Determines whether the articles are sorted by age or not.
-
-        previous_article = None
-        for article in self.__list_of_articles:
-
-            if previous_article is not None and previous_article.published_date < article.published_date:
-                return False
-            previous_article = article
-
-        return True
-
     def get_current_article(self) -> Article:
         # Gets the current article for this feed.
 

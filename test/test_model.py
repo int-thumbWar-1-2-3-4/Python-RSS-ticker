@@ -11,10 +11,10 @@ from model.feed_manager import *
 class ArticleTestCase(unittest.TestCase):
 
     def test_article(self):
-        # TODO: Test Article creation with mock of datetime
         article_title = "Test Article"
         article_link = "https://www.theguardian.com/us-news/2020/apr/08/bernie-sanders-ends-2020-presidential-race"
-        # article_published_date = datetime mock
+        article_published_date = datetime.now()
+        Article(article_title, article_link, article_published_date)
 
 
 class FeedTestCase(unittest.TestCase):
@@ -48,27 +48,11 @@ class FeedTestCase(unittest.TestCase):
         self.assertTrue(test_feed.contains(article_3))
         self.assertTrue(test_feed.contains(article_4))
 
-    def test_feed_is_sorted(self):
-        article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago
-        article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))  # 2 days ago
-        feed = Feed("Feed Name", [article_1, article_2])
-
-        self.assertTrue(feed.is_sorted())
-
-        article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))  # 3 days ago
-        feed.add_new(article_3)
-
-        self.assertTrue(feed.is_sorted())
-
-        article_4 = Article("Article 4_1", "Link 4_1", (datetime.now() - timedelta(days=4)))  # 4 days ago
-        feed.update([article_1, article_4, article_2, article_3])
-
-        self.assertTrue(feed.is_sorted())
-
-        article_4 = Article("Article 4_2", "Link 4_2", (datetime.now() - timedelta(days=4)))  # 4 days ago
-
     def test_feed_get_current_article(self):
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago
+        test_feed = Feed("Test Feed", [article_1])
+        self.assertEqual(test_feed.get_next_article(), article_1)  # Should stay at first entry since it only contains 1
+
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))  # 2 days ago
         test_feed = Feed("Test Feed", [article_1, article_2])
 
@@ -90,10 +74,12 @@ class FeedTestCase(unittest.TestCase):
 
     def test_feed_get_next_article(self):
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
+        test_feed = Feed("Test Feed", [article_1])
+        self.assertEqual(test_feed.get_next_article(), article_1)  # Should stay at first entry since it only contains 1
+
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))  # 2 days ago
         test_feed = Feed("Test Feed", [article_1, article_2])
 
-        self.assertEqual(test_feed.get_current_article(), article_1)
         self.assertEqual(test_feed.get_next_article(), article_2)
 
         article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))  # 3 days ago
