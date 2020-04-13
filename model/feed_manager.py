@@ -54,7 +54,7 @@ class Feed_Manager:
     def get_current_article(self) -> Article:
         # Gets the next article to be displayed. May return None if article could not be found.
         if self.is_empty():
-            return None
+            raise Exception("This FeedManager is empty. Current article does not exist.")
 
         current_feed: Feed = self.__list_of_feeds[self.__current_feed_index]
         return current_feed.get_current_article()
@@ -63,7 +63,7 @@ class Feed_Manager:
         # Gets the next article to be displayed. May return None if article could not be found.
 
         if self.is_empty():
-            return None
+            raise Exception("This FeedManager is empty. Could not get next article.")
 
         else:
             # current feed is at last entry of list, wrap to beginning
@@ -75,14 +75,10 @@ class Feed_Manager:
             current_feed: Feed = self.__list_of_feeds[self.__current_feed_index]
             return current_feed.get_next_article()
 
-
     def is_empty(self) -> bool:
         # Determines whether the model has any feeds.
 
-        if self.__list_of_feeds is None:
-            return True
-
-        elif self.size() == 0:
+        if self.size() == 0:
             return True
 
         return False
