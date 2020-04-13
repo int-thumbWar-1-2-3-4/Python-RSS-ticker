@@ -2,7 +2,6 @@
 from bs4 import BeautifulSoup
 import requests
 import re
-import lxml
 
 
 def parse_url_feed(url):
