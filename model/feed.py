@@ -6,21 +6,19 @@ from model.article import Article
 class Feed:
     # A collection of articles from a single feed.
 
-    __list_of_articles: List[Article] = list()
-    __current_article = None
+    def __init__(self, name: str, list_of_articles: List[Article]):
+        # Will not create with empty list
 
-    def __init__(self, name: str):
-        self.name = name
-        self.__list_of_articles.clear()
+        if len(list_of_articles) == 0:
+            # TODO: Make this create an exception if the list is empty
+            pass
 
-    def __index_of(self, article: Article) -> int:
-        # Determines the index of the given article.py. Returns -1 if no title match found.
+        self.name: str = name
 
-        for index in range(0, len(self.__list_of_articles)):
-            if self.__list_of_articles[index].title == article.title:
-                return index
+        self.__list_of_articles: List[Article] = list_of_articles
 
-        return -1
+        self.__sort()
+        self.__current_article_index: int = 0
 
     def __sort(self):
         # Sorts all of the articles on this feed from newest to oldest. Uses the insertion sort process.
@@ -29,14 +27,15 @@ class Feed:
         #   https://runestone.academy/runestone/books/published/pythonds/SortSearch/TheInsertionSort.html
 
         for index in range(1, len(self.__list_of_articles)):
-            __current_article = self.__list_of_articles[index]
+            current_article = self.__list_of_articles[index]
             position = index
 
-            while position > 0 and self.__list_of_articles[position-1].published_date < __current_article.published_date:
+            while position > 0 \
+                    and self.__list_of_articles[position - 1].published_date < current_article.published_date:
                 self.__list_of_articles[position] = self.__list_of_articles[position - 1]
                 position -= 1
 
-            self.__list_of_articles[position] = __current_article
+            self.__list_of_articles[position] = current_article
 
     def add_new(self, new_article: Article) -> bool:
         # Adds a new article.py to the feed and sorts the feed after. Will not add a duplicate.
@@ -48,14 +47,10 @@ class Feed:
 
         self.__list_of_articles.append(new_article)
         self.__sort()
-        self.__current_article = new_article
         return True
 
     def contains(self, article: Article) -> bool:
-        # Determines whether the given article.py's title matches one already in the feed.
-
-        if self.is_empty() or article is None:
-            return False
+        # Determines whether the given article's title matches one already in the feed.
 
         for list_article in self.__list_of_articles:
             if list_article.title == article.title:
@@ -63,15 +58,8 @@ class Feed:
 
         return False
 
-    def is_empty(self) -> bool:
-
-        return len(self.__list_of_articles) == 0
-
     def is_sorted(self):
-        # Determines whether the articles are sorted by age or not. Returns false if there are no articles in this feed.
-
-        if self.is_empty():
-            return False
+        # Determines whether the articles are sorted by age or not.
 
         previous_article = None
         for article in self.__list_of_articles:
@@ -82,22 +70,26 @@ class Feed:
 
         return True
 
-    def get_next(self) -> Article:
-        # Changes the current article.py to the next one.
+    def get_current_article(self) -> Article:
+        # Gets the current article for this feed.
+
+        return self.__list_of_articles[self.__current_article_index]
+
+    def get_next_article(self) -> Article:
+        # Gets the next article in this feed's order after the current one.
         #           Wraps from end back to start.
-        #           Returns false if empty or only contains one article.py. True if current article.py is changed.
+        #           Returns None if empty. Returns the current article if there is only 1 article.
 
-        if self.is_empty() or len(self.__list_of_articles) == 1:
-            return None
+        if len(self.__list_of_articles) == 1:
+            return self.get_current_article()
 
-        if self.__index_of(self.__current_article) == (len(self.__list_of_articles) - 1): # The current article.py is at the end.
-            self.current_article = self.__list_of_articles[0]
-            return self.current_article
+        # The current article is at the end.
+        if self.__current_article_index == (len(self.__list_of_articles) - 1):
+            self.__current_article_index = 0
+            return self.get_current_article()
 
-        new_index = (self.__index_of(self.__current_article) + 1)
-        self.__current_article = self.__list_of_articles[new_index]
-        return self.current_article
-
+        self.__current_article_index += 1
+        return self.get_current_article()
 
     def update(self, new_list_of_articles: List[Article]):
         # Updates the articles contained in this feed to the new one. Will not update if new list is empty
@@ -105,9 +97,17 @@ class Feed:
         if len(new_list_of_articles) == 0:
             return
 
+        saved_current_article = self.get_current_article()
+
         self.__list_of_articles = new_list_of_articles
         self.__sort()
 
-        if self.__current_article is None or not self.contains(self.__current_article):
-            # Default to newest if the current article.py is no longer in the list.
-            self.__current_article = self.__list_of_articles[0]
+        if self.contains(saved_current_article):
+            for index in range(0, len(self.__list_of_articles)):
+                if self.__list_of_articles[index].title == saved_current_article.title:
+                    self.__current_article_index = index
+                    break
+
+        else:
+            # Default to newest if the current article is no longer in the list.
+            self.__current_article_index = 0
