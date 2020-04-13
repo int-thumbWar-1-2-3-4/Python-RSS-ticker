@@ -14,23 +14,6 @@ class Feed_Manager:
         self.__list_of_feeds: List[Feed] = list()
         self.__current_feed_index: int = -1
 
-    def __change_feed(self) -> bool:
-        # Advances the feed to the next in rotation
-        if self.size() == 0:
-            self.__current_feed_index = -1
-            return False
-
-        if self.size() == 1:
-            self.__current_feed_index = 0
-            return False
-
-        if self.__current_feed_index == (self.size() - 1):
-            self.__current_feed_index = 0
-            return True
-
-        self.__current_feed_index += 1
-        return True
-
     def __get_feed(self, feed_name: str) -> Feed:
         # Gets the feed which matches the given name. May return None if match could not be found.
 
