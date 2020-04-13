@@ -6,9 +6,17 @@ from model.article import Article
 from model.feed import Feed
 
 
-class Feed_Manager:
+class FeedManagerEmptyError(Exception):
+    pass
+
+
+class FeedNotFoundError(Exception):
+    pass
+
+
+class FeedManager:
     # Holds all of the feeds this instance of Python-RSS-Ticker displays. Manages ordering of Articles so they rotate
-    #       between feeds and repeat as little as possible.
+    #       between feeds and repeat Articles as little as possible.
 
     def __init__(self):
         self.__list_of_feeds: List[Feed] = list()
@@ -21,7 +29,7 @@ class Feed_Manager:
             if feed.name == feed_name:
                 return feed
 
-        return None
+        raise FeedNotFoundError("No feed found with the name: %s" % feed_name)
 
     def add(self, new_article: Article, feed_name: str) -> bool:
         # Add a new article to a feed ONLY if the feed already exists and the feed does not already have the article.
@@ -30,9 +38,9 @@ class Feed_Manager:
         if self.is_empty() or self.contains(new_article, feed_name):
             return False
 
-        feed: Feed = self.__get_feed(feed_name)
-
-        if feed is None:
+        try:
+            feed: Feed = self.__get_feed(feed_name)
+        except FeedNotFoundError:
             return False
 
         feed.add_new(new_article)
@@ -52,23 +60,23 @@ class Feed_Manager:
         return False
 
     def get_current_article(self) -> Article:
-        # Gets the next article to be displayed. May return None if article could not be found.
+        # Gets the next article to be displayed.
         if self.is_empty():
-            raise Exception("This FeedManager is empty. Current article does not exist.")
+            raise FeedManagerEmptyError("This FeedManager is empty. Current article does not exist.")
 
         current_feed: Feed = self.__list_of_feeds[self.__current_feed_index]
         return current_feed.get_current_article()
 
     def get_next_article(self) -> Article:
-        # Gets the next article to be displayed. May return None if article could not be found.
+        # Gets the next article to be displayed.
 
         if self.is_empty():
-            raise Exception("This FeedManager is empty. Could not get next article.")
+            raise FeedManagerEmptyError("This FeedManager is empty. Could not get next article.")
 
         else:
             # current feed is at last entry of list, wrap to beginning
             if self.__current_feed_index == (self.size() - 1):
-                    self.__current_feed_index = 0
+                self.__current_feed_index = 0
             else:
                 self.__current_feed_index += 1
 
@@ -83,31 +91,43 @@ class Feed_Manager:
 
         return False
 
-    def remove(self, feedName: str) -> bool:
+    def remove(self, feed_name: str) -> bool:
         # Removes the feed from the manager and updates the current feed if another exists.
         # Returns false if no feed matched the name given.
 
-        matched_feed: Feed = self.__get_feed(feedName)
-
-        if matched_feed is None:
+        try:
+            matched_feed: Feed = self.__get_feed(feed_name)
+        except FeedNotFoundError:
             return False
 
-        # If the feed to be removed is the current feed, advance the current feed if possible
+        # feed_manager will be empty after removal
+        if self.size() == 1:
+            self.__list_of_feeds.clear()
+            self.__current_feed_index = -1
+            return True
+
+        # If the feed to be removed is the current feed, advance the current feed if possible before removing
         if self.__list_of_feeds[self.__current_feed_index] == matched_feed:
 
-            # feed_manager will be empty after removal
-            if self.size() == 1:
-                self.__list_of_feeds.clear()
-                self.__current_feed_index = -1
-
             # currently at last feed in list, loop to beginning
-            elif self.__current_feed_index == (len(self.__list_of_feeds) - 1):
+            if self.__current_feed_index == (len(self.__list_of_feeds) - 1):
                 self.__current_feed_index = 0
 
             # otherwise, move current feed to next in rotation
             else:
                 self.__current_feed_index += 1
 
+            self.__list_of_feeds.remove(matched_feed)
+            return True
+
+        # If the feed to be removed is NOT the current feed, decrease current_feed_index if necessary before removing.
+        else:
+            for index in range(0, len(self.__list_of_feeds)):
+                if self.__list_of_feeds[index].name == matched_feed.name:
+                    if index < self.__current_feed_index:
+                        self.__current_feed_index -= 1
+
+            self.__list_of_feeds.remove(matched_feed)
             return True
 
     def size(self) -> int:
@@ -125,14 +145,13 @@ class Feed_Manager:
         if self.is_empty():
             self.__current_feed_index = 0
 
-        feed: Feed = self.__get_feed(feed_name)
+        try:
+            feed: Feed = self.__get_feed(feed_name)
+            feed.update(article_list)
 
-        if feed is None:
+        except FeedNotFoundError:
             feed = Feed(feed_name, article_list)
             self.__list_of_feeds.append(feed)
-
-        else:
-            feed.update(article_list)
 
 
 def parse(feed_link: str) -> []:
@@ -145,7 +164,7 @@ def parse(feed_link: str) -> []:
     for entry in feed.entries:
         title = entry.title
         link = entry.link
-        datetime = entry.published_parsed     # time.struct_time object parsed within feedparser from string attribute
+        datetime = entry.published_parsed  # time.struct_time object parsed within feedparser from string attribute
         article = Article(title, link, datetime)
 
         article_list.append(article)
