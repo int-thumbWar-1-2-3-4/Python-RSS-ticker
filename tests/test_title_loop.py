@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch
 from controller import title_loop
+from model.model import Article
 
 import os
 import sys
@@ -20,9 +21,9 @@ class TestTitleLoop(unittest.TestCase):
         # title_loop.ten_second_loop.assert_called_with(mock_main_view, 7)
         self.assertTrue(mock_switch_display.called)
 
-    @patch('view.main_view')
+    @patch('view.main_view.MainView')
     def test_call_switch_display(self, mock_main_view):
         """ Unit test of controller.title_loop.call_switch_display """
-        title_loop.test_feed = [('test title', "test url")]
+        title_loop.test_feed = [Article('test title', "test url", "date")]
         title_loop.call_switch_display(mock_main_view)
         mock_main_view.display_entry.assert_called_with('test title', "test url")
