@@ -1,13 +1,11 @@
-#https://github.com/drsjb80/MockingPython/blob/master/thecastleargv.py
+# https://github.com/drsjb80/MockingPython/blob/master/thecastleargv.py
 from controller.argument_parser import ticker_argument_parser
 import unittest
+from unittest.mock import patch
 import sys
 
 
 class TestArgumentParser(unittest.TestCase):
-
-    def test_help(self):
-        pass
 
     def test_has_each_argument(self):
         sys.argv = ['PRSST']
@@ -61,4 +59,18 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(args.timer, 10)
 
     def test_all_args(self):
-        pass
+        url = "www.notasite.com"
+        time = 13
+        file = 'some/file.txt'
+        config = 'some/other/file.yml'
+        sys.argv = ['test', '--url', url]
+        args = ticker_argument_parser()
+        self.assertEqual(args.url[0], url)
+
+
+class TestTickerArgumentParser(unittest.TestCase):
+
+    @patch('controller.argument_parser.argparse.ArgumentParser')
+    def test_calls_argparse_function_argument_parser(self, mock_argument_parser):
+        args = ticker_argument_parser()
+        mock_argument_parser.assert_called_with(description="Select a file or feed to parse.")
