@@ -3,6 +3,9 @@ from unittest.mock import patch
 from controller.title_loop import ten_second_loop, call_switch_display
 from model.model import Article
 
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 class TestTitleLoop(unittest.TestCase):
 
