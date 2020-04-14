@@ -1,7 +1,7 @@
 import unittest
 import sys
 from mock import Mock
-import controller.parser as parser
+import model.parser as parser
 
 sys.modules['atoma'] = Mock()
 sys.modules['requests'] = Mock()
