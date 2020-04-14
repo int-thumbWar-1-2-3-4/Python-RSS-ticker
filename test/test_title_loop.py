@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 from controller.title_loop import ten_second_loop, call_switch_display
-from model.model import Article
+from model.article import Article
 
 import os
 import sys

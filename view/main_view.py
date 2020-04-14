@@ -2,6 +2,7 @@ import tkinter as tk
 import webbrowser
 from tkinter import *
 
+
 class MainView(tk.Frame):
     # Shows a single entry from a feed
 
@@ -46,24 +47,30 @@ class MainView(tk.Frame):
 
     def font_red(self):
         self.content_label['fg'] = 'red'
+
     def font_yellow(self):
         self.content_label['fg'] = 'yellow'
+
     def font_blue(self):
         self.content_label['fg'] = 'blue'
 
     def font_8(self):
         self.content_label['font'] = 'times 8'
+
     def font_9(self):
         self.content_label['font'] = 'times 9'
+
     def font_10(self):
         self.content_label['font'] = 'times 10'
+
     def font_11(self):
         self.content_label['font'] = 'times 11'
+
     def font_12(self):
         self.content_label['font'] = 'times 12'
+
     def font_13(self):
         self.content_label['font'] = 'times 13'
-
 
     def white_color(self):
         self.content_label['bg'] = 'white'
@@ -84,7 +91,7 @@ class MainView(tk.Frame):
         self.content_label["text"] = self.entry_title
         self.content_label.bind("<Button-1>",
                                 lambda event,
-                                       content_label=self.entry_link:
+                                content_label=self.entry_link:
                                 self.open_article(self.entry_link))
         self.pack()
 
