@@ -6,20 +6,10 @@ import sys
 
 
 class TestArgumentParser(unittest.TestCase):
-    """ Test class for tests.test_argument_parser
-
-    Tests:
-        test_has_each_argument(): Tests that each argument was created
-        test_url(): Tests that --url accepts a string and produces a list of strings
-        test_file(): Tests that --file accepts a string and produces a list of strings
-        test_config(): Tests that --config accepts a string and produces a list of strings
-        test_timer(): Tests that --timer accepts an integer and produces that integer
-        test_default_timer(): Tests for a timer value when no input was given
-        test_all_args(): Tests that argument parser functions with all arguments at once
-    """
+    """ Test class for tests.test_argument_parser. """
 
     def test_has_each_argument(self):
-        """ Unit test for controller.argument_parser's return object """
+        """ Unit test for controller.argument_parser's return object. """
 
         sys.argv = ['PRSST']
         args = ticker_argument_parser()
@@ -29,7 +19,7 @@ class TestArgumentParser(unittest.TestCase):
         self.assertTrue('timer' in args)
 
     def test_url(self):
-        """ Unit test for controller.argument_parser's url argument """
+        """ Unit test for controller.argument_parser's url argument. """
 
         fake_url = ['www.fakeurl.com']
         sys.argv = ['test', '--url', fake_url[0]]
@@ -40,7 +30,7 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(args.url, fake_url)
 
     def test_file(self):
-        """ Unit test for controller.argument_parser's file argument """
+        """ Unit test for controller.argument_parser's file argument. """
 
         fake_file = ['fakefile.txt']
         sys.argv = ['test', '--file', fake_file[0]]
@@ -51,7 +41,7 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(args.file, fake_file)
 
     def test_config(self):
-        """ Unit test for controller.argument_parser's config argument """
+        """ Unit test for controller.argument_parser's config argument. """
 
         fake_config = ['www.fakeconfig.com']
         sys.argv = ['test', '--config', fake_config[0]]
@@ -62,7 +52,7 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(args.config, fake_config)
 
     def test_timer(self):
-        """ Unit test for controller.argument_parser's timer argument """
+        """ Unit test for controller.argument_parser's timer argument. """
 
         sys.argv = ['news ticker', '--timer', '17']
         args = ticker_argument_parser()
@@ -72,7 +62,7 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(args.timer, 17)
 
     def test_default_timer(self):
-        """ Unit test for controller.argument_parser's default timer value """
+        """ Unit test for controller.argument_parser's default timer value. """
 
         sys.argv = ['this is the prog field (the name of the program']
         args = ticker_argument_parser()
@@ -82,7 +72,7 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(args.timer, 10)
 
     def test_all_args(self):
-        """ Unit test for controller.argument_parser testing the handling of all arguments at once"""
+        """ Unit test for controller.argument_parser testing the handling of all arguments at once."""
 
         # TODO, finish this test. The argument needs to be expanded
 

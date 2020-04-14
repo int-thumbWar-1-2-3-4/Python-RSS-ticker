@@ -1,16 +1,15 @@
 import tkinter as tk
 import webbrowser
-from tkinter import *
 
 
 class MainView(tk.Frame):
-    # Shows a single entry from a feed
+    """ Class for view.main_view creates, displays, modifies and receives input from the user interface """
 
     entry_title = "[BLANK Entry Title]"
     entry_link = "[BLANK Entry Link]"
 
     def __init__(self, master=None):
-        """ Constructor for view.MainView. """
+        """ Constructor for view.main_view.MainView. """
 
         super().__init__(master)
         self.master = master
@@ -21,7 +20,7 @@ class MainView(tk.Frame):
         self.menu_bar()
 
     def menu_bar(self):
-        """ View.MainView.menu_bar adds a drop down menu for our tk window. """
+        """ View.main_view.MainView.menu_bar adds a drop down menu for our tk window. """
 
         self.menubar = tk.Menu(self)
 
@@ -49,72 +48,72 @@ class MainView(tk.Frame):
         self.menubar.add_cascade(label='Font color', menu=self.font_color)
 
     def font_red(self):
-        """ View.MainView.font_red sets font color to red. """
+        """ View.main_view.MainView.font_red sets font color to red. """
 
         self.content_label['fg'] = 'red'
 
     def font_yellow(self):
-        """ View.MainView.font_yellow sets font color to yellow. """
+        """ View.main_view.MainView.font_yellow sets font color to yellow. """
 
         self.content_label['fg'] = 'yellow'
 
     def font_blue(self):
-        """ View.MainView.font_blue sets font color to blue. """
+        """ View.main_view.MainView.font_blue sets font color to blue. """
 
         self.content_label['fg'] = 'blue'
 
     def font_8(self):
-        """ View.MainView.font_8 sets font size to 8. """
+        """ View.main_view.MainView.font_8 sets font size to 8. """
 
         self.content_label['font'] = 'times 8'
 
     def font_9(self):
-        """ View.MainView.font_9 sets font size to 9. """
+        """ View.main_view.MainView.font_9 sets font size to 9. """
 
         self.content_label['font'] = 'times 9'
 
     def font_10(self):
-        """ View.MainView.font_10 sets font size to 10. """
+        """ View.main_view.MainView.font_10 sets font size to 10. """
 
         self.content_label['font'] = 'times 10'
 
     def font_11(self):
-        """ View.MainView.font_11 sets font size to 11. """
+        """ View.main_view.MainView.font_11 sets font size to 11. """
 
         self.content_label['font'] = 'times 11'
 
     def font_12(self):
-        """ View.MainView.font_12 sets font size to 12. """
+        """ View.main_view.MainView.font_12 sets font size to 12. """
 
         self.content_label['font'] = 'times 12'
 
     def font_13(self):
-        """ View.MainView.font_13 sets font size to 13. """
+        """ View.main_view.MainView.font_13 sets font size to 13. """
 
         self.content_label['font'] = 'times 13'
 
     def bg_white(self):
-        """ View.MainView.bg_white sets background color to white. """
+        """ View.main_view.MainView.bg_white sets background color to white. """
 
         self.content_label['bg'] = 'white'
 
     def bg_red(self):
-        """ View.MainView.bg_red sets background color to red. """
+        """ View.main_view.MainView.bg_red sets background color to red. """
 
         self.content_label['bg'] = 'red'
 
     def bg_blue(self):
-        """ View.MainView.bg_blue sets background color to blue. """
+        """ View.main_view.MainView.bg_blue sets background color to blue. """
 
         self.content_label['bg'] = 'blue'
 
     def bg_green(self):
-        """ View.MainView.bg_green sets background color to green. """
+        """ View.main_view.MainView.bg_green sets background color to green. """
 
         self.content_label['bg'] = 'green'
 
     def build_window(self):
-        """ View.MainView.build_window sets the title of the window and the initial label
+        """ View.main_view.MainView.build_window sets the title of the window and the initial label
 
         Here the label is bound to a button that when clicked, will call open article with the current link as a
         parameter.
@@ -130,7 +129,7 @@ class MainView(tk.Frame):
         self.pack()
 
     def display_entry(self, entry_title: str, entry_link: str):
-        """ Viw.MainView.display_entry changes the displayed title and associated link.
+        """ Viw.main_view.MainView.display_entry changes the displayed title and associated link.
 
         This function updates both entry_title and entry_link with the appropriate parameters and changes the text of
         content_label to that of the new entry_title.
@@ -147,7 +146,7 @@ class MainView(tk.Frame):
         self.content_label.update()
 
     def open_article(self, link):
-        """ View.MainView.open_article opens the web page associated with the current entry_title
+        """ View.main_view.MainView.open_article opens the web page associated with the current entry_title
 
         Arguments:
             link: url for the current entry_title
