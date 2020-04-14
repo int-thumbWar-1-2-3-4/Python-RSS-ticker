@@ -10,20 +10,23 @@ class MainView(tk.Frame):
     entry_link = "[BLANK Entry Link]"
 
     def __init__(self, master=None):
-        """ Constructor """
+        """ Constructor for view.MainView. """
+
         super().__init__(master)
         self.master = master
         self.content_label = tk.Label(self, cursor="gumby")
 
         self.pack()
         self.build_window()
-        self.menubar()
+        self.menu_bar()
 
-    def menubar(self):
+    def menu_bar(self):
+        """ View.MainView.menu_bar adds a drop down menu for our tk window. """
+
         self.menubar = tk.Menu(self)
 
         self.dropdown_menu = tk.Menu(self.menubar, tearoff=0)
-        self.dropdown_menu.add_command(label='white', command=self.white_color)
+        self.dropdown_menu.add_command(label='white', command=self.bg_white)
         self.dropdown_menu.add_command(label='red', command=self.red_color)
         self.dropdown_menu.add_command(label='blue', command=self.blue_color)
         self.dropdown_menu.add_command(label='green', command=self.green_color)
@@ -46,36 +49,58 @@ class MainView(tk.Frame):
         self.menubar.add_cascade(label='Font color', menu=self.font_color)
 
     def font_red(self):
+        """ View.MainView.font_red sets font color to red. """
+
         self.content_label['fg'] = 'red'
 
     def font_yellow(self):
+        """ View.MainView.font_yellow sets font color to yellow. """
+
         self.content_label['fg'] = 'yellow'
 
     def font_blue(self):
+        """ View.MainView.font_blue sets font color to blue. """
+
         self.content_label['fg'] = 'blue'
 
     def font_8(self):
+        """ View.MainView.font_8 sets font size to 8. """
+
         self.content_label['font'] = 'times 8'
 
     def font_9(self):
+        """ View.MainView.font_9 sets font size to 9. """
+
         self.content_label['font'] = 'times 9'
 
     def font_10(self):
+        """ View.MainView.font_10 sets font size to 10. """
+
         self.content_label['font'] = 'times 10'
 
     def font_11(self):
+        """ View.MainView.font_11 sets font size to 11. """
+
         self.content_label['font'] = 'times 11'
 
     def font_12(self):
+        """ View.MainView.font_12 sets font size to 12. """
+
         self.content_label['font'] = 'times 12'
 
     def font_13(self):
+        """ View.MainView.font_13 sets font size to 13. """
+
         self.content_label['font'] = 'times 13'
 
-    def white_color(self):
+    def bg_white(self):
+        """ View.MainView.bg_white sets background color to white. """
+
         self.content_label['bg'] = 'white'
 
     def red_color(self):
+        """ View.MainView.bg_red sets background color to white. """
+
         self.content_label['bg'] = 'red'
 
     def blue_color(self):
