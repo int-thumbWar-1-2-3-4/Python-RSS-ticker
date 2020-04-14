@@ -27,8 +27,8 @@ def ten_second_loop(main_view, cycle, feed):
 def call_switch_display(main_view, feed):
     """ Controller.title_loop.call_switch_display calls view.main_view.display_entry
 
-    This function pops an article object off of the feed loop. It then calls the function from view.MainView.display_entry()
-    with parameters title and link from the article object.
+    This function pops an article object off of the feed loop. It then calls the function from
+    view.MainView.display_entry() with parameters title and link from the article object.
 
     Arguments:
         main_view: an instance of model.MainView

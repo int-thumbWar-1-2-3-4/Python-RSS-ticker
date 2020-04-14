@@ -27,9 +27,9 @@ class MainView(tk.Frame):
 
         self.dropdown_menu = tk.Menu(self.menubar, tearoff=0)
         self.dropdown_menu.add_command(label='white', command=self.bg_white)
-        self.dropdown_menu.add_command(label='red', command=self.red_color)
-        self.dropdown_menu.add_command(label='blue', command=self.blue_color)
-        self.dropdown_menu.add_command(label='green', command=self.green_color)
+        self.dropdown_menu.add_command(label='red', command=self.bg_red)
+        self.dropdown_menu.add_command(label='blue', command=self.bg_blue)
+        self.dropdown_menu.add_command(label='green', command=self.bg_green)
         self.menubar.add_cascade(label='bg color', menu=self.dropdown_menu)
         self.master.config(menu=self.menubar)
 
@@ -98,18 +98,27 @@ class MainView(tk.Frame):
 
         self.content_label['bg'] = 'white'
 
-    def red_color(self):
-        """ View.MainView.bg_red sets background color to white. """
+    def bg_red(self):
+        """ View.MainView.bg_red sets background color to red. """
 
         self.content_label['bg'] = 'red'
 
-    def blue_color(self):
+    def bg_blue(self):
+        """ View.MainView.bg_blue sets background color to blue. """
+
         self.content_label['bg'] = 'blue'
 
-    def green_color(self):
+    def bg_green(self):
+        """ View.MainView.bg_green sets background color to green. """
+
         self.content_label['bg'] = 'green'
 
     def build_window(self):
+        """ View.MainView.build_window sets the title of the window and the initial label
+
+        Here the label is bound to a button that when clicked, will call open article with the current link as a
+        parameter.
+        """
         self.winfo_toplevel().title("Python RSS Ticker")
 
         self.content_label.pack(side="top")
@@ -121,7 +130,15 @@ class MainView(tk.Frame):
         self.pack()
 
     def display_entry(self, entry_title: str, entry_link: str):
-        # Changes the entry displayed.
+        """ Viw.MainView.display_entry changes the displayed title and associated link.
+
+        This function updates both entry_title and entry_link with the appropriate parameters and changes the text of
+        content_label to that of the new entry_title.
+
+        Arguments:
+            entry_title: a string showing a headline
+            entry_link: a string that is the url for entry_title
+        """
 
         self.entry_title = entry_title
         self.entry_link = entry_link
@@ -130,5 +147,10 @@ class MainView(tk.Frame):
         self.content_label.update()
 
     def open_article(self, link):
+        """ View.MainView.open_article opens the web page associated with the current entry_title
+
+        Arguments:
+            link: url for the current entry_title
+        """
         webbrowser.open_new(link)
         self.content_label.update()
