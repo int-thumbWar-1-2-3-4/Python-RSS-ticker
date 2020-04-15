@@ -23,6 +23,8 @@ def call_switch_display(main_view, test_feed):
     view.main_view.display_entry
     """
     # This is a temporary data set. It is not dynamic
+
+    # Todo call get_next_article instead of test_feed
     article = test_feed.pop()
 
     main_view.display_entry(article.title, article.link)
