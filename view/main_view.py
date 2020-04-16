@@ -118,7 +118,7 @@ class MainView(tk.Frame):
         Here the label is bound to a button that when clicked, will call open article with the current link as a
         parameter.
         """
-        self.winfo_toplevel().title("Python RSS Ticker")
+        self.winfo_toplevel().title("Tiny Ticker")
 
         self.content_label.pack(side="top")
         self.content_label["text"] = self.entry_title
