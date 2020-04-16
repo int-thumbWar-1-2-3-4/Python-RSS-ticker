@@ -1,5 +1,5 @@
 # https://github.com/drsjb80/MockingPython/blob/master/thecastleargv.py
-from controller.argument_parser import ticker_argument_parser
+from controller.start import ticker_argument_parser
 import unittest
 from unittest.mock import patch
 import sys
@@ -88,8 +88,8 @@ class TestArgumentParser(unittest.TestCase):
 
 class TestTickerArgumentParser(unittest.TestCase):
 
-    # TODO, is this function working as expected
-    @patch('controller.argument_parser.argparse.ArgumentParser')
+
+    @patch('controller.start.argparse.ArgumentParser')
     def test_calls_argparse_function_argument_parser(self, mock_argument_parser):
         args = ticker_argument_parser()
         mock_argument_parser.assert_called_with(description="Select a file or feed to parse.")

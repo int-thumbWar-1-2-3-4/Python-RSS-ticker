@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from controller.title_loop import ten_second_loop, call_switch_display
+from controller.start import ten_second_loop, call_switch_display
 from model.article import Article
 
 import os
@@ -9,9 +9,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 class TestTitleLoop(unittest.TestCase):
 
-    @patch('controller.title_loop.th.Timer')
+    @patch('controller.start.th.Timer')
     @patch('view.main_view')
-    @patch('controller.title_loop.call_switch_display')
+    @patch('controller.start.call_switch_display')
     def test_ten_second_loop_calls_its_self(self, mock_timer, mock_main_view, mock_switch_display):
         """ Unit test of controller.title_loop.ten_second_loop """
 
