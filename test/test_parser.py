@@ -3,6 +3,7 @@ import sys
 from unittest.mock import Mock
 import model.parser as parser
 
+
 sys.modules['atoma'] = Mock()
 sys.modules['requests'] = Mock()
 sys.modules['lxml'] = Mock()

@@ -153,7 +153,6 @@ class FeedManager:
             feed = Feed(feed_name, article_list)
             self.__list_of_feeds.append(feed)
 
-
 def parse(feed_link: str) -> []:
     # Get the contents of an atom or rss feed using the feedparser library. Return all the relevant
     #   information as Articles (unsorted).
