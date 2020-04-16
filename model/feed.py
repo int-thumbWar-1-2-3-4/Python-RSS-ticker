@@ -1,6 +1,6 @@
 from typing import List
-
 from model.article import Article
+import feedparser
 
 
 class Feed:
@@ -99,3 +99,21 @@ class Feed:
         else:
             # Default to newest if the current article is no longer in the list.
             self.__current_article_index = 0
+
+
+def parse(feed_link: str) -> []:
+    # Get the contents of an atom or rss feed using the feedparser library. Return all the relevant
+    #   information as Articles (unsorted).
+
+    feed = feedparser.parse(feed_link)
+    article_list = []
+
+    for entry in feed.entries:
+        title = entry.title
+        link = entry.link
+        datetime = entry.published_parsed  # time.struct_time object parsed within feedparser from string attribute
+        article = Article(title, link, datetime)
+
+        article_list.append(article)
+
+    return article_list
