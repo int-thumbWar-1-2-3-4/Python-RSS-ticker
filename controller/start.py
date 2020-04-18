@@ -63,7 +63,6 @@ def main():
     ten_second_loop(mainView, arguments.timer, feed)
 
 
-
 if __name__ == "__main__":
     root = tk.Tk()
     mainView = MainView(master=root)

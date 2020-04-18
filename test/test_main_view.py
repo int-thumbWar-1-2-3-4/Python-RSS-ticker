@@ -8,7 +8,6 @@ class TestMainView(unittest.TestCase):
 
     def test_build_window_winfo_toplevel(self):
         expected_text = 'Tiny Ticker'
-
         root = tk.Tk()
         test_view = MainView(master=root)
         test_view.build_window()
