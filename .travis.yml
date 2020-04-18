@@ -5,7 +5,10 @@ python:
   - "3.7"
   - "3.8"
 
-os: windows
+dist: xenial
+
+services:
+  - xvfb
 
 addons:
   sonarcloud:
@@ -22,6 +25,7 @@ install:
 
 # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
 script:
-#  - coverage run -m unittest
-#  - coverage report
+  - xvfb-run --server-args="-screen 0 1024x768x24" make test
+  - coverage run -m unittest
+  - coverage report
   - sonar-scanner
