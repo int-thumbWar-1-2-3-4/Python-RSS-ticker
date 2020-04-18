@@ -13,7 +13,9 @@ addons:
 # command to install coverage
 before_install:
   - pip install coverage
-  - export DISPLAY=:0.0
+  - sudo apt-get update
+  - sudo apt-get install lxde
+  - export DISPLAY=:0
 
 # command to install dependencies
 install:
