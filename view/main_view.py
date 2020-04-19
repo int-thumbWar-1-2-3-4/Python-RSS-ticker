@@ -5,7 +5,7 @@ import webbrowser
 class MainView(tk.Frame):
     """ Class for view.main_view creates, displays, modifies and receives input from the user interface """
 
-    entry_title = "Welcome To Tiny Ticker news feed"
+    entry_title = "Welcome to Tiny Ticker news feed"
     entry_link = "https://github.com/int-thumbWar-1-2-3-4/Python-RSS-ticker"
 
     def __init__(self, master=None):

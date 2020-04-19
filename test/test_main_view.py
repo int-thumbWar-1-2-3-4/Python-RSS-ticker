@@ -23,7 +23,7 @@ class TestMainView(unittest.TestCase):
             test_view = MainView(master=root)
             test_view.build_window()
             mock_label.assert_has_calls([
-                call().__setitem__('text', '[BLANK Entry Title]'),
+                call().__setitem__('text', 'Welcome to Tiny Ticker news feed'),
                 call().pack(side="top"),
             ], any_order=True)
 
