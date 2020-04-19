@@ -91,6 +91,6 @@ class TestTickerArgumentParser(unittest.TestCase):
 
     @patch('controller.start.argparse.ArgumentParser')
     def test_calls_argparse_function_argument_parser(self, mock_argument_parser):
-        args = ticker_argument_parser()
+        ticker_argument_parser()
         mock_argument_parser.assert_called_with(description="Select a file or feed to parse.",
                                                 fromfile_prefix_chars='@')

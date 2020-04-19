@@ -56,7 +56,7 @@ def call_switch_display(main_view, feed):
     main_view.display_entry(article.title, article.link)
 
 
-def main():
+def main(mainView):
     arguments = ticker_argument_parser()
     feed = parse(arguments.url[0])
     feed.reverse()
@@ -67,7 +67,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     mainView = MainView(master=root)
 
-    main()
+    main(mainView)
 
     # KEEP THIS LAST
     mainView.mainloop()
