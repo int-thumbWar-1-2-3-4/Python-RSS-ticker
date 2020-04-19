@@ -5,6 +5,7 @@ from unittest.mock import call, patch, PropertyMock
 
 
 class TestMainView(unittest.TestCase):
+    """ Testing Class for view.main_view """
 
     def test_build_window_winfo_toplevel(self):
         """ Unit test for view.main_view.Model. build_window's first line of code """

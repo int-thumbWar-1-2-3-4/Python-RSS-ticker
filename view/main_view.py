@@ -115,8 +115,8 @@ class MainView(tk.Frame):
     def build_window(self):
         """ View.main_view.MainView.build_window sets the title of the window and the initial label
 
-        Here the label is bound to a button that when clicked, will call open article with the current link as a
-        parameter.
+        Here the label is bound to a button that when clicked, will call open_article with the current
+        link as a parameter.
         """
         self.winfo_toplevel().title("Tiny Ticker")
 

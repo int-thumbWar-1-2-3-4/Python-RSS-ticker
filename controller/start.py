@@ -57,6 +57,12 @@ def call_switch_display(main_view, feed):
 
 
 def main(mainView):
+    """ Controller.start.main gathers command-line args, calls the model, initiates the title loop
+
+    Arguments:
+        mainView: an instance of model.MainView
+    """
+
     arguments = ticker_argument_parser()
     feed = parse(arguments.url[0])
     feed.reverse()
