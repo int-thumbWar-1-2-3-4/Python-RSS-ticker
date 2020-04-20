@@ -1,12 +1,14 @@
 import unittest
 import sys
-from mock import Mock
-import controller.parser as parser
+from unittest.mock import Mock
+import model.parser as parser
+
 
 sys.modules['atoma'] = Mock()
 sys.modules['requests'] = Mock()
 sys.modules['lxml'] = Mock()
 sys.modules['bs4'] = Mock()
+
 
 # @patch('parser.bs4.BeautifulSoup')
 class test_URL_Check(unittest.TestCase):
