@@ -39,10 +39,16 @@ class MainView(tk.Frame):
         self.menubar.add_cascade(label='Font size', menu=self.font_menu)
 
         self.font_color = tk.Menu(self.menubar)
+        self.font_color.add_command(label='white', command=self.font_white)
+        self.font_color.add_command(label='black', command=self.font_black)
         self.font_color.add_command(label='red', command=self.font_red)
-        self.font_color.add_command(label='blue', command=self.font_blue)
+        self.font_color.add_command(label='orange', command=self.font_orange)
         self.font_color.add_command(label='yellow', command=self.font_yellow)
+        self.font_color.add_command(label='green', command=self.font_green)
+        self.font_color.add_command(label='blue', command=self.font_blue)
+        self.font_color.add_command(label='purple', command=self.font_purple)
         self.menubar.add_cascade(label='Font color', menu=self.font_color)
+
 
     def font_red(self):
         self.content_label['fg'] = 'red'
@@ -50,6 +56,18 @@ class MainView(tk.Frame):
         self.content_label['fg'] = 'yellow'
     def font_blue(self):
         self.content_label['fg'] = 'blue'
+    def font_green(self):
+        self.content_label['fg'] = 'green'
+    def font_purple(self):
+        self.content_label['fg'] = 'purple'
+    def font_orange(self):
+        self.content_label['fg'] = 'orange'
+    def font_white(self):
+        self.content_label['fg'] = 'white'
+    def font_black(self):
+        self.content_label['fg'] = 'black'
+
+
 
     def font_8(self):
         self.content_label['font'] = 'times 8'
@@ -67,15 +85,13 @@ class MainView(tk.Frame):
 
     def white_color(self):
         self.content_label['bg'] = 'white'
-
     def red_color(self):
         self.content_label['bg'] = 'red'
-
     def blue_color(self):
         self.content_label['bg'] = 'blue'
-
     def green_color(self):
         self.content_label['bg'] = 'green'
+
 
     def build_window(self):
         self.winfo_toplevel().title("Python RSS Ticker")
