@@ -2,7 +2,6 @@ import argparse
 import tkinter as tk
 import threading as th
 from view.main_view import MainView
-from model.parser import parse_url_feed
 from model.feed_manager import parse
 
 
