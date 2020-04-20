@@ -11,12 +11,13 @@ sys.modules['bs4'] = Mock()
 
 
 # @patch('parser.bs4.BeautifulSoup')
-class test_URL_Check(unittest.TestCase):
-    def test_URL_Check_empty(self):
-        self.assertFalse(parser.__check_url(''))
+class test_parser(unittest.TestCase):
 
-    def test_URL_Check_notXML(self):
-        self.assertFalse(parser.__check_url('randomWords'))
+    def test_get_multi_feed_contents(self):
+        # TODO: Create a test for get_multi_feed_contents()
+        pass
 
-    def test_URL_Check_endsinXML(self):
-        self.assertTrue(parser.__check_url('urlisxml'))
+    def test_get_feed_contents(self):
+        # TODO: Create a test for get_feed_contents()
+        pass
+

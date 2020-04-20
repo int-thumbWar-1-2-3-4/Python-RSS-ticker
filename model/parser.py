@@ -66,6 +66,8 @@ def __check_url(url: str) -> bool:
     Verify if a url string is formatted correctly for the parser.
     """
 
+    # TODO: Add comments for __check_url()
+
     url = str(url)
     if len(url) == 0:
         return False
@@ -89,6 +91,8 @@ def __parser_type(response):
     """
     Finds the type of parser language to use.
     """
+
+    # TODO: Add comments for __parser_type()
 
     test_url = response.url
     test_string = (test_url[-3] + test_url[-2] + test_url[-1])
