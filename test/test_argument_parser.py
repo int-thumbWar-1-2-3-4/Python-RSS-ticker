@@ -1,15 +1,16 @@
-#https://github.com/drsjb80/MockingPython/blob/master/thecastleargv.py
-from controller.argument_parser import ticker_argument_parser
+# https://github.com/drsjb80/MockingPython/blob/master/thecastleargv.py
+from controller.start import ticker_argument_parser
 import unittest
+from unittest.mock import patch
 import sys
 
 
 class TestArgumentParser(unittest.TestCase):
-
-    def test_help(self):
-        pass
+    """ Test class for tests.test_argument_parser. """
 
     def test_has_each_argument(self):
+        """ Unit test for controller.argument_parser's return object. """
+
         sys.argv = ['PRSST']
         args = ticker_argument_parser()
         self.assertTrue('url' in args)
@@ -18,6 +19,8 @@ class TestArgumentParser(unittest.TestCase):
         self.assertTrue('timer' in args)
 
     def test_url(self):
+        """ Unit test for controller.argument_parser's url argument. """
+
         fake_url = ['www.fakeurl.com']
         sys.argv = ['test', '--url', fake_url[0]]
         args = ticker_argument_parser()
@@ -27,7 +30,9 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(args.url, fake_url)
 
     def test_file(self):
-        fake_file = ['www.fakefile.com']
+        """ Unit test for controller.argument_parser's file argument. """
+
+        fake_file = ['fakefile.txt']
         sys.argv = ['test', '--file', fake_file[0]]
         args = ticker_argument_parser()
 
@@ -36,6 +41,8 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(args.file, fake_file)
 
     def test_config(self):
+        """ Unit test for controller.argument_parser's config argument. """
+
         fake_config = ['www.fakeconfig.com']
         sys.argv = ['test', '--config', fake_config[0]]
         args = ticker_argument_parser()
@@ -45,6 +52,8 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(args.config, fake_config)
 
     def test_timer(self):
+        """ Unit test for controller.argument_parser's timer argument. """
+
         sys.argv = ['news ticker', '--timer', '17']
         args = ticker_argument_parser()
 
@@ -53,6 +62,8 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(args.timer, 17)
 
     def test_default_timer(self):
+        """ Unit test for controller.argument_parser's default timer value. """
+
         sys.argv = ['this is the prog field (the name of the program']
         args = ticker_argument_parser()
 
@@ -61,4 +72,25 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(args.timer, 10)
 
     def test_all_args(self):
-        pass
+        """ Unit test for controller.argument_parser testing the handling of all arguments at once."""
+
+        # TODO, finish this test. The argument needs to be expanded
+
+        url = "www.notasite.com"
+        time = 13
+        file = 'some/file.txt'
+        config = 'some/other/file.yml'
+        sys.argv = ['test', '--url', url]
+        args = ticker_argument_parser()
+        self.assertEqual(args.url[0], url)
+        # self.assertEqual(args.time, 13)
+
+
+class TestTickerArgumentParser(unittest.TestCase):
+
+
+    @patch('controller.start.argparse.ArgumentParser')
+    def test_calls_argparse_function_argument_parser(self, mock_argument_parser):
+        ticker_argument_parser()
+        mock_argument_parser.assert_called_with(description="Select a file or feed to parse.",
+                                                fromfile_prefix_chars='@')
