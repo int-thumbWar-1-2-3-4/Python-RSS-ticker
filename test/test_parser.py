@@ -13,10 +13,10 @@ sys.modules['bs4'] = Mock()
 # @patch('parser.bs4.BeautifulSoup')
 class test_URL_Check(unittest.TestCase):
     def test_URL_Check_empty(self):
-        self.assertFalse(parser.check_url(''))
+        self.assertFalse(parser.__check_url(''))
 
     def test_URL_Check_notXML(self):
-        self.assertFalse(parser.check_url('randomWords'))
+        self.assertFalse(parser.__check_url('randomWords'))
 
     def test_URL_Check_endsinXML(self):
-        self.assertTrue(parser.check_url('urlisxml'))
+        self.assertTrue(parser.__check_url('urlisxml'))
