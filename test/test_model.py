@@ -2,6 +2,8 @@ import unittest
 import os
 import sys
 
+from model import parser
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from datetime import timedelta, date, datetime
@@ -320,6 +322,21 @@ class FeedManagerTestCase(unittest.TestCase):
 
     def test_parse(self):
         # TODO: Create test for parse()
+        pass
+
+
+# @patch('parser.bs4.BeautifulSoup')
+class TestParser(unittest.TestCase):
+
+    def test_get_multi_feed_contents(self):
+        # TODO: Create a test for get_multi_feed_contents()
+        self.assertTrue(True)
+
+    def test_get_feed_contents(self):
+        # TODO: Create a test for get_feed_contents()
+
+        parser.get_feed_contents("C:/test.rss.xml")
+
         pass
 
 
