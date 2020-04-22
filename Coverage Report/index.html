@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Python RSS Ticker Coverage Report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+<div id="header">
+    <div class="content">
+        <h1>Python RSS Ticker Coverage Report:
+            <span class="pc_cov">65%</span>
+        </h1>
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        <span class="key">b</span>
+        <span class="key">p</span>
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+<div id="index">
+    <table class="index">
+        <thead>
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                <th class="shortkey_b">branches</th>
+                <th class="shortkey_p">partial</th>
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>679</td>
+                <td>230</td>
+                <td>0</td>
+                <td>104</td>
+                <td>4</td>
+                <td class="right" data-ratio="507 783">65%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr class="file">
+                <td class="name left"><a href="controller___init___py.html">controller\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="controller_start_py.html">controller\start.py</a></td>
+                <td>31</td>
+                <td>26</td>
+                <td>0</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="5 33">15%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="model___init___py.html">model\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="model_article_py.html">model\article.py</a></td>
+                <td>6</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="6 6">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="model_feed_py.html">model\feed.py</a></td>
+                <td>61</td>
+                <td>9</td>
+                <td>0</td>
+                <td>24</td>
+                <td>1</td>
+                <td class="right" data-ratio="73 85">86%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="model_feed_manager_py.html">model\feed_manager.py</a></td>
+                <td>94</td>
+                <td>9</td>
+                <td>0</td>
+                <td>38</td>
+                <td>1</td>
+                <td class="right" data-ratio="120 132">91%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="model_parser_py.html">model\parser.py</a></td>
+                <td>56</td>
+                <td>55</td>
+                <td>0</td>
+                <td>36</td>
+                <td>0</td>
+                <td class="right" data-ratio="1 92">1%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="test___init___py.html">test\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="test_test_argument_parser_py.html">test\test_argument_parser.py</a></td>
+                <td>57</td>
+                <td>56</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="1 57">2%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="test_test_main_view_py.html">test\test_main_view.py</a></td>
+                <td>33</td>
+                <td>9</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="24 33">73%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="test_test_model_py.html">test\test_model.py</a></td>
+                <td>204</td>
+                <td>1</td>
+                <td>0</td>
+                <td>2</td>
+                <td>1</td>
+                <td class="right" data-ratio="204 206">99%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="test_test_parser_py.html">test\test_parser.py</a></td>
+                <td>15</td>
+                <td>11</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="4 15">27%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="test_test_start_py.html">test\test_start.py</a></td>
+                <td>28</td>
+                <td>25</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 28">11%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="test_test_title_loop_py.html">test\test_title_loop.py</a></td>
+                <td>19</td>
+                <td>16</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 19">16%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="view_main_view_py.html">view\main_view.py</a></td>
+                <td>75</td>
+                <td>13</td>
+                <td>0</td>
+                <td>2</td>
+                <td>1</td>
+                <td class="right" data-ratio="63 77">82%</td>
+            </tr>
+        </tbody>
+    </table>
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.0</a>,
+            created at 2020-04-22 14:41
+        </p>
+    </div>
+</div>
+</body>
+</html>

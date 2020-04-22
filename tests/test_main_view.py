@@ -28,6 +28,14 @@ class TestMainView(unittest.TestCase):
                 call().pack(side="top"),
             ], any_order=True)
 
+    def test_font_red(self):
+        root = tk.Tk()
+
+        test_view = MainView(master=root)
+
+        color = ['red', 'yellow', 'blue']
+        self.assertTrue(test_view.content_label['fg'], color)
+
     def test_display_entry(self):
         """ Unit test for view.main_view.Model.build_window """
         fake_title = 'Man explodes'
