@@ -29,11 +29,81 @@ class TestMainView(unittest.TestCase):
 
     def test_font_red(self):
         root = tk.Tk()
-
         test_view = MainView(master=root)
+        test_view.font_red()
+        self.assertEqual(test_view.content_label['fg'], 'red')
 
-        color = ['red', 'yellow', 'blue']
-        self.assertTrue(test_view.content_label['fg'], color)
+    def test_font_yellow(self):
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.font_yellow()
+        self.assertEqual(test_view.content_label['fg'], 'yellow')
+
+    def test_font_blue(self):
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.font_blue()
+        self.assertEqual(test_view.content_label['fg'], 'blue')
+
+    def test_font_8(self):
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.font_8()
+        self.assertEqual(test_view.content_label['font'], 'times 8')
+
+    def test_font_9(self):
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.font_9()
+        self.assertEqual(test_view.content_label['font'], 'times 9')
+
+    def test_font_10(self):
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.font_10()
+        self.assertEqual(test_view.content_label['font'], 'times 10')
+
+    def test_font_11(self):
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.font_11()
+        self.assertEqual(test_view.content_label['font'], 'times 11')
+
+    def test_font_12(self):
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.font_12()
+        self.assertEqual(test_view.content_label['font'], 'times 12')
+
+    def test_font_13(self):
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.font_13()
+        self.assertEqual(test_view.content_label['font'], 'times 13')
+
+    def test_bg_white(self):
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.bg_white()
+        self.assertEqual(test_view.content_label['bg'], 'white')
+
+    def test_bg_red(self):
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.bg_red()
+        self.assertEqual(test_view.content_label['bg'], 'red')
+
+    def test_bg_blue(self):
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.bg_blue()
+        self.assertEqual(test_view.content_label['bg'], 'blue')
+
+    def test_bg_green(self):
+        root = tk.Tk()
+        test_view = MainView(master=root)
+        test_view.bg_green()
+        self.assertEqual(test_view.content_label['bg'], 'green')
 
     def test_display_entry(self):
         """ Unit test for view.main_view.Model.build_window """
