@@ -7,7 +7,6 @@ from model.parser import parse_url_feed
 from model.feed_manager import parse
 
 tt_logger = lg.getLogger(__name__)
-print('TEST')
 sys_handler = lg.StreamHandler()
 sys_format = lg.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 sys_handler.setFormatter(sys_format)
