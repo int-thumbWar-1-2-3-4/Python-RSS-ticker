@@ -89,7 +89,7 @@ class TestArgumentParser(unittest.TestCase):
 class TestTickerArgumentParser(unittest.TestCase):
     """ Test class to test the creation of the argument parser """
 
-    @patch('controller.start.argparse.ArgumentParser')
+    @patch('controller.tiny_ticker.argparse.ArgumentParser')
     def test_calls_argparse_function_argument_parser(self, mock_argument_parser):
         """ Unit test for ArgumentParser, checks that our argument parser was created correctly """
         
