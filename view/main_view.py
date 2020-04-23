@@ -1,5 +1,14 @@
 import tkinter as tk
 import webbrowser
+import logging as lg
+
+
+mv_logger = lg.getLogger('view.main_view')
+sys_handler = lg.StreamHandler()
+sys_format = lg.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+sys_handler.setFormatter(sys_format)
+mv_logger.addHandler(sys_handler)
+mv_logger.setLevel(lg.DEBUG)
 
 
 class MainView(tk.Frame):
@@ -10,6 +19,8 @@ class MainView(tk.Frame):
 
     def __init__(self, master=None):
         """ Constructor for view.main_view.MainView. """
+
+        mv_logger.debug('MainView.__init__')
 
         super().__init__(master)
         self.master = master
@@ -22,6 +33,8 @@ class MainView(tk.Frame):
 
     def menu_bar(self):
         """ View.main_view.MainView.menu_bar adds a drop down menu for our tk window. """
+
+        mv_logger.debug('MainView.menubar')
 
         self.menubar = tk.Menu(self)
 
@@ -51,66 +64,79 @@ class MainView(tk.Frame):
     def font_red(self):
         """ View.main_view.MainView.font_red sets font color to red. """
 
+        mv_logger.debug('MainView.font_red')
         self.content_label['fg'] = 'red'
 
     def font_yellow(self):
         """ View.main_view.MainView.font_yellow sets font color to yellow. """
 
+        mv_logger.debug('MainView.font_yellow')
         self.content_label['fg'] = 'yellow'
 
     def font_blue(self):
         """ View.main_view.MainView.font_blue sets font color to blue. """
 
+        mv_logger.debug('MainView.font_blue')
         self.content_label['fg'] = 'blue'
 
     def font_8(self):
         """ View.main_view.MainView.font_8 sets font size to 8. """
 
+        mv_logger.debug('MainView.font_8')
         self.content_label['font'] = 'times 8'
 
     def font_9(self):
         """ View.main_view.MainView.font_9 sets font size to 9. """
 
+        mv_logger.debug('MainView.font_9')
         self.content_label['font'] = 'times 9'
 
     def font_10(self):
         """ View.main_view.MainView.font_10 sets font size to 10. """
 
+        mv_logger.debug('MainView.font_10')
         self.content_label['font'] = 'times 10'
 
     def font_11(self):
         """ View.main_view.MainView.font_11 sets font size to 11. """
 
+        mv_logger.debug('MainView.font_11')
         self.content_label['font'] = 'times 11'
 
     def font_12(self):
         """ View.main_view.MainView.font_12 sets font size to 12. """
 
+        mv_logger.debug('MainView.font_12')
         self.content_label['font'] = 'times 12'
 
     def font_13(self):
         """ View.main_view.MainView.font_13 sets font size to 13. """
 
+        mv_logger.debug('MainView.font_13')
         self.content_label['font'] = 'times 13'
 
     def bg_white(self):
         """ View.main_view.MainView.bg_white sets background color to white. """
 
+        mv_logger.debug('MainView.bg_white')
         self.content_label['bg'] = 'white'
 
     def bg_red(self):
         """ View.main_view.MainView.bg_red sets background color to red. """
 
+        mv_logger.debug('MainView.bg_red')
         self.content_label['bg'] = 'red'
 
     def bg_blue(self):
         """ View.main_view.MainView.bg_blue sets background color to blue. """
 
+        mv_logger.debug('MainView.bg_blue')
         self.content_label['bg'] = 'blue'
 
     def bg_green(self):
         """ View.main_view.MainView.bg_green sets background color to green. """
 
+        mv_logger.debug('MainView.bg_green')
         self.content_label['bg'] = 'green'
 
     def build_window(self):
@@ -119,6 +145,8 @@ class MainView(tk.Frame):
         Here the label is bound to a button that when clicked, will call open article with the current link as a
         parameter.
         """
+
+        mv_logger.debug('MainView.build_window')
         self.winfo_toplevel().title("Tiny Ticker")
 
         self.content_label.pack(side="top")
@@ -140,6 +168,7 @@ class MainView(tk.Frame):
             entry_link: a string that is the url for entry_title
         """
 
+        mv_logger.debug('MainView.display_entry')
         self.entry_title = entry_title
         self.entry_link = entry_link
 
@@ -152,5 +181,7 @@ class MainView(tk.Frame):
         Arguments:
             link: url for the current entry_title
         """
+
+        mv_logger.debug('MainView.open_article')
         webbrowser.open_new(link)
         self.content_label.update()

@@ -1,9 +1,18 @@
 from typing import List
 
 import feedparser
+import logging as lg
 
 from model.article import Article
 from model.feed import Feed
+
+
+fm_logger = lg.getLogger('model.feed_manager')
+sys_handler = lg.StreamHandler()
+sys_format = lg.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+sys_handler.setFormatter(sys_format)
+fm_logger.addHandler(sys_handler)
+fm_logger.setLevel(lg.DEBUG)
 
 
 class FeedManagerEmptyError(Exception):
@@ -156,6 +165,8 @@ class FeedManager:
 def parse(feed_link: str) -> []:
     # Get the contents of an atom or rss feed using the feedparser library. Return all the relevant
     #   information as Articles (unsorted).
+
+    fm_logger.debug('parse')
 
     feed = feedparser.parse(feed_link)
     article_list = []

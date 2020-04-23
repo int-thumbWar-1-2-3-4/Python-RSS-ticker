@@ -1,13 +1,23 @@
 import argparse
 import tkinter as tk
+import logging as lg
 import threading as th
 from view.main_view import MainView
 from model.parser import parse_url_feed
 from model.feed_manager import parse
 
+tt_logger = lg.getLogger(__name__)
+print('TEST')
+sys_handler = lg.StreamHandler()
+sys_format = lg.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+sys_handler.setFormatter(sys_format)
+tt_logger.addHandler(sys_handler)
+tt_logger.setLevel(lg.DEBUG)
+
 
 def ticker_argument_parser():
     """ Argument Parser for Headline Ticker """
+    tt_logger.debug('controller.start.ticker_argument_parser')
 
     parser = argparse.ArgumentParser(description="Select a file or feed to parse.", fromfile_prefix_chars='@')
     parser.add_argument('--url', '-u', dest='url', action='store', default=["https://www.theguardian.com/us/rss"],
@@ -33,6 +43,7 @@ def ten_second_loop(main_view, cycle, feed):
         cycle: the amount of time between view changes
         feed: a list of article objects
     """
+    tt_logger.debug('controller.start.ten_second_loop')
     looping_thread = th.Timer(cycle, ten_second_loop, [main_view, cycle, feed])
     looping_thread.daemon = True
     looping_thread.start()
@@ -50,13 +61,16 @@ def call_switch_display(main_view, feed):
         main_view: an instance of model.MainView
         feed: a list of article objects
     """
-    # This is a temporary data set. It is not dynamic
+    tt_logger.debug('controller.start.call_switch_display')
     article = feed.pop()
 
     main_view.display_entry(article.title, article.link)
 
 
 def main(mainView):
+
+    tt_logger.debug('controller.start.main')
+
     arguments = ticker_argument_parser()
     feed = parse(arguments.url[0])
     feed.reverse()
@@ -64,6 +78,7 @@ def main(mainView):
 
 
 if __name__ == "__main__":
+    tt_logger.debug('controller.start.__main__')
     root = tk.Tk()
     mainView = MainView(master=root)
 
