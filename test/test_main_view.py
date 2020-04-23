@@ -52,3 +52,10 @@ class TestMainView(unittest.TestCase):
         test_view = MainView(master=root)
         test_view.open_article(test_link)
         mock_open_new.assert_called_with(test_link)
+
+class TestStartMainView(unittest.TestCase):
+
+    def test_start_main_view(self):
+        result = start_view()
+        self.assertTrue(isinstance(result, MainView))
+        result.destroy()
