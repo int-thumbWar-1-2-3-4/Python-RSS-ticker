@@ -180,3 +180,10 @@ class MainView(tk.Frame):
         mv_logger.debug('MainView.open_article')
         webbrowser.open_new(link)
         self.content_label.update()
+
+def start_main_view():
+
+    mv_logger.debug('start_main_view')
+    
+    root = tk.Tk()
+    return MainView(master=root)

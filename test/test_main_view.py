@@ -1,7 +1,7 @@
 import unittest
 import tkinter as tk
-from view.main_view import MainView
 from unittest.mock import call, patch, PropertyMock
+from view.main_view import MainView, start_main_view
 
 
 class TestMainView(unittest.TestCase):
@@ -56,6 +56,6 @@ class TestMainView(unittest.TestCase):
 class TestStartMainView(unittest.TestCase):
 
     def test_start_main_view(self):
-        result = start_view()
+        result = start_main_view()
         self.assertTrue(isinstance(result, MainView))
         result.destroy()
