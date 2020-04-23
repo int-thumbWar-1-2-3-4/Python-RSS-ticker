@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from controller.start import main, ticker_argument_parser
+from controller.tiny_ticker import main, ticker_argument_parser
 from view.main_view import MainView
 import tkinter as tk
 import os

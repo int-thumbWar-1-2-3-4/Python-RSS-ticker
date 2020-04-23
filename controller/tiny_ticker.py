@@ -6,13 +6,13 @@ from view.main_view import MainView, start_main_view
 from model.feed_manager import parse
 from controller.utilities import logger
 
-tt_logger = logger('contrller.start')
+tt_logger = logger('Controller.tiny_ticker')
 
 
 def ticker_argument_parser():
     """ Argument Parser for Headline Ticker """
     
-    tt_logger.debug('controller.start.ticker_argument_parser')
+    tt_logger.debug('controller.tiny_ticker.ticker_argument_parser')
 
     parser = argparse.ArgumentParser(description="Select a file or feed to parse.", fromfile_prefix_chars='@')
     parser.add_argument('--url', '-u', dest='url', action='store', default=["https://www.theguardian.com/us/rss"],
@@ -38,7 +38,7 @@ def ten_second_loop(main_view, cycle, feed):
         cycle: the amount of time between view changes
         feed: a list of article objects
     """
-    tt_logger.debug('controller.start.ten_second_loop')
+    tt_logger.debug('controller.tiny_ticker.ten_second_loop')
     looping_thread = th.Timer(cycle, ten_second_loop, [main_view, cycle, feed])
     looping_thread.daemon = True
     looping_thread.start()
@@ -56,20 +56,20 @@ def call_switch_display(main_view, feed):
         main_view: an instance of model.MainView
         feed: a list of article objects
     """
-    tt_logger.debug('controller.start.call_switch_display')
+    tt_logger.debug('controller.tiny_ticker.call_switch_display')
     article = feed.pop()
 
     main_view.display_entry(article.title, article.link)
 
 
 def main(mainView):
-    """ Controller.start.main gathers command-line args, calls the model, initiates the title loop
+    """ Controller.tiny_ticker.main gathers command-line args, calls the model, initiates the title loop
 
     Arguments:
         mainView: an instance of model.MainView
     """
 
-    tt_logger.debug('controller.start.main')
+    tt_logger.debug('controller.tiny_ticker.main')
 
     arguments = ticker_argument_parser()
     feed = parse(arguments.url[0])
@@ -78,7 +78,7 @@ def main(mainView):
 
 
 if __name__ == "__main__":
-    tt_logger.debug('controller.start.__main__')
+    tt_logger.debug('controller.tiny_ticker.__main__')
     
     main_view = start_main_view()
 

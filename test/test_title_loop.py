@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from controller.start import ten_second_loop, call_switch_display
+from controller.tiny_ticker import ten_second_loop, call_switch_display
 from model.article import Article
 
 import os

@@ -1,5 +1,5 @@
 # https://github.com/drsjb80/MockingPython/blob/master/thecastleargv.py
-from controller.start import ticker_argument_parser
+from controller.tiny_ticker import ticker_argument_parser
 import unittest
 from unittest.mock import patch
 import sys
