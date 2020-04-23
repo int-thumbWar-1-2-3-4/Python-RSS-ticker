@@ -11,6 +11,7 @@ tt_logger = logger('contrller.start')
 
 def ticker_argument_parser():
     """ Argument Parser for Headline Ticker """
+    
     tt_logger.debug('controller.start.ticker_argument_parser')
 
     parser = argparse.ArgumentParser(description="Select a file or feed to parse.", fromfile_prefix_chars='@')
@@ -62,16 +63,13 @@ def call_switch_display(main_view, feed):
 
 
 def main(mainView):
-<<<<<<< HEAD
     """ Controller.start.main gathers command-line args, calls the model, initiates the title loop
 
     Arguments:
         mainView: an instance of model.MainView
     """
-=======
 
     tt_logger.debug('controller.start.main')
->>>>>>> development
 
     arguments = ticker_argument_parser()
     feed = parse(arguments.url[0])

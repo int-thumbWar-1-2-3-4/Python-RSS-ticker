@@ -55,8 +55,11 @@ class TestMainView(unittest.TestCase):
         mock_open_new.assert_called_with(test_link)
 
 class TestStartMainView(unittest.TestCase):
+    """ Test class for view.main_view.start_main_view """
 
     def test_start_main_view(self):
+        """ Unit test for view.main_view.start_main_view. Function should return an object of type MainView """
+
         result = start_main_view()
         self.assertTrue(isinstance(result, MainView))
         result.destroy()

@@ -182,7 +182,8 @@ class MainView(tk.Frame):
         self.content_label.update()
 
 def start_main_view():
-
+    """ View.main_view.start_main_view is called from controller.start and initiates our gui."""
+    
     mv_logger.debug('start_main_view')
     
     root = tk.Tk()
