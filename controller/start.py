@@ -1,22 +1,26 @@
 import argparse
 import tkinter as tk
 import threading as th
-from view.main_view import MainView
 from model.parser import parse_url_feed
+from view.main_view import MainView, start_main_view
 from model.feed_manager import parse
+from controller.utilities import logger
+
+tt_logger = logger('contrller.start')
 
 
 def ticker_argument_parser():
     """ Argument Parser for Headline Ticker """
+    tt_logger.debug('controller.start.ticker_argument_parser')
 
     parser = argparse.ArgumentParser(description="Select a file or feed to parse.", fromfile_prefix_chars='@')
-    parser.add_argument('--url', dest='url', action='store', default=["https://www.theguardian.com/us/rss"],
+    parser.add_argument('--url', '-u', dest='url', action='store', default=["https://www.theguardian.com/us/rss"],
                         help="enter a url of an RSS or ATOM feed to parse", nargs='*')
-    parser.add_argument('--file', dest='file', action='store', default="",
+    parser.add_argument('--file', '-f', dest='file', action='store', default="",
                         help="enter a file name to parse", nargs='*')
-    parser.add_argument('--config', dest='config', action='store', default='',
+    parser.add_argument('--config', '-c', dest='config', action='store', default='',
                         help="optionally enter a .yaml config file", nargs='*')
-    parser.add_argument('--timer', dest='timer', action='store', type=int, default=10,
+    parser.add_argument('--timer', '-t', dest='timer', action='store', type=int, choices=range(1, 601), default=10,
                         help='enter an amount of time each headline should appear')
     return parser.parse_args()
 
@@ -33,6 +37,7 @@ def ten_second_loop(main_view, cycle, feed):
         cycle: the amount of time between view changes
         feed: a list of article objects
     """
+    tt_logger.debug('controller.start.ten_second_loop')
     looping_thread = th.Timer(cycle, ten_second_loop, [main_view, cycle, feed])
     looping_thread.daemon = True
     looping_thread.start()
@@ -50,18 +55,23 @@ def call_switch_display(main_view, feed):
         main_view: an instance of model.MainView
         feed: a list of article objects
     """
-    # This is a temporary data set. It is not dynamic
+    tt_logger.debug('controller.start.call_switch_display')
     article = feed.pop()
 
     main_view.display_entry(article.title, article.link)
 
 
 def main(mainView):
+<<<<<<< HEAD
     """ Controller.start.main gathers command-line args, calls the model, initiates the title loop
 
     Arguments:
         mainView: an instance of model.MainView
     """
+=======
+
+    tt_logger.debug('controller.start.main')
+>>>>>>> development
 
     arguments = ticker_argument_parser()
     feed = parse(arguments.url[0])
@@ -70,10 +80,11 @@ def main(mainView):
 
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    mainView = MainView(master=root)
+    tt_logger.debug('controller.start.__main__')
+    
+    main_view = start_main_view()
 
-    main(mainView)
+    main(main_view)
 
     # KEEP THIS LAST
-    mainView.mainloop()
+    main_view.mainloop()

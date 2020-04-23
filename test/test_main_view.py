@@ -1,7 +1,7 @@
 import unittest
 import tkinter as tk
-from view.main_view import MainView
 from unittest.mock import call, patch, PropertyMock
+from view.main_view import MainView, start_main_view
 
 
 class TestMainView(unittest.TestCase):
@@ -24,7 +24,7 @@ class TestMainView(unittest.TestCase):
             test_view = MainView(master=root)
             test_view.build_window()
             mock_label.assert_has_calls([
-                call().__setitem__('text', '[BLANK Entry Title]'),
+                call().__setitem__('text', 'Welcome to Tiny Ticker news feed'),
                 call().pack(side="top"),
             ], any_order=True)
 
@@ -53,3 +53,10 @@ class TestMainView(unittest.TestCase):
         test_view = MainView(master=root)
         test_view.open_article(test_link)
         mock_open_new.assert_called_with(test_link)
+
+class TestStartMainView(unittest.TestCase):
+
+    def test_start_main_view(self):
+        result = start_main_view()
+        self.assertTrue(isinstance(result, MainView))
+        result.destroy()
