@@ -74,9 +74,9 @@ def main(mainView):
 if __name__ == "__main__":
     tt_logger.debug('controller.start.__main__')
     
-    
+    main_view = start_main_view()
 
-    main(start_main_view())
+    main(main_view)
 
     # KEEP THIS LAST
-    mainView.mainloop()
+    main_view.mainloop()
