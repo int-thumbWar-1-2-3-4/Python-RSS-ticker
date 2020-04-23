@@ -4,7 +4,7 @@ from controller.utilities import logger
 
 
 class TestUtilities(unittest.TestCase):
-""" Test class for controller.utilities """
+	""" Test class for controller.utilities """
 
 	def test_logger(self):
 		""" Unit test for controller.utilities.logger. Should return a Logger object """
