@@ -1,17 +1,12 @@
 import argparse
 import tkinter as tk
-import logging as lg
 import threading as th
-from view.main_view import MainView
 from model.parser import parse_url_feed
+from view.main_view import MainView
 from model.feed_manager import parse
+from controller.utilities import logger
 
-tt_logger = lg.getLogger(__name__)
-sys_handler = lg.StreamHandler()
-sys_format = lg.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-sys_handler.setFormatter(sys_format)
-tt_logger.addHandler(sys_handler)
-tt_logger.setLevel(lg.DEBUG)
+tt_logger = logger('contrller.start')
 
 
 def ticker_argument_parser():

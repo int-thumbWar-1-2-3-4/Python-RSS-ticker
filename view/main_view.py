@@ -1,14 +1,9 @@
-import tkinter as tk
 import webbrowser
-import logging as lg
+import tkinter as tk
+from controller.utilities import logger
 
 
-mv_logger = lg.getLogger('view.main_view')
-sys_handler = lg.StreamHandler()
-sys_format = lg.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-sys_handler.setFormatter(sys_format)
-mv_logger.addHandler(sys_handler)
-mv_logger.setLevel(lg.DEBUG)
+mv_logger = logger('view.main_view')
 
 
 class MainView(tk.Frame):

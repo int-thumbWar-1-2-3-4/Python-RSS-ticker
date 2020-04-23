@@ -1,18 +1,11 @@
-from typing import List
-
 import feedparser
-import logging as lg
-
-from model.article import Article
+from typing import List
 from model.feed import Feed
+from model.article import Article
+from controller.utilities import logger
 
 
-fm_logger = lg.getLogger('model.feed_manager')
-sys_handler = lg.StreamHandler()
-sys_format = lg.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-sys_handler.setFormatter(sys_format)
-fm_logger.addHandler(sys_handler)
-fm_logger.setLevel(lg.DEBUG)
+fm_logger = logger('model.feed_manager')
 
 
 class FeedManagerEmptyError(Exception):
