@@ -12,7 +12,10 @@ class MainView(tk.Frame):
         """ Constructor """
         super().__init__(master)
         self.master = master
-        self.content_label = tk.Label(self, cursor="gumby")
+        self.fg_var = 'black'
+        self.bg_var = 'white'
+        self.font_var = 'Helvetica'
+        self.content_label = tk.Label(self, cursor="gumby", font=self.font_var, fg=self.fg_var, bg= self.bg_var)
 
         self.pack()
         self.build_window()
@@ -49,6 +52,8 @@ class MainView(tk.Frame):
         self.font_color.add_command(label='purple', command=self.font_purple)
         self.menubar.add_cascade(label='Font color', menu=self.font_color)
 
+        self.url_menu = tk.Menu(self.menubar)
+        self.menubar.add_cascade(label='URL', menu=self.url_menu)
 
     def font_red(self):
         self.content_label['fg'] = 'red'
