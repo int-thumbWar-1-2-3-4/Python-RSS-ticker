@@ -55,7 +55,6 @@ def main(mainView):
     tt_logger.debug('main')
 
     arguments = ticker_argument_parser()
-
     
     feed = parse(arguments.url[0])
     feed.reverse()
