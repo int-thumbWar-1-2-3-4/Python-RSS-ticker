@@ -5,7 +5,9 @@ python:
   - "3.7"
   - "3.8"
 
-dist: xenial
+dist:
+  - xenial
+  - trusty
 
 services:
   - xvfb
