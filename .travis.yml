@@ -21,6 +21,8 @@ before_install:
 
 # command to install dependencies
 install:
+  - pip install xenon
+  - pip install radon
   - pip install -r requirements.txt
 
 before_script:
@@ -29,6 +31,11 @@ before_script:
 
 # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
 script:
+  - radon cc --average --show-complexity --order SCORE Python-Rss-ticker/controller/
+  - radon cc --average --show-complexity --order SCORE Python-Rss-ticker/model/
+  - radon cc --average --show-complexity --order SCORE Python-Rss-ticker/view/
   - coverage run -m unittest
   - coverage report
   - sonar-scanner
+after_success:
+  - coveralls
