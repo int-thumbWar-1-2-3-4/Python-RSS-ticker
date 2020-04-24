@@ -32,6 +32,9 @@ before_script:
 # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
 script:
   - radon cc --average --show-complexity --order SCORE Python-Rss-ticker/
+  - radon mi --multi --show Python-Rss-ticker/        #Outputs Maintainability score
+  - radon raw --summary Python-Rss-ticker/            #Outputs Raw Metrics
+  - radon hal Python-Rss-ticker/                      #Outputs Halstead Metrics
   - coverage run -m unittest
   - coverage report
   - sonar-scanner
