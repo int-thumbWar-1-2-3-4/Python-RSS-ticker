@@ -1,10 +1,11 @@
 import unittest
 import tkinter as tk
-from view.main_view import MainView
 from unittest.mock import call, patch, PropertyMock
+from view.main_view import MainView, start_main_view
 
 
 class TestMainView(unittest.TestCase):
+    """ Testing Class for view.main_view """
 
     def test_build_window_winfo_toplevel(self):
         """ Unit test for view.main_view.Model. build_window's first line of code """
@@ -52,3 +53,13 @@ class TestMainView(unittest.TestCase):
         test_view = MainView(master=root)
         test_view.open_article(test_link)
         mock_open_new.assert_called_with(test_link)
+
+class TestStartMainView(unittest.TestCase):
+    """ Test class for view.main_view.start_main_view """
+
+    def test_start_main_view(self):
+        """ Unit test for view.main_view.start_main_view. Function should return an object of type MainView """
+
+        result = start_main_view()
+        self.assertTrue(isinstance(result, MainView))
+        result.destroy()
