@@ -56,7 +56,7 @@ class MainView(tk.Frame):
         self.font_color.add_command(label='yellow', command=self.font_yellow)
         self.menubar.add_cascade(label='Font color', menu=self.font_color)
 
-    def change_window(element, value):
+    def change_window(self, element, value):
         pass
 
     def font_red(self):
