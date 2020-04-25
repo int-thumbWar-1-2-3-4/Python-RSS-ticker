@@ -54,6 +54,10 @@ class TestMainView(unittest.TestCase):
         test_view.open_article(test_link)
         mock_open_new.assert_called_with(test_link)
 
+    def test_change_window(self):
+        MainView.change_window('bg', 'red')
+
+
 class TestStartMainView(unittest.TestCase):
     """ Test class for view.main_view.start_main_view """
 
