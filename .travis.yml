@@ -30,7 +30,7 @@ before_script:
 
 # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
 script:
-  - sonar-scanne
+  - sonar-scanner
   - coverage run -m unittest
 
 after_success:
