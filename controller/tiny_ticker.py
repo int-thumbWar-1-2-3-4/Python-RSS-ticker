@@ -1,6 +1,4 @@
-import tkinter as tk
 import threading as th
-from model.parser import parse_url_feed
 from view.main_view import MainView, start_main_view
 from model.feed_manager import parse
 from controller.utilities import logger, ticker_argument_parser
@@ -63,7 +61,6 @@ def main(mainView):
 
 if __name__ == "__main__":
     tt_logger.debug('__main__')
-    
     main_view = start_main_view()
 
     main(main_view)
