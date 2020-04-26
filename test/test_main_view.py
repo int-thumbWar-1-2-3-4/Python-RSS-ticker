@@ -57,9 +57,23 @@ class TestMainView(unittest.TestCase):
         self.test_view.open_article(test_link)
         mock_open_new.assert_called_with(test_link)
 
-    def test_change_window(self):
+    def test_change_windows_background(self):
+        """ Unit test for view.main_view.MainView.change_window. Test background color change."""
+
         self.test_view.change_window('bg', 'blue')
         self.assertEqual(self.test_view.content_label['bg'], 'blue')
+
+    def test_change_font_size(self):
+        """ Unit test for view.main_view.MainView.change_window. Test font size change."""
+
+        self.test_view.change_window('font', '9')
+        self.assertEqual(self.test_view.content_label['font'], '9')
+
+    def test_change_font_color(self):
+        """ Unit test for view.main_view.MainView.change_window. Test font color change."""
+
+        self.test_view.change_window('fg', 'red')
+        self.assertEqual(self.test_view.content_label['fg'], 'red')
 
 
 
