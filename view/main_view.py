@@ -37,26 +37,23 @@ class MainView(tk.Frame):
 
         self.menubar = tk.Menu(self)
         self.dropdown_menu = tk.Menu(self.menubar, tearoff=0)
+        self.font_color = tk.Menu(self.menubar)
+        self.font_menu = tk.Menu(self.menubar)
 
         for c in color:
             self.dropdown_menu.add_command(label=c, command=lambda c=c: self.change_window('bg', c))
+            self.font_color.add_command(label=c, command=lambda c=c: self.change_window('fg', c))
 
-        self.menubar.add_cascade(label='bg color', menu=self.dropdown_menu)
-        self.master.config(menu=self.menubar)
-
-        self.font_menu = tk.Menu(self.menubar)
 
         for f in fonts:
             self.font_menu.add_command(label=f, command=lambda f=f: self.change_window('font', f))
 
+        self.menubar.add_cascade(label='bg color', menu=self.dropdown_menu)
         self.menubar.add_cascade(label='Font size', menu=self.font_menu)
-
-        self.font_color = tk.Menu(self.menubar)
-
-        for c in color:
-            self.font_color.add_command(label=c, command=lambda c=c: self.change_window('fg', c))
-            
         self.menubar.add_cascade(label='Font color', menu=self.font_color)
+
+        self.master.config(menu=self.menubar)
+
 
     def change_window(self, element, value):
         """ View.main_view.MainView.change_window. 
