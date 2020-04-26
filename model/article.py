@@ -11,7 +11,6 @@ class Article:
     def __init__(self, title: str, link: str, published_date: datetime):
 
         a_logger.debug('Article.__init__')
-        
         self.title = title
         self.link = link
         self.published_date = published_date
