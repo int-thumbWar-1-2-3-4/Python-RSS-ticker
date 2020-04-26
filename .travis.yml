@@ -38,6 +38,8 @@ script:
   - radon raw --summary Python-Rss-ticker/            #Outputs Raw Metrics
   - radon hal Python-Rss-ticker/                      #Outputs Halstead Metrics
   - coverage run -m unittest
+  - make cov
+  - xenon xenon -bB -mA -aA
   - coverage report
   - sonar-scanner
 after_success:
