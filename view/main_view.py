@@ -34,30 +34,37 @@ class MainView(tk.Frame):
         self.menubar = tk.Menu(self)
 
         self.dropdown_menu = tk.Menu(self.menubar, tearoff=0)
-        self.dropdown_menu.add_command(label='white', command=self.bg_white)
-        self.dropdown_menu.add_command(label='red', command=self.bg_red)
-        self.dropdown_menu.add_command(label='blue', command=self.bg_blue)
-        self.dropdown_menu.add_command(label='green', command=self.bg_green)
+        self.dropdown_menu.add_command(label='white', command=lambda: self.change_window('bg', 'white'))
+        self.dropdown_menu.add_command(label='red', command=lambda: self.change_window('bg', 'red'))
+        self.dropdown_menu.add_command(label='blue', command=lambda: self.change_window('bg', 'blue'))
+        self.dropdown_menu.add_command(label='green', command=lambda: self.change_window('bg', 'green'))
         self.menubar.add_cascade(label='bg color', menu=self.dropdown_menu)
         self.master.config(menu=self.menubar)
 
         self.font_menu = tk.Menu(self.menubar)
-        self.font_menu.add_command(label='8', command=self.font_8)
-        self.font_menu.add_command(label='9', command=self.font_9)
-        self.font_menu.add_command(label='10', command=self.font_10)
-        self.font_menu.add_command(label='11', command=self.font_11)
-        self.font_menu.add_command(label='12', command=self.font_12)
-        self.font_menu.add_command(label='13', command=self.font_13)
+        self.font_menu.add_command(label='8', command=lambda: self.change_window('font', 'times 8'))
+        self.font_menu.add_command(label='9', command=lambda: self.change_window('font', 'times 9'))
+        self.font_menu.add_command(label='10', command=lambda: self.change_window('font', 'times 10'))
+        self.font_menu.add_command(label='11', command=lambda: self.change_window('font', 'times 11'))
+        self.font_menu.add_command(label='12', command=lambda: self.change_window('font', 'times 12'))
+        self.font_menu.add_command(label='24', command=lambda: self.change_window('font', 'times 24'))
         self.menubar.add_cascade(label='Font size', menu=self.font_menu)
 
         self.font_color = tk.Menu(self.menubar)
-        self.font_color.add_command(label='red', command=self.font_red)
-        self.font_color.add_command(label='blue', command=self.font_blue)
-        self.font_color.add_command(label='yellow', command=self.font_yellow)
+        self.font_color.add_command(label='red', command=lambda: self.change_window('fg', 'red'))
+        self.font_color.add_command(label='blue', command=lambda: self.change_window('fg', 'blue'))
+        self.font_color.add_command(label='yellow', command=lambda: self.change_window('fg', 'yellow'))
         self.menubar.add_cascade(label='Font color', menu=self.font_color)
 
     def change_window(self, element, value):
+        """ View.main_view.MainView.change_window. 
 
+        Modifys the tkinter window's background color, font color or font size.
+
+        Arguments:
+            element: Dictates which display feature is changed
+            value: Is what the feature is changed to 
+        """
         self.content_label[element] = value
 
     def font_red(self):
