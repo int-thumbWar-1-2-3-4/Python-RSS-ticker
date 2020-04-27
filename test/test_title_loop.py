@@ -19,7 +19,7 @@ class TestTitleLoop(unittest.TestCase):
     def test_ten_second_loop_calls_its_self(self, mock_timer, mock_main_view, mock_switch_display):
         """ Unit test of controller.title_loop.ten_second_loop """
 
-        test_feed = [Article(test_title, test_url, test_date]
+        test_feed = [Article(self.test_title, self.test_url, self.test_date)]
         ten_second_loop(mock_main_view, 7, test_feed)
         self.assertTrue(mock_timer.called)
         self.assertTrue(mock_switch_display.called)
@@ -28,8 +28,8 @@ class TestTitleLoop(unittest.TestCase):
     def test_call_switch_display(self, mock_main_view):
         """ Unit test of controller.title_loop.call_switch_display """
 
-        test_feed = [Article(test_title, test_url, test_date)]
+        test_feed = [Article(self.test_title, self.test_url, self.test_date)]
         call_switch_display(mock_main_view, test_feed)
-        mock_main_view.display_entry.assert_called_with(test_title, test_url)
+        mock_main_view.display_entry.assert_called_with(self.test_title, self.test_url)
 
 
