@@ -7,7 +7,7 @@ from controller.utilities import logger, ticker_argument_parser
 
 
 class TestUtilities(unittest.TestCase):
-    """ Test class for controller.utilities. """
+    """Test class for controller.utilities."""
 
     def test_logger(self):
         """
@@ -19,7 +19,7 @@ class TestUtilities(unittest.TestCase):
 
 
 class TestArgumentParser(unittest.TestCase):
-    """ Test class for tests.test_argument_parser. """
+    """Test class for tests.test_argument_parser."""
 
     def test_has_each_argument(self):
         """
@@ -112,15 +112,16 @@ class TestArgumentParser(unittest.TestCase):
 
 
 class TestTickerArgumentParser(unittest.TestCase):
-    """ Test class to test the creation of the argument parser. """
+    """Test class to test the creation of the argument parser."""
 
     @patch('controller.utilities.argparse.ArgumentParser')
     def test_calls_argparse_function_argument_parser(self, mock_parser):
         """
-        Unit test for ArgumentParser, checks that our argument parser was
-        reated correctly.
+        Unit test for controller.utilities.ticker_argument_parser.
+
+        Checks that our argument parser was reated correctly.
         """
-        description = "Select a file or feed to parse."
+        self.description = "Select a file or feed to parse."
         ticker_argument_parser()
-        mock_parser.assert_called_with(description=description,
+        mock_parser.assert_called_with(description=self.description,
                                        fromfile_prefix_chars='@')
