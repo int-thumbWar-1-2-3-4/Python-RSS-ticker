@@ -1,43 +1,72 @@
-#https://github.com/Jhawk1196/CS3250PythonProject/blob/dev/src/parser.py
-import re
-import requests
+# Code copied from: 4/10/2020
+# https://github.com/Jhawk1196/CS3250PythonProject/blob/dev/src/parser.py
+from typing import List
+
 from bs4 import BeautifulSoup
-from controller.utilities import logger
+import requests
+import re
+
+from model.article import Article
 
 
-p_logger = logger('model.parser')
+class InvalidUrlException(Exception):
+    """
+    Exception raised if url is not formatted correctly.
+    """
+    pass
 
 
-def parse_url_feed(url):
+def get_multi_feed_contents(urls: List[str]) -> List[List[Article]]:
+    """
+    Parse one or multiple feeds' contents from the files at the urls provided. Files must be .rss, .html, or .xml
+    """
 
-    p_logger.debug('parser_url_feed')
+    if len(urls) == 0:
+        raise InvalidUrlException("urls[] is empty. Please include a URL.")
 
-    feed = []
-    if not check_url(url):
-        return "Invalid URL. Must Be a RSS Feed URL ending in .rss, .html, or .xml"
+    # TODO: Make get_feed_contents(List[str]) return the contents of multiple feeds
+    return List[List[Article]]
+
+
+def get_feed_contents(url: str) -> List[Article]:
+    """
+    Uses BeautifulSoup to access a feed file at the url provided.
+    """
+
+    if not __check_url(url):
+        raise InvalidUrlException("Invalid URL. Must Be a RSS Feed URL ending in .rss, .html, or .xml")
+
+    feed_contents = []
     response = requests.get(url)
-    parse_value = find_parser(response)
-    soup = BeautifulSoup(response.content, parse_value)
+    parse_type = __parser_type(response)
+    soup = BeautifulSoup(response.content, parse_type)
     # print(soup.prettify())
+
     if soup.rss is not None:
         tag = soup.rss
         tag = tag.channel
         for title in tag.find_all(re.compile("title")):
             for entry in title.find_all(string=True):
-                feed.append(entry)
+                feed_contents.append(entry)
+
     elif soup.find_all(re.compile("atom")) is not None:
         tag = soup.feed
         for entry in tag.find_all("entry"):
             for title in entry.find_all("title"):
                 for string in title.find_all(string=True):
-                    feed.append(string)
-    feed = fix_feed(feed)
-    return feed
+                    feed_contents.append(string)
+
+    # TODO: Make get_feed_contents() return List[Article]
+    feed_contents = __remove_duplicates(feed_contents)
+    return feed_contents
 
 
-def check_url(url):
+def __check_url(url: str) -> bool:
+    """
+    Verify if a url string is formatted correctly for the parser.
+    """
 
-    p_logger.debug('check_url')
+    # TODO: Add comments for __check_url()
 
     url = str(url)
     if len(url) == 0:
@@ -58,9 +87,12 @@ def check_url(url):
         return False
 
 
-def find_parser(response):
+def __parser_type(response):
+    """
+    Finds the type of parser language to use.
+    """
 
-    p_logger.debug('find_parser')
+    # TODO: Add comments for __parser_type()
 
     test_url = response.url
     test_string = (test_url[-3] + test_url[-2] + test_url[-1])
@@ -70,16 +102,19 @@ def find_parser(response):
         return "lxml-xml"
 
 
-def fix_feed(feed):
+def __remove_duplicates(tags: List[str]) -> List[str]:
+    """
+    Deletes duplicate articles when they appear back-to-back.
+    """
 
-    p_logger.debug('fix_feed')
+    # TODO: Make this so duplicate articles are removed regardless of where they appear.
 
     end_feed = []
-    for i in range(len(feed)):
+    for i in range(len(tags)):
         if i == 0:
-            end_feed.append(feed[i])
-        elif feed[i] == feed[i - 1]:
+            end_feed.append(tags[i])
+        elif tags[i] == tags[i - 1]:
             continue
         else:
-            end_feed.append(feed[i])
+            end_feed.append(tags[i])
     return end_feed
