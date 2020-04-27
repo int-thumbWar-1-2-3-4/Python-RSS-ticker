@@ -47,9 +47,7 @@ def call_switch_display(main_view, feed):
 
 
 def main(main_view):
-    """
-    Controller.tiny_ticker.main gathers command-line args, calls the model, initiates the title loop.
-    
+    """Controller.tiny_ticker.main gathers command-line args, calls the model, initiates the title loop.
     Arguments:
         mainView -- an instance of model.MainView
     """
