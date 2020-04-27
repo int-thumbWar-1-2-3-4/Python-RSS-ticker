@@ -8,7 +8,6 @@ from controller.utilities import logger, ticker_argument_parser
 
 class TestUtilities(unittest.TestCase):
     """Test class for controller.utilities."""
-
     def test_logger(self):
         """
         Unit test for controller.utilities.logger. Should return a Logger
@@ -20,7 +19,6 @@ class TestUtilities(unittest.TestCase):
 
 class TestArgumentParser(unittest.TestCase):
     """Test class for tests.test_argument_parser."""
-
     def test_has_each_argument(self):
         """
         Unit test for controller.utilities.ticker_argument_parser. Are all
@@ -113,12 +111,10 @@ class TestArgumentParser(unittest.TestCase):
 
 class TestTickerArgumentParser(unittest.TestCase):
     """Test class to test the creation of the argument parser."""
-
     @patch('controller.utilities.argparse.ArgumentParser')
     def test_calls_argparse_function_argument_parser(self, mock_parser):
         """
         Unit test for controller.utilities.ticker_argument_parser.
-
         Checks that our argument parser was reated correctly.
         """
         self.description = "Select a file or feed to parse."
