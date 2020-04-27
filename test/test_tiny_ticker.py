@@ -11,6 +11,7 @@ from controller.tiny_ticker import main
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 class TestTinyTicker(unittest.TestCase):
+    
     """Test class for controller.tiny_ticker.""" 
 
     @classmethod

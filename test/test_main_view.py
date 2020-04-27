@@ -5,7 +5,7 @@ from view.main_view import MainView, start_main_view
 
 
 class TestMainView(unittest.TestCase):
-    """ Testing Class for view.main_view """
+    """Testing Class for view.main_view"""
 
     @classmethod
     def setUp(cls):
@@ -17,7 +17,7 @@ class TestMainView(unittest.TestCase):
         cls.test_view.destroy()
 
     def test_build_window_winfo_toplevel(self):
-        """ Unit test for view.main_view.Model. build_window's first line of code """
+        """Unit test for view.main_view.Model. build_window's first line of code."""
 
         expected_text = 'Tiny Ticker'
         self.test_view.build_window()
@@ -58,8 +58,10 @@ class TestMainView(unittest.TestCase):
         mock_open_new.assert_called_with(test_link)
 
     def test_change_windows_background(self):
-        """ Unit test for view.main_view.MainView.change_window. Test background color change."""
-
+        """
+        Unit test for view.main_view.MainView.change_window.
+        Test background color change.
+        """
         self.test_view.change_window('bg', 'blue')
         self.assertEqual(self.test_view.content_label['bg'], 'blue')
 
@@ -76,9 +78,8 @@ class TestMainView(unittest.TestCase):
         self.assertEqual(self.test_view.content_label['fg'], 'red')
 
 
-
 class TestStartMainView(unittest.TestCase):
-    """ Test class for view.main_view.start_main_view """
+    """Test class for view.main_view.start_main_view."""
 
     def test_start_main_view(self):
         """ Unit test for view.main_view.start_main_view. Function should return an object of type MainView """

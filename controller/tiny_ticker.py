@@ -1,5 +1,6 @@
+"""Controller.tiny_ticker."""
 import threading as th
-from view.main_view import MainView, start_main_view
+from view.main_view import start_main_view
 from model.feed_manager import parse
 from controller.utilities import logger, ticker_argument_parser
 
