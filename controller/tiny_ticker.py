@@ -16,9 +16,9 @@ def ten_second_loop(main_view, cycle, feed):
     with the parameters gui and feed.
 
     Arguments:
-        gui: an instance of model.MainView
-        cycle: the amount of time between view changes
-        feed: a list of article objects
+        main_view -- an instance of model.MainView
+        cycle -- the amount of time between view changes
+        feed -- a list of article objects
     """
     tt_logger.debug('ten_second_loop')
     looping_thread = th.Timer(cycle, ten_second_loop, [main_view, cycle, feed])
@@ -35,8 +35,8 @@ def call_switch_display(main_view, feed):
     view.MainView.display_entry() with parameters title and link from the article object.
 
     Arguments:
-        main_view: an instance of model.MainView
-        feed: a list of article objects
+        main_view -- an instance of model.MainView
+        feed -- a list of article objects
     """
     tt_logger.debug('call_switch_display')
     article = feed.pop()
@@ -48,7 +48,7 @@ def main(main_view):
     """Controller.tiny_ticker.main gathers command-line args, calls the model, initiates the title loop.
     
     Arguments:
-        mainView: an instance of model.MainView
+        mainView -- an instance of model.MainView
     """
     tt_logger.debug('main')
 

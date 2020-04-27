@@ -73,8 +73,8 @@ class MainView(tk.Frame):
         Modifys the tkinter window's background color, font color or font size.
 
         Arguments:
-            element: Dictates which display feature is changed
-            value: Is what the feature is changed to
+            element -- Dictates which display feature is changed
+            value -- Is what the feature is changed to
         """
         mv_logger.debug('MainView.change_window')
 
@@ -107,8 +107,8 @@ class MainView(tk.Frame):
         that of the new entry_title.
 
         Arguments:
-            entry_title: a string showing a headline
-            entry_link: a string that is the url for entry_title
+            entry_title -- a string showing a headline
+            entry_link -- a string that is the url for entry_title
         """
         mv_logger.debug('MainView.display_entry')
         self.entry_title = entry_title
@@ -125,7 +125,7 @@ class MainView(tk.Frame):
         Entry link is associated with the current entry_title
 
         Arguments:
-            link: url for the current entry_title
+            link -- url for the current entry_title
         """
         mv_logger.debug('MainView.open_article')
         webbrowser.open_new(link)

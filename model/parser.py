@@ -1,8 +1,8 @@
 #https://github.com/Jhawk1196/CS3250PythonProject/blob/dev/src/parser.py
-from controller.utilities import logger
-from bs4 import BeautifulSoup
-import requests
 import re
+import requests
+from bs4 import BeautifulSoup
+from controller.utilities import logger
 
 
 p_logger = logger('model.parser')
