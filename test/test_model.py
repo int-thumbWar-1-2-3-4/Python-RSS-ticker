@@ -322,7 +322,7 @@ class FeedManagerTestCase(unittest.TestCase):
 
     def test_parse(self):
         # TODO: Create test for parse()
-        pass
+        self.assertTrue(True)
 
 
 # @patch('parser.bs4.BeautifulSoup')
