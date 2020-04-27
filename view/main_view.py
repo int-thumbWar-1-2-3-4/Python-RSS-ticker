@@ -1,3 +1,4 @@
+"""View.main_view."""
 import webbrowser
 import tkinter as tk
 from controller.utilities import logger
@@ -8,15 +9,17 @@ mv_logger = logger('view.main_view')
 
 class MainView(tk.Frame):
     """
-    Class for view.main_view creates, displays, modifies and receives
-    input from the user interface
+    Class view.main_view.MainView.
+
+    This class fills out a tikinter root. It creates, displays, modifies
+    and receives input from the controller and the user interface.
     """
+
     entry_title = "Welcome to Tiny Ticker news feed"
     entry_link = "https://github.com/int-thumbWar-1-2-3-4/Python-RSS-ticker"
 
     def __init__(self, master=None):
-        """ Constructor for view.main_view.MainView. """
-
+        """Constructor for view.main_view.MainView."""
         mv_logger.debug('MainView.__init__')
 
         super().__init__(master)
@@ -30,8 +33,10 @@ class MainView(tk.Frame):
 
     def menu_bar(self):
         """
-        View.main_view.MainView.menu_bar adds a drop down menu for our
-        tk window.
+        View.main_view.MainView.menu_bar.
+
+        This function adds a drop down menu for our tk window. It also assigns
+        a lambda function to each of the dropdown menu's options.
         """
         mv_logger.debug('MainView.menubar')
 
@@ -63,7 +68,7 @@ class MainView(tk.Frame):
         self.master.config(menu=self.menubar)
 
     def change_window(self, element, value):
-        """ View.main_view.MainView.change_window.
+        """View.main_view.MainView.change_window.
 
         Modifys the tkinter window's background color, font color or font size.
 
@@ -76,13 +81,12 @@ class MainView(tk.Frame):
         self.content_label[element] = value
 
     def build_window(self):
-        """ View.main_view.MainView.build_window sets the title of the
-        window and the initial label
+        """View.main_view.MainView.build_window.
 
-        Here the label is bound to a button that when clicked, will
-        call open_article with the current link as a parameter.
+        Sets the title of the window and the initial label. Here the label 
+        is also bound to a button that when clicked, willcall open_article
+        with the current link as a parameter.
         """
-
         mv_logger.debug('MainView.build_window')
         self.winfo_toplevel().title("Tiny Ticker")
 
@@ -96,8 +100,7 @@ class MainView(tk.Frame):
 
     def display_entry(self, entry_title: str, entry_link: str):
         """
-        Viw.main_view.MainView.display_entry changes the displayed
-        title and associated link.
+        Viw.main_view.MainView.display_entry.
 
         This function updates both entry_title and entry_link with the
         appropriate parameters and changes the text ofcontent_label to
@@ -116,8 +119,10 @@ class MainView(tk.Frame):
 
     def open_article(self, link):
         """
-        View.main_view.MainView.open_article opens the web page associated
-        with the current entry_title
+        View.main_view.MainView.open_article.
+
+        Opens entry_link's web page associated in the default browser.
+        Entry link is associated with the current entry_title
 
         Arguments:
             link: url for the current entry_title
@@ -129,8 +134,9 @@ class MainView(tk.Frame):
 
 def start_main_view():
     """
-    View.main_view.start_main_view is called from controller.start and
-    initiates our gui.
+    View.main_view.start_main_view is called from controller.start.
+
+    Initiates our gui.
     """
     mv_logger.debug('start_main_view')
 

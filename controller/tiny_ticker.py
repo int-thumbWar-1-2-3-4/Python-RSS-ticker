@@ -9,7 +9,7 @@ tt_logger = logger('controller.tiny_ticker')
 
 
 def ten_second_loop(main_view, cycle, feed):
-    """ Controller.tiny_ticker.ten_second_loop switches the display every <cycle> seconds.
+    """Controller.tiny_ticker.ten_second_loop switches the display every <cycle> seconds.
 
     This function spans a timed looping thread. Every 'cycle' seconds this function calls it's self to continue the
     loop. It is a daemon thread so it acts in the background and it calls controller.title_loop.call_switch_display
@@ -29,7 +29,7 @@ def ten_second_loop(main_view, cycle, feed):
 
 
 def call_switch_display(main_view, feed):
-    """ Controller.tiny_ticker.call_switch_display calls view.main_view.display_entry
+    """Controller.tiny_ticker.call_switch_display calls view.main_view.display_entry.
 
     This function pops an article object off of the feed loop. It then calls the function from
     view.MainView.display_entry() with parameters title and link from the article object.
@@ -45,12 +45,11 @@ def call_switch_display(main_view, feed):
 
 
 def main(main_view):
-    """ Controller.tiny_ticker.main gathers command-line args, calls the model, initiates the title loop
-
+    """Controller.tiny_ticker.main gathers command-line args, calls the model, initiates the title loop.
+    
     Arguments:
         mainView: an instance of model.MainView
     """
-
     tt_logger.debug('main')
 
     arguments = ticker_argument_parser()
