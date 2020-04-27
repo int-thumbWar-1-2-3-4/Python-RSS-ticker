@@ -18,6 +18,7 @@ addons:
 # command to install coverage
 before_install:
   - pip install coverage
+  - pip install codecov
 
 # command to install dependencies
 install:
@@ -29,6 +30,8 @@ before_script:
 
 # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
 script:
-  - coverage run -m unittest
-  - coverage report
   - sonar-scanner
+  - coverage run -m unittest
+
+after_success:
+  - codecov
