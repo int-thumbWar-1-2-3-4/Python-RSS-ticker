@@ -40,8 +40,7 @@ class TestMainView(unittest.TestCase):
             ], any_order=True)
 
     def test_display_entry(self):
-        """ Unit test for view.main_view.Model.build_window """
-
+        """Unit test for view.main_view.Model.build_window."""
         fake_title = 'Man explodes'
         fake_link = 'www.virus.com'
 
@@ -54,8 +53,7 @@ class TestMainView(unittest.TestCase):
 
     @patch('view.main_view.webbrowser.open_new')
     def test_open_article(self, mock_open_new):
-        """ Unit test for view.main_view.MainView.open_article """
-
+        """Unit test for view.main_view.MainView.open_article"""
         test_link = 'www.goesnowhere.com'
 
         self.test_view.open_article(test_link)
@@ -64,20 +62,27 @@ class TestMainView(unittest.TestCase):
     def test_change_windows_background(self):
         """
         Unit test for view.main_view.MainView.change_window.
+
         Test background color change.
         """
         self.test_view.change_window('bg', 'blue')
         self.assertEqual(self.test_view.content_label['bg'], 'blue')
 
     def test_change_font_size(self):
-        """ Unit test for view.main_view.MainView.change_window. Test font size change."""
+        """
+        Unit test for view.main_view.MainView.change_window.
 
+        Test font size change.
+        """
         self.test_view.change_window('font', '9')
         self.assertEqual(self.test_view.content_label['font'], '9')
 
     def test_change_font_color(self):
-        """ Unit test for view.main_view.MainView.change_window. Test font color change."""
+        """
+        Unit test for view.main_view.MainView.change_window.
 
+        Test font color change.
+        """
         self.test_view.change_window('fg', 'red')
         self.assertEqual(self.test_view.content_label['fg'], 'red')
 
@@ -86,8 +91,11 @@ class TestStartMainView(unittest.TestCase):
     """Test class for view.main_view.start_main_view."""
 
     def test_start_main_view(self):
-        """ Unit test for view.main_view.start_main_view. Function should return an object of type MainView """
+        """
+        Unit test for view.main_view.start_main_view.
 
+        Function should return an object of type MainView.
+        """
         result = start_main_view()
         self.assertTrue(isinstance(result, MainView))
         result.destroy()
