@@ -43,7 +43,7 @@ def call_switch_display(main_view, feed):
     main_view.display_entry(article.title, article.link)
 
 
-def main(mainView):
+def main(main_view):
     """ Controller.tiny_ticker.main gathers command-line args, calls the model, initiates the title loop
 
     Arguments:
@@ -55,7 +55,7 @@ def main(mainView):
     arguments = ticker_argument_parser()
     feed = parse(arguments.url[0])
     feed.reverse()
-    ten_second_loop(mainView, arguments.timer, feed)
+    ten_second_loop(main_view, arguments.timer, feed)
 
 
 if __name__ == "__main__":
