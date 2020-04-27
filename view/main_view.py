@@ -81,9 +81,10 @@ class MainView(tk.Frame):
         self.content_label[element] = value
 
     def build_window(self):
-        """View.main_view.MainView.build_window.
+        """
+        View.main_view.MainView.build_window.
 
-        Sets the title of the window and the initial label. Here the label 
+        Sets the title of the window and the initial label. Here the label
         is also bound to a button that when clicked, willcall open_article
         with the current link as a parameter.
         """
@@ -134,9 +135,9 @@ class MainView(tk.Frame):
 
 def start_main_view():
     """
-    View.main_view.start_main_view is called from controller.start.
+    View.main_view.start_main_view.
 
-    Initiates our gui.
+    This function is called from controller.start and it Initiates our gui.
     """
     mv_logger.debug('start_main_view')
 

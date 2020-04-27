@@ -5,7 +5,7 @@ from view.main_view import MainView, start_main_view
 
 
 class TestMainView(unittest.TestCase):
-    """Testing Class for view.main_view"""
+    """Testing Class for view.main_view."""
 
     @classmethod
     def setUp(cls):
@@ -17,19 +17,23 @@ class TestMainView(unittest.TestCase):
         cls.test_view.destroy()
 
     def test_build_window_winfo_toplevel(self):
-        """Unit test for view.main_view.Model. build_window's first line of code."""
+        """Unit test for view.main_view.Model.build_window.
 
+        Tests the first line of code in this function.
+        """
         expected_text = 'Tiny Ticker'
         self.test_view.build_window()
         self.assertTrue(self.test_view.winfo_toplevel().title, expected_text)
 
     def test_build_window_content_label(self):
-        """ Unit test for view.main_view.Model.build_window's content_label feature """
+        """Unit test for view.main_view.Model.build_window.
 
+        Tests the creation of the content_label feature
+        """
         with patch('view.main_view.tk.Label', new_callable=PropertyMock) as mock_label:
             root = tk.Tk()
-            view = MainView(master=root)
-            view.build_window()
+            self.view = MainView(master=root)
+            self.view.build_window()
             mock_label.assert_has_calls([
                 call().__setitem__('text', 'Welcome to Tiny Ticker news feed'),
                 call().pack(side="top"),
