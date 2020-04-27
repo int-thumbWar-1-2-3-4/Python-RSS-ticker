@@ -320,10 +320,6 @@ class FeedManagerTestCase(unittest.TestCase):
 
         test_feed_manager.update([], test_feed_1_name)
 
-    def test_parse(self):
-        # TODO: Create test for parse()
-        self.assertTrue(True)
-
 
 # @patch('parser.bs4.BeautifulSoup')
 class TestParser(unittest.TestCase):
