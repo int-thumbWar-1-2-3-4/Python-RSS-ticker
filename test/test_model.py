@@ -337,8 +337,6 @@ class TestParser(unittest.TestCase):
 
         parser.get_feed_contents("C:/test.rss.xml")
 
-        pass
-
 
 if __name__ == '__main__':
     unittest.main()
