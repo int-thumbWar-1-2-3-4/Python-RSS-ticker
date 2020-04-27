@@ -5,6 +5,7 @@ from view.main_view import MainView, start_main_view
 
 
 class TestMainView(unittest.TestCase):
+
     """Testing Class for view.main_view."""
 
     @classmethod
@@ -17,7 +18,8 @@ class TestMainView(unittest.TestCase):
         cls.test_view.destroy()
 
     def test_build_window_winfo_toplevel(self):
-        """Unit test for view.main_view.Model.build_window.
+        """
+        Unit test for view.main_view.Model.build_window.
 
         Tests the first line of code in this function.
         """
@@ -26,7 +28,8 @@ class TestMainView(unittest.TestCase):
         self.assertTrue(self.test_view.winfo_toplevel().title, expected_text)
 
     def test_build_window_content_label(self):
-        """Unit test for view.main_view.Model.build_window.
+        """
+        Unit test for view.main_view.Model.build_window.
 
         Tests the creation of the content_label feature
         """
@@ -53,7 +56,7 @@ class TestMainView(unittest.TestCase):
 
     @patch('view.main_view.webbrowser.open_new')
     def test_open_article(self, mock_open_new):
-        """Unit test for view.main_view.MainView.open_article"""
+        """Unit test for view.main_view.MainView.open_article."""
         test_link = 'www.goesnowhere.com'
 
         self.test_view.open_article(test_link)
@@ -88,6 +91,7 @@ class TestMainView(unittest.TestCase):
 
 
 class TestStartMainView(unittest.TestCase):
+    
     """Test class for view.main_view.start_main_view."""
 
     def test_start_main_view(self):

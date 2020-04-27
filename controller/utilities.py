@@ -4,19 +4,19 @@ import logging as lg
 
 
 def logger(name):
-	"""Controller.utilities.logger builds and returns a logger.
+    """Controller.utilities.logger builds and returns a logger.
 
     Arguments:
         name -- lets the user know where the logger was created
     """
-	logger = lg.getLogger(name)
-	sys_handler = lg.StreamHandler()
-	sys_format = lg.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-	sys_handler.setFormatter(sys_format)
-	logger.addHandler(sys_handler)
-	logger.setLevel(ticker_argument_parser().logger[0])
+    logger = lg.getLogger(name)
+    sys_handler = lg.StreamHandler()
+    sys_format = lg.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    sys_handler.setFormatter(sys_format)
+    logger.addHandler(sys_handler)
+    logger.setLevel(ticker_argument_parser().logger[0])
 
-	return logger
+    return logger
 
 
 def ticker_argument_parser():
