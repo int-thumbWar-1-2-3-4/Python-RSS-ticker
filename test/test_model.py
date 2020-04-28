@@ -325,12 +325,19 @@ class FeedManagerTestCase(unittest.TestCase):
 class TestParser(unittest.TestCase):
 
     def test_get_multi_feed_contents(self):
-        # TODO: Create a test for get_multi_feed_contents()
-        self.assertTrue(True)
+        pass
 
     def test_get_feed_contents(self):
-        # TODO: Create a test for get_feed_contents()
-        self.assertTrue(True)
+        pass
+
+    def test_check_url(self):
+        pass
+
+    def test_parser_type(self):
+        pass
+
+    def test_remove_duplicates(self):
+        pass
 
 
 if __name__ == '__main__':
