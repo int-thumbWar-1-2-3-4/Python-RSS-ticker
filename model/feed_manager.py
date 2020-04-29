@@ -20,6 +20,13 @@ class FeedManager:
     # Holds all of the feeds this instance of Python-RSS-Ticker displays. Manages ordering of Articles so they rotate
     #       between feeds and repeat Articles as little as possible.
 
+    def __init__(self):
+
+        fm_logger.debug('FeedManager.__init__')
+
+        self.__list_of_feeds: List[Feed] = list()
+        self.__current_feed_index: int = -1
+
     def add(self, new_article: Article, feed_name: str) -> bool:
         # Add a new article to a feed ONLY if the feed already exists and the feed does not already have the article.
         # Return true if successful
@@ -158,13 +165,6 @@ class FeedManager:
         except FeedNotFoundError:
             feed = Feed(feed_name, article_list)
             self.__list_of_feeds.append(feed)
-
-    def __init__(self):
-
-        fm_logger.debug('FeedManager.__init__')
-
-        self.__list_of_feeds: List[Feed] = list()
-        self.__current_feed_index: int = -1
 
     def __get_feed(self, feed_name: str) -> Feed:
         # Gets the feed which matches the given name. May return None if match could not be found.

@@ -1,37 +1,47 @@
 # Code copied from: 4/10/2020
 # https://github.com/Jhawk1196/CS3250PythonProject/blob/dev/src/parser.py
 
-import re
 import requests
 import datetime
+
 from bs4 import BeautifulSoup
-from typing import List
+from typing import List, re
+from controller.utilities import logger
 from model.article import Article
+from model.feed import Feed
+
+
+p_logger = logger('model.parser')
 
 
 class InvalidUrlException(Exception):
     """
     Exception raised if url is not formatted correctly.
     """
+    p_logger.debug("InvalidUrlException")
     pass
 
 
-def get_feed_contents(urls: List[str]) -> List[List[Article]]:
+def get_feed_contents(urls: List[str]) -> List[Feed]:
     """
     Parse one or multiple feeds' contents from the files at the urls provided. Files must be .rss, .html, or .xml
     """
+
+    p_logger.debug("get_feed_contents")
 
     if len(urls) == 0:
         raise InvalidUrlException("urls[] is empty. Please include a URL.")
 
     # TODO: Make get_feed_contents(List[str]) return the contents of multiple feeds
-    return List[List[Article]]
+    return List[List[Feed]]
 
 
-def __get_feed_contents(url: str) -> List[Article]:
+def __get_feed_contents(url: str) -> Feed:
     """
     Uses BeautifulSoup to access a feed file at the url provided.
     """
+
+    p_logger.debug("__get_feed_contents")
 
     if not __check_url(url):
         raise InvalidUrlException("Invalid URL. Must Be a RSS Feed URL ending in .rss, .html, or .xml")
@@ -70,6 +80,8 @@ def __check_url(url: str) -> bool:
     Verify if a url string is formatted correctly for the parser.
     """
 
+    p_logger.debug("__check_url")
+
     # TODO: Add comments for __check_url()
 
     url = str(url)
@@ -96,6 +108,8 @@ def __parser_type(response):
     Finds the type of parser language to use.
     """
 
+    p_logger.debug("__parser_type")
+
     # TODO: Add comments for __parser_type()
 
     test_url = response.url
@@ -110,6 +124,8 @@ def __remove_duplicates(tags: List[str]) -> List[str]:
     """
     Deletes duplicate articles when they appear back-to-back.
     """
+
+    p_logger.debug("__remove_duplicates")
 
     # TODO: Make this so duplicate articles are removed regardless of where they appear.
 
