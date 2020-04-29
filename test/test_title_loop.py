@@ -17,7 +17,7 @@ class TestTitleLoop(unittest.TestCase):
     @patch('view.main_view')
     @patch('controller.tiny_ticker.call_switch_display')
     def test_ten_second_loop_calls_its_self(self, mock_timer, mock_main_view, mock_switch_display):
-        """ Unit test of controller.title_loop.ten_second_loop """
+        """Unit test of controller.title_loop.ten_second_loop"""
 
         test_feed = [Article(self.test_title, self.test_url, self.test_date)]
         ten_second_loop(mock_main_view, 7, test_feed)
@@ -26,7 +26,7 @@ class TestTitleLoop(unittest.TestCase):
 
     @patch('view.main_view.MainView')
     def test_call_switch_display(self, mock_main_view):
-        """ Unit test of controller.title_loop.call_switch_display """
+        """Unit test of controller.title_loop.call_switch_display"""
 
         test_feed = [Article(self.test_title, self.test_url, self.test_date)]
         call_switch_display(mock_main_view, test_feed)

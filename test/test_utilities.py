@@ -7,7 +7,9 @@ from controller.utilities import logger, ticker_argument_parser
 
 
 class TestUtilities(unittest.TestCase):
+
     """Test class for controller.utilities."""
+    
     def test_logger(self):
         """
         Unit test for controller.utilities.logger. Should return a Logger
