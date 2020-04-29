@@ -1,13 +1,11 @@
-import unittest
 import os
 import sys
-
+import unittest
 from model import parser
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from datetime import timedelta, date, datetime
 from model.feed_manager import *
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 class ArticleTestCase(unittest.TestCase):
@@ -334,10 +332,48 @@ class TestParser(unittest.TestCase):
         pass
 
     def test_parser_type(self):
-        pass
+        test_xml = "<?xml version='1.0' encoding='utf-8'?>\
+<rss version='2.0'>\
+  <channel>\
+    <title>RSS Feed Exmple</title>\
+    <description>RSS is a fascinating technology. The uses for RSS are expanding daily.</description>\
+    <link>http://www.feedforall.com/industry-solutions.htm</link>\
+    <item>\
+      <title>RSS Solutions for Restaurants</title>\
+      <description>FeedForAll helps Restaurants communicate with customers. Let your customers know the latest specials or events.</description>\
+      <link>http://www.feedforall.com/restaurant.htm</link>\
+      <comments>http://www.feedforall.com/forum</comments>\
+      <pubDate>Tue, 19 Oct 2004 11:09:11 -0400</pubDate>\
+    </item>\
+    <item>\
+      <title>RSS Solutions for Schools and Colleges</title>\
+      <description>FeedForAll helps Educational Institutions communicate with students about school wide activities, events, and schedules</description>\
+      <link>http://www.feedforall.com/schools.htm</link>\
+      <comments>http://www.feedforall.com/forum</comments>\
+      <pubDate>Tue, 19 Oct 2004 11:09:09 -0400</pubDate>\
+    </item>\
+  </channel>\
+</rss>"
+        result = parser.parser_type(test_xml)
+        print(result)
+        self.assertEqual(result, 'tml')
+
 
     def test_remove_duplicates(self):
-        pass
+        test_input_one = ['a','a','b','c','d','e','b','a','f']
+        expected_one = ['a','b','c','d','e','b','a','f']
+        test_imput_two = ['a','b','c','d','e','f']
+        test_imput_not = []
+
+        result = parser.remove_duplicates(test_input_one)
+        self.assertEqual(result, expected_one)
+
+        result = parser.remove_duplicates(test_imput_two)
+        self.assertEqual(result, test_imput_two)
+
+        result = parser.remove_duplicates(test_imput_not)
+        self.assertEqual(result, [])
+
 
 
 if __name__ == '__main__':

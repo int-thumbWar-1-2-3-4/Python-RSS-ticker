@@ -1,11 +1,9 @@
 # Code copied from: 4/10/2020
 # https://github.com/Jhawk1196/CS3250PythonProject/blob/dev/src/parser.py
-from typing import List
-
-from bs4 import BeautifulSoup
-import requests
 import re
-
+import requests
+from bs4 import BeautifulSoup
+from typing import List
 from model.article import Article
 
 
@@ -33,12 +31,12 @@ def get_feed_contents(url: str) -> List[Article]:
     Uses BeautifulSoup to access a feed file at the url provided.
     """
 
-    if not __check_url(url):
+    if not check_url(url):
         raise InvalidUrlException("Invalid URL. Must Be a RSS Feed URL ending in .rss, .html, or .xml")
 
     feed_contents = []
     response = requests.get(url)
-    parse_type = __parser_type(response)
+    parse_type = parser_type(response)
     soup = BeautifulSoup(response.content, parse_type)
     # print(soup.prettify())
 
@@ -57,11 +55,11 @@ def get_feed_contents(url: str) -> List[Article]:
                     feed_contents.append(string)
 
     # TODO: Make get_feed_contents() return List[Article]
-    feed_contents = __remove_duplicates(feed_contents)
+    feed_contents = remove_duplicates(feed_contents)
     return feed_contents
 
 
-def __check_url(url: str) -> bool:
+def check_url(url: str) -> bool:
     """
     Verify if a url string is formatted correctly for the parser.
     """
@@ -87,7 +85,7 @@ def __check_url(url: str) -> bool:
         return False
 
 
-def __parser_type(response):
+def parser_type(response):
     """
     Finds the type of parser language to use.
     """
@@ -102,7 +100,7 @@ def __parser_type(response):
         return "lxml-xml"
 
 
-def __remove_duplicates(tags: List[str]) -> List[str]:
+def remove_duplicates(tags: List[str]) -> List[str]:
     """
     Deletes duplicate articles when they appear back-to-back.
     """
