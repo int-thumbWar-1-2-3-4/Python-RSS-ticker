@@ -43,8 +43,8 @@ def get_feed_contents(url: str) -> List[Article]:
     if xml.rss is not None:
         items = xml.find_all('item')
         for item in items:
-            title = item.title
-            link = item.link
+            title = item.title.string
+            link = item.link.string
             date = item.published_parsed
             article = Article(title, link, date)
 
@@ -60,6 +60,7 @@ def get_feed_contents(url: str) -> List[Article]:
 
     # TODO: Make get_feed_contents() return List[Article]
     feed_contents = remove_duplicates(feed_contents)
+    feed_contents.reverse()
     return feed_contents
 
 

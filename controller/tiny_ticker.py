@@ -1,7 +1,7 @@
 """Controller.tiny_ticker."""
 import threading as th
+from model.parser import get_feed_contents as parse
 from view.main_view import start_main_view
-from model.feed_manager import parse
 from controller.utilities import logger, ticker_argument_parser
 
 
@@ -55,7 +55,7 @@ def main(main_view):
 
     arguments = ticker_argument_parser()
     feed = parse(arguments.url[0])
-    feed.reverse()
+    
     ten_second_loop(main_view, arguments.timer, feed)
 
 
