@@ -37,6 +37,7 @@ def get_feed_contents(url: str) -> List[Article]:
 
     feed_contents = []
     response = requests.get(url)
+    print(response)
     parse_type = parser_type(response)
     xml = BeautifulSoup(response.content, parse_type)
 
