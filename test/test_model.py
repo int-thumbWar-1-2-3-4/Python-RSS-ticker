@@ -372,15 +372,15 @@ class TestParser(unittest.TestCase):
         test_not = ''
         test_fail = 'www.thistestshallnotpass.com'
 
-        result = parser.check_url(test_xml)
+        result = parser.__check_url(test_xml)
         self.assertTrue(result)
-        result = parser.check_url(test_rss)
+        result = parser.__check_url(test_rss)
         self.assertTrue(result)
-        result = parser.check_url(test_tml)
+        result = parser.__check_url(test_tml)
         self.assertTrue(result)
-        result = parser.check_url(test_not)
+        result = parser.__check_url(test_not)
         self.assertFalse(result)
-        result = parser.check_url(test_fail)
+        result = parser.__check_url(test_fail)
         self.assertFalse(result)
 
     def test_parser_type(self):
@@ -392,13 +392,13 @@ class TestParser(unittest.TestCase):
         test_imput_two = ['a','b','c','d','e','f']
         test_imput_not = []
 
-        result = parser.remove_duplicates(test_input_one)
+        result = parser.__remove_duplicates(test_input_one)
         self.assertEqual(result, expected_one)
 
-        result = parser.remove_duplicates(test_imput_two)
+        result = parser.__remove_duplicates(test_imput_two)
         self.assertEqual(result, test_imput_two)
 
-        result = parser.remove_duplicates(test_imput_not)
+        result = parser.__remove_duplicates(test_imput_not)
         self.assertEqual(result, [])
 
 

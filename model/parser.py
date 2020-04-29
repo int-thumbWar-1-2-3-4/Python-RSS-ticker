@@ -1,5 +1,6 @@
 # Code copied from: 4/10/2020
 # https://github.com/Jhawk1196/CS3250PythonProject/blob/dev/src/parser.py
+
 import re
 import requests
 import datetime
@@ -15,7 +16,7 @@ class InvalidUrlException(Exception):
     pass
 
 
-def get_multi_feed_contents(urls: List[str]) -> List[List[Article]]:
+def get_feed_contents(urls: List[str]) -> List[List[Article]]:
     """
     Parse one or multiple feeds' contents from the files at the urls provided. Files must be .rss, .html, or .xml
     """
@@ -27,18 +28,18 @@ def get_multi_feed_contents(urls: List[str]) -> List[List[Article]]:
     return List[List[Article]]
 
 
-def get_feed_contents(url: str) -> List[Article]:
+def __get_feed_contents(url: str) -> List[Article]:
     """
     Uses BeautifulSoup to access a feed file at the url provided.
     """
 
-    if not check_url(url):
+    if not __check_url(url):
         raise InvalidUrlException("Invalid URL. Must Be a RSS Feed URL ending in .rss, .html, or .xml")
 
     feed_contents = []
     response = requests.get(url)
     print(response)
-    parse_type = parser_type(response)
+    parse_type = __parser_type(response)
     xml = BeautifulSoup(response.content, parse_type)
 
     if xml.rss is not None:
@@ -51,7 +52,6 @@ def get_feed_contents(url: str) -> List[Article]:
 
             feed_contents.append(article)
 
-
     elif xml.find_all(re.compile("atom")) is not None:
         tag = xml.feed
         for entry in tag.find_all("entry"):
@@ -60,12 +60,12 @@ def get_feed_contents(url: str) -> List[Article]:
                     feed_contents.append(string)
 
     # TODO: Make get_feed_contents() return List[Article]
-    feed_contents = remove_duplicates(feed_contents)
+    feed_contents = __remove_duplicates(feed_contents)
     feed_contents.reverse()
     return feed_contents
 
 
-def check_url(url: str) -> bool:
+def __check_url(url: str) -> bool:
     """
     Verify if a url string is formatted correctly for the parser.
     """
@@ -91,7 +91,7 @@ def check_url(url: str) -> bool:
         return False
 
 
-def parser_type(response):
+def __parser_type(response):
     """
     Finds the type of parser language to use.
     """
@@ -106,7 +106,7 @@ def parser_type(response):
         return "xml"
 
 
-def remove_duplicates(tags: List[str]) -> List[str]:
+def __remove_duplicates(tags: List[str]) -> List[str]:
     """
     Deletes duplicate articles when they appear back-to-back.
     """
