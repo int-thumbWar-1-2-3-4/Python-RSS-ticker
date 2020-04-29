@@ -43,8 +43,8 @@ def __get_feed_contents(url: str) -> Feed:
 
     p_logger.debug("__get_feed_contents")
 
-    if not __check_url(url):
-        raise InvalidUrlException("Invalid URL. Must Be a RSS Feed URL ending in .rss, .html, or .xml")
+    # if not __check_url(url):
+    #     raise InvalidUrlException("Invalid URL. Must Be a RSS Feed URL ending in .rss, .html, or .xml")
 
     feed_contents = []
     response = requests.get(url)

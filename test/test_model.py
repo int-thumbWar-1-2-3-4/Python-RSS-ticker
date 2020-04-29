@@ -323,8 +323,8 @@ class FeedManagerTestCase(unittest.TestCase):
 # @patch('parser.bs4.BeautifulSoup')
 class TestParser(unittest.TestCase):
 
-    def test_get_multi_feed_contents(self):
-        pass
+    def test_get_feed_contents(self):
+        self.assertTrue(True)
 
     @patch('model.parser.requests.get')
     @patch('model.parser.parser_type')
@@ -400,7 +400,6 @@ class TestParser(unittest.TestCase):
 
         result = parser.__remove_duplicates(test_imput_not)
         self.assertEqual(result, [])
-
 
 
 if __name__ == '__main__':

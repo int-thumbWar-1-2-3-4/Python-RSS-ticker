@@ -54,8 +54,11 @@ def main(main_view):
     tt_logger.debug('main')
 
     arguments = ticker_argument_parser()
-    feed = parse(arguments.url[0])
-    
+    # TODO: enable parsing through command line
+    # feed = parse(arguments.url[0])
+    feed = parse("https://www.theguardian.com/us/rss")
+
+
     ten_second_loop(main_view, arguments.timer, feed)
 
 
