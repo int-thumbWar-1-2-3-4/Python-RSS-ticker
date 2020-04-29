@@ -1,5 +1,8 @@
 # Code copied from: 4/10/2020
 # https://github.com/Jhawk1196/CS3250PythonProject/blob/dev/src/parser.py
+from typing import List
+from bs4 import BeautifulSoup
+import requests
 import re
 import requests
 import datetime

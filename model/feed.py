@@ -1,4 +1,3 @@
-import feedparser
 from typing import List
 from model.article import Article
 from controller.utilities import logger
