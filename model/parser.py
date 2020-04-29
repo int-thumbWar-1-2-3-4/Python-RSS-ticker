@@ -2,7 +2,6 @@
 # https://github.com/Jhawk1196/CS3250PythonProject/blob/dev/src/parser.py
 import re
 import requests
-import datetime
 from bs4 import BeautifulSoup
 from typing import List
 from model.article import Article
