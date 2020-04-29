@@ -38,7 +38,6 @@ def get_feed_contents(url: str) -> List[Article]:
     response = requests.get(url)
     parse_type = parser_type(response)
     soup = BeautifulSoup(response.content, parse_type)
-    # print(soup.prettify())
 
     if soup.rss is not None:
         tag = soup.rss
@@ -97,7 +96,7 @@ def parser_type(response):
     if test_string == "tml":
         return "lxml"
     else:
-        return "lxml-xml"
+        return "xml"
 
 
 def remove_duplicates(tags: List[str]) -> List[str]:
