@@ -2,6 +2,7 @@
 # https://github.com/Jhawk1196/CS3250PythonProject/blob/dev/src/parser.py
 import re
 import requests
+import datetime
 from bs4 import BeautifulSoup
 from typing import List
 from model.article import Article
@@ -37,17 +38,21 @@ def get_feed_contents(url: str) -> List[Article]:
     feed_contents = []
     response = requests.get(url)
     parse_type = parser_type(response)
-    soup = BeautifulSoup(response.content, parse_type)
+    xml = BeautifulSoup(response.content, parse_type)
 
-    if soup.rss is not None:
-        tag = soup.rss
-        tag = tag.channel
-        for title in tag.find_all(re.compile("title")):
-            for entry in title.find_all(string=True):
-                feed_contents.append(entry)
+    if xml.rss is not None:
+        items = xml.find_all('item')
+        for item in items:
+            title = item.title
+            link = item.link
+            date = item.published_parsed
+            article = Article(title, link, date)
 
-    elif soup.find_all(re.compile("atom")) is not None:
-        tag = soup.feed
+            feed_contents.append(article)
+
+
+    elif xml.find_all(re.compile("atom")) is not None:
+        tag = xml.feed
         for entry in tag.find_all("entry"):
             for title in entry.find_all("title"):
                 for string in title.find_all(string=True):
