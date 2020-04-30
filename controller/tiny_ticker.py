@@ -4,9 +4,7 @@ from model.parser import get_feed_contents as parse
 from view.main_view import start_main_view
 from controller.utilities import logger, ticker_argument_parser
 
-
 tt_logger = logger('controller.tiny_ticker')
-
 
 def ten_second_loop(main_view, cycle, feed):
     """
@@ -44,7 +42,6 @@ def call_switch_display(main_view, feed):
     article = feed.pop()
 
     main_view.display_entry(article.title, article.link)
-
 
 def main(main_view):
     """Controller.tiny_ticker.main gathers command-line args, calls the model, initiates the title loop.

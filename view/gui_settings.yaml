@@ -1,0 +1,4 @@
+# Background color, font color, and font size and style.
+bg: white
+fg: black
+font: times 12
