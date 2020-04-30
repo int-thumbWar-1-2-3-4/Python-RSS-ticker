@@ -55,7 +55,6 @@ def main(main_view):
 
     arguments = ticker_argument_parser()
     feed = parse(arguments.url[0])
-    
     ten_second_loop(main_view, arguments.timer, feed)
 
 
