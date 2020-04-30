@@ -1,11 +1,12 @@
-import unittest
 import os
 import sys
+import unittest
+from model import parser
+from datetime import timedelta, date, datetime
+from unittest.mock import patch, Mock
+from model.feed_manager import *
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from datetime import timedelta, date, datetime
-from model.feed_manager import *
 
 
 class ArticleTestCase(unittest.TestCase):
@@ -318,9 +319,88 @@ class FeedManagerTestCase(unittest.TestCase):
 
         test_feed_manager.update([], test_feed_1_name)
 
-    def test_parse(self):
-        # TODO: Create test for parse()
+
+# @patch('parser.bs4.BeautifulSoup')
+class TestParser(unittest.TestCase):
+
+    def test_get_multi_feed_contents(self):
         pass
+
+    @patch('model.parser.requests.get')
+    @patch('model.parser.parser_type')
+    def test_get_feed_contents_with_good_url(self, mock_get, mock_type):
+        # Test xml feed from DrB80
+        """url = 'http://feeds.bbci.co.uk/news/rss.xml'
+        XML = '''
+            <?xml version="1.0" encoding="UTF-8" ?>
+            <rss version="2.0">
+            <channel>
+                <title>RSS Title</title>
+                <description>This is an example of an RSS feed</description>
+                <link>http://www.example.com/main.html</link>
+                <lastBuildDate>Mon, 06 Sep 2010 00:01:00 +0000 </lastBuildDate>
+                <pubDate>Sun, 06 Sep 2009 16:20:00 +0000</pubDate>
+                <ttl>1800</ttl>
+
+            <item>
+                <title>Example entry</title>
+                <description>Here is some text containing an interesting description.</description>
+                <link>http://www.example.com/blog/post/1</link>
+                <guid isPermaLink="false">7bd204c6-1655-4c27-aeee-53f933c5395f</guid>
+                <pubDate>Sun, 06 Sep 2009 16:20:00 +0000</pubDate>
+            </item>
+
+            </channel>
+            </rss>
+        '''
+
+        mock_get.return_value.ok = True
+        mock_get.return_value = Mock()
+        mock_get.return_value.content.return_value = XML
+        mock_type.return_value = 'xml'
+
+        result = parser.get_feed_contents(url)
+
+        self.assertEqual(result[0].title, 'Example entry')
+        self.assertEqual(result[0].link, 'http://www.example.com/blog/post/1')
+    """
+
+    def test_check_url(self):
+        test_xml = 'www.test_url.net/feeds/xml'
+        test_rss = 'www.test_url.net/feeds/rss'
+        test_tml = 'www.test_url.net/other/tml'
+        test_not = ''
+        test_fail = 'www.thistestshallnotpass.com'
+
+        result = parser.check_url(test_xml)
+        self.assertTrue(result)
+        result = parser.check_url(test_rss)
+        self.assertTrue(result)
+        result = parser.check_url(test_tml)
+        self.assertTrue(result)
+        result = parser.check_url(test_not)
+        self.assertFalse(result)
+        result = parser.check_url(test_fail)
+        self.assertFalse(result)
+
+    def test_parser_type(self):
+        pass
+
+    def test_remove_duplicates(self):
+        test_input_one = ['a','a','b','c','d','e','b','a','f']
+        expected_one = ['a','b','c','d','e','b','a','f']
+        test_imput_two = ['a','b','c','d','e','f']
+        test_imput_not = []
+
+        result = parser.remove_duplicates(test_input_one)
+        self.assertEqual(result, expected_one)
+
+        result = parser.remove_duplicates(test_imput_two)
+        self.assertEqual(result, test_imput_two)
+
+        result = parser.remove_duplicates(test_imput_not)
+        self.assertEqual(result, [])
+
 
 
 if __name__ == '__main__':

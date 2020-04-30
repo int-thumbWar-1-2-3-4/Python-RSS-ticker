@@ -1,23 +1,26 @@
+"""Controller.utilities."""
 import argparse
-import logging as lg 
+import logging as lg
 
 
 def logger(name):
-	""" Controller.utilities.logger builds and returns a logger """
-	
-	logger = lg.getLogger(name)
-	sys_handler = lg.StreamHandler()
-	sys_format = lg.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-	sys_handler.setFormatter(sys_format)
-	logger.addHandler(sys_handler)
-	logger.setLevel(ticker_argument_parser().logger[0])
+    """Controller.utilities.logger builds and returns a logger.
 
-	return logger
+    Arguments:
+        name -- lets the user know where the logger was created
+    """
+    logger = lg.getLogger(name)
+    sys_handler = lg.StreamHandler()
+    sys_format = lg.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    sys_handler.setFormatter(sys_format)
+    logger.addHandler(sys_handler)
+    logger.setLevel(ticker_argument_parser().logger[0])
+
+    return logger
 
 
 def ticker_argument_parser():
-    """ Argument Parser for Tiny Ticker. Controller.utilities """
-
+    """Argument Parser for Tiny Ticker. Controller.utilities."""
     parser = argparse.ArgumentParser(description="Select a file or feed to parse.", fromfile_prefix_chars='@')
     parser.add_argument('--url', '-u', dest='url', action='store', default=["https://www.theguardian.com/us/rss"],
                         help="enter a url of an RSS or ATOM feed to parse", nargs='*')
