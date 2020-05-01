@@ -1,17 +1,15 @@
 """Controller.tiny_ticker."""
 import threading as th
 from typing import List
-
-from model.feed_manager import FeedManager
-from model.parser import get_feed_contents, get_feed_name
 from view.main_view import start_main_view
+from model.feed_manager import create_feed_manager
 from controller.utilities import logger, ticker_argument_parser
 
 
 tt_logger = logger('controller.tiny_ticker')
+arguments = ticker_argument_parser()
 
-
-def ten_second_loop(main_view, cycle, feed_manager: FeedManager):
+def ten_second_loop(main_view, cycle, feed_manager):
     """
     Controller.tiny_ticker.ten_second_loop switches the display every <cycle> seconds.
 
@@ -32,7 +30,7 @@ def ten_second_loop(main_view, cycle, feed_manager: FeedManager):
     call_switch_display(main_view, feed_manager)
 
 
-def call_switch_display(main_view, feed_manager: FeedManager):
+def call_switch_display(main_view, feed_manager):
     """
     Controller.tiny_ticker.call_switch_display calls view.main_view.display_entry.
 
@@ -49,32 +47,20 @@ def call_switch_display(main_view, feed_manager: FeedManager):
     main_view.display_entry(article.title, article.link)
 
 
-def main(main_view, arguments):
+def main(main_view):
     """Controller.tiny_ticker.main gathers command-line args, calls the model, initiates the title loop.
     Arguments:
         mainView -- an instance of model.MainView
     """
     tt_logger.debug('main')
 
-    # feed_url = arguments[0]
-    feed_url = "https://www.theguardian.com/us/rss"
-    feed_name = get_feed_name(feed_url)
-    feed_contents = get_feed_contents(feed_url)
-
-    print(feed_contents)
-
-    feed_manager = FeedManager()
-    feed_manager.update(feed_name, feed_url, feed_contents)
-    article = feed_manager.get_current_article()
-    main_view.display_entry(article.title, article.link)
-
-    ten_second_loop(main_view, arguments.timer, feed_manager)
+    ten_second_loop(main_view, arguments.timer, create_feed_manager(arguments.url[0]))
 
 
 if __name__ == "__main__":
     tt_logger.debug('__main__')
     main_view = start_main_view()
-    main(main_view, ticker_argument_parser())
+    main(main_view)
 
     # KEEP THIS LAST
     main_view.mainloop()

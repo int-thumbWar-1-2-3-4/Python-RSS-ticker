@@ -3,9 +3,9 @@ import sys
 import unittest
 from model import parser
 from datetime import timedelta, datetime
+from model.parser import InvalidUrlException, get_feed_contents, get_feed_name
 from unittest.mock import patch
 from model.feed_manager import *
-from model.parser import InvalidUrlException
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -341,11 +341,12 @@ class FeedManagerTestCase(unittest.TestCase):
 class TestParser(unittest.TestCase):
 
     def test_get_multi_feed_contents(self):
-        pass
+        with self.assertRaises(InvalidUrlException):
+            parser.get_multi_feed_contents([])
 
     def test_check_url(self):
 
-        parser._check_url('www.test_url.net/feeds/xml')
+        parser._check_url('www.test_url.net/feeds/xml/')
         parser._check_url('www.test_url.net/feeds/rss')
         parser._check_url('www.test_url.net/feeds/atom')
 
@@ -354,6 +355,14 @@ class TestParser(unittest.TestCase):
 
         with self.assertRaises(InvalidUrlException):
             parser._check_url('')
+
+    def test_get_feed_contents(self):
+        with self.assertRaises(InvalidUrlException):
+            get_feed_contents('')
+
+    def test_get_feed_name(self):
+        with self.assertRaises(InvalidUrlException):
+            get_feed_name('')
 
 
 if __name__ == '__main__':
