@@ -36,9 +36,8 @@ class MainView(tk.Frame):
 
         self.master = master
         self.content_label = tk.Label(self)
-        self.display_entry(entry_title, entry_link)
 
-        self._build_window()
+        self._build_window(entry_title, entry_link)
         self._build_menu_bar()
         self.pack()
 
@@ -106,7 +105,7 @@ class MainView(tk.Frame):
         self.content_label["text"] = entry_title
         self.content_label.bind("<Button-1>",
                                 lambda event,
-                                content_label=entry_title: self._open_article(entry_title))
+                                content_label=entry_title: self._open_article(entry_link))
 
     def _change_window(self, element, value):
         """View.main_view.MainView.change_window.
