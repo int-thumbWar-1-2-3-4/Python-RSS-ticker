@@ -29,26 +29,11 @@ class TestMain(unittest.TestCase):
         """Test.test_tiny_ticker.TestTinyTicker.tearDown."""
         cls.test_view.destroy()
 
-    @patch('controller.tiny_ticker.ticker_argument_parser')
-    def test_call_ticker_argument_parser(self, mock_arg_parser):
-        """Unit test for controller.tiny_ticker.main. Tests the call to the argument parser."""
-        test_url = 'http://www.fakeurl.com/rss'
-        main(self.test_view)
-        mock_arg_parser.assert_called()
-
-    @patch('model.parser')
-    def test_call_parse(self, mock_parser):
-        """Unit test for controller.tiny_ticker.main. Tests the call to the model's feedmanager.parse."""
-        test_url = ['http://www.fakeurl.com/rss']
-        sys.argv = ['test', '--url', test_url[0]]
-
-        main(self.test_view)
-        mock_parser.assert_called_with(test_url[0])
-
     @patch('controller.tiny_ticker.ten_second_loop')
     def test_call_ten_second_loop(self, mock_loop):
         """Unit test for controller.tiny_ticker.main. Tests the call to the ten second loop."""
         test_url = ['http://www.fakeurl.com/rss']
+        
         main(self.test_view)
         mock_loop.assert_called_with('www.fakeurl.com/rss')
 
