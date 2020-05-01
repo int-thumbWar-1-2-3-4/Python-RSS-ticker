@@ -9,6 +9,12 @@ A collection of articles from a single feed. It automatically sorts its feeds by
 This class should ONLY be automatically created by the feed_manager this prevents unnecessary creation of large object. 
 """
 
+
+class EmptyFeedException(Exception):
+    """Exception if the feed is empty and cannot be created"""
+    pass
+
+
 class Feed:
 
     def __init__(self, url: str, name: str, list_of_articles: List[Article]):
@@ -17,8 +23,8 @@ class Feed:
         f_logger.debug('Feed.__init__')
 
         if len(list_of_articles) == 0:
-            # TODO: Make this create an exception if the list is empty
-            pass
+            raise EmptyFeedException("The list_of_articles given is empty. " +
+                                     "The feed: \"%s\" could not be created." % name)
 
         self.url: str = url
         self.name: str = name

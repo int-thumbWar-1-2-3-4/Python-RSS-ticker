@@ -11,8 +11,8 @@ from controller.tiny_ticker import main
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 class TestTinyTicker(unittest.TestCase):
-    
-    """Test class for controller.tiny_ticker.""" 
+
+    """Test class for controller.tiny_ticker."""
 
     @classmethod
     def setUp(cls):
@@ -24,7 +24,6 @@ class TestTinyTicker(unittest.TestCase):
     def tearDown(cls):
         """Test.test_tiny_ticker.TestTinyTicker.tearDown."""
         cls.test_view.destroy()
-
 
     @patch('controller.tiny_ticker.ticker_argument_parser')
     @patch('controller.tiny_ticker.parse')

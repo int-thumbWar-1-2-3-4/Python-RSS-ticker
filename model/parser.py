@@ -181,10 +181,5 @@ def _check_url(url: str):
         pass
     else:
         # The url did not match any of the 3 valid suffixes. Therefore it is invalid.
-        raise InvalidUrlException("The url does not end in \"rss\", \"atom\", or \"xml"
-                                  "Please indicate a valid feed url.")
-
-    result = validators.url(url)  # Returns true if valid, or a ValidationFailure object which describes the issue.
-    if isinstance(result, ValidationFailure):
-        raise InvalidUrlException(str(result) + "\nThe \"validators\" package determined the url is invalid. " +
-                                  "Please indicate a valid url.")
+        raise InvalidUrlException("The url: [%s] does not end in \"rss\", \"atom\", or \"xml"
+                                  "Please indicate a valid feed url." % url)

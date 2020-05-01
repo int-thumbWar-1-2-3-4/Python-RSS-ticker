@@ -35,7 +35,7 @@ class FeedManager:
         self.__list_of_feeds: List[Feed] = list()
         self.__current_feed_index: int = -1
 
-    def get_feed(self, feed_name: str) -> Feed:
+    def __get_feed(self, feed_name: str) -> Feed:
         """Gets the feed which matches the given name. May return None if match could not be found."""
 
         fm_logger.debug('FeedManager.__get_feed')
@@ -58,12 +58,12 @@ class FeedManager:
             return False
 
         try:
-            feed: Feed = self.get_feed(feed_name)
+            feed: Feed = self.__get_feed(feed_name)
+            feed.add_new(new_article)
+            return True
+
         except FeedNotFoundException:
             return False
-
-        feed.add_new(new_article)
-        return True
 
     def contains(self, article: Article, feed_name: str) -> bool:
         """Determines whether a feed with the given name and article exist"""
@@ -128,7 +128,7 @@ class FeedManager:
         fm_logger.debug('FeedManager.remove')
 
         try:
-            matched_feed: Feed = self.get_feed(feed_name)
+            matched_feed: Feed = self.__get_feed(feed_name)
         except FeedNotFoundException:
             return False
 
@@ -181,13 +181,15 @@ class FeedManager:
             # DO not add the articles if the list of articles given is empty
             return
 
-        for feed in self.__list_of_feeds:
-            if feed.name == feed_name:
-                feed.update(feed_contents)
-                return
+        try:
+            feed = self.__get_feed(feed_name)
+            feed.update(feed_contents)
 
-        if self.is_empty():
-            self.__current_feed_index = 0
+        except:
+            print("Feed: \"%s\" could not be found" % feed_name)
+            if self.is_empty():
+                self.__current_feed_index = 0
 
-        new_feed = Feed(feed_name, feed_link, feed_contents)
-        self.__list_of_feeds.append(new_feed)
+            new_feed = Feed(feed_name, feed_link, feed_contents)
+            self.__list_of_feeds.append(new_feed)
+
