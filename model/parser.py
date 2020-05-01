@@ -172,7 +172,8 @@ def _check_url(url: str):
     if len(url) == 0:
         raise InvalidUrlException("This url is blank. Please indicate a valid url.")
 
-    if url.endswith("rss") or url.endswith("atom") or url.endswith("xml"):
+    if url.endswith("rss") or url.endswith("atom") or url.endswith("xml") or\
+       url.endswith("rss/") or url.endswith("atom/") or url.endswith("xml/"):
         # The url has a valid suffix, skip to validators.url(url)
         pass
     else:
