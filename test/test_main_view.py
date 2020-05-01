@@ -24,7 +24,7 @@ class TestMainView(unittest.TestCase):
         Tests the first line of code in this function.
         """
         expected_text = 'Tiny Ticker'
-        self.test_view._build_window()
+        self.test_view._build_window("test_title", "test_link")
         self.assertTrue(self.test_view.winfo_toplevel().title, expected_text)
 
     def test_build_window_content_label(self):
@@ -36,7 +36,7 @@ class TestMainView(unittest.TestCase):
         with patch('view.main_view.tk.Label', new_callable=PropertyMock) as mock_label:
             root = tk.Tk()
             self.view = MainView(master=root)
-            self.view._build_window()
+            self.view._build_window("test_title", "test_link")
             mock_label.assert_has_calls([
                 call().__setitem__('text', 'Welcome to Tiny Ticker news feed'),
                 call().pack(side="top"),
