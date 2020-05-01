@@ -1,14 +1,12 @@
 import email
-from datetime import datetime
-
 import requests
-
 from bs4 import BeautifulSoup
 from typing import List
-from model.article import Article
-from controller.utilities import logger
+from datetime import datetime
 from model.feed import Feed
 from email.utils import parsedate_tz
+from model.article import Article
+from controller.utilities import logger
 
 p_logger = logger('model.parser.py')
 
@@ -181,3 +179,4 @@ def _check_url(url: str):
         # The url did not match any of the 3 valid suffixes. Therefore it is invalid.
         raise InvalidUrlException("The url: [%s] does not end in \"rss\", \"atom\", or \"xml"
                                   "Please indicate a valid feed url." % url)
+

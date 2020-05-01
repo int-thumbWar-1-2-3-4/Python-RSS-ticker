@@ -1,5 +1,6 @@
 from typing import List
 from model.feed import Feed
+from model.parser import get_feed_name, get_feed_contents
 from model.article import Article
 from controller.utilities import logger
 
@@ -190,3 +191,11 @@ class FeedManager:
                 self.__current_feed_index = 0
             self.__list_of_feeds.append(Feed(feed_name, feed_link, feed_contents))
 
+def create_feed_manager(feed_url):
+    fm_logger.debug('model.feed_manager.create_feed_manager')
+    feed_name = get_feed_name(feed_url)
+    feed_contents = get_feed_contents(feed_url)
+
+    feed_manager = FeedManager()
+    feed_manager.update(feed_name, feed_url, feed_contents)
+    return feed_manager

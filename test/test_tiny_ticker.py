@@ -29,13 +29,12 @@ class TestMain(unittest.TestCase):
         """Test.test_tiny_ticker.TestTinyTicker.tearDown."""
         cls.test_view.destroy()
 
+    @patch('model.feed_manager.create_feed_manager')
     @patch('controller.tiny_ticker.ten_second_loop')
-    def test_call_ten_second_loop(self, mock_loop):
+    def test_call_ten_second_loop(self, mock_loop, mock_create_feed_manager):
         """Unit test for controller.tiny_ticker.main. Tests the call to the ten second loop."""
-        test_url = ['http://www.fakeurl.com/rss']
-        
         main(self.test_view)
-        mock_loop.assert_called_with('www.fakeurl.com/rss')
+        mock_loop.assert_called()
 
 
 class TestLoop(unittest.TestCase):

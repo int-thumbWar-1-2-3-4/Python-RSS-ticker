@@ -1,16 +1,15 @@
 """Controller.tiny_ticker."""
 import threading as th
 from typing import List
-from model.parser import get_feed_contents, get_feed_name
 from view.main_view import start_main_view
-from model.feed_manager import FeedManager
+from model.feed_manager import create_feed_manager
 from controller.utilities import logger, ticker_argument_parser
 
 
 tt_logger = logger('controller.tiny_ticker')
 arguments = ticker_argument_parser()
 
-def ten_second_loop(main_view, cycle, feed_manager: FeedManager):
+def ten_second_loop(main_view, cycle, feed_manager):
     """
     Controller.tiny_ticker.ten_second_loop switches the display every <cycle> seconds.
 
@@ -31,7 +30,7 @@ def ten_second_loop(main_view, cycle, feed_manager: FeedManager):
     call_switch_display(main_view, feed_manager)
 
 
-def call_switch_display(main_view, feed_manager: FeedManager):
+def call_switch_display(main_view, feed_manager):
     """
     Controller.tiny_ticker.call_switch_display calls view.main_view.display_entry.
 
@@ -55,15 +54,7 @@ def main(main_view):
     """
     tt_logger.debug('main')
 
-    feed_url = arguments.url[0]
-    feed_name = get_feed_name(feed_url)
-    feed_contents = get_feed_contents(feed_url)
-
-    feed_manager = FeedManager()
-    feed_manager.update(feed_name, feed_url, feed_contents)
-    article = feed_manager.get_current_article()
-
-    ten_second_loop(main_view, arguments.timer, feed_manager)
+    ten_second_loop(main_view, arguments.timer, create_feed_manager(arguments.url[0]))
 
 
 if __name__ == "__main__":
