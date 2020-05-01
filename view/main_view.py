@@ -35,6 +35,7 @@ class MainView(tk.Frame):
             self.fcolor = list_set['fg']
         if 'font' in list_set:
             self.font_var = list_set['font']
+
         self.content_label = tk.Label(self, cursor="gumby", fg= self.fcolor, bg= self.bcolor, font= self.font_var)
         self.pack()
         self.build_window()
