@@ -8,14 +8,19 @@ fm_logger = logger('model.feed_manager')
 
 
 class FeedManagerEmptyException(Exception):
-    """"""
+    """Exception when the FeedManager is empty"""
     pass
 
 
 class FeedNotFoundException(Exception):
-    """"""
+    """Exception for when the feed requested does not exist"""
     pass
 
+"""
+This module holds all the feeds which will be rendered in the GUI. It manages feed creation and updating. Also it
+alternates articles between the feeds so one feed's are not shown back-to-back if there are more than 1 feed to choose 
+from.
+"""
 
 class FeedManager:
     """
@@ -30,7 +35,7 @@ class FeedManager:
         self.__list_of_feeds: List[Feed] = list()
         self.__current_feed_index: int = -1
 
-    def get_feed(self, feed_name: str) -> Feed:
+    def __get_feed(self, feed_name: str) -> Feed:
         """Gets the feed which matches the given name. May return None if match could not be found."""
 
         fm_logger.debug('FeedManager.__get_feed')
@@ -53,12 +58,12 @@ class FeedManager:
             return False
 
         try:
-            feed: Feed = self.get_feed(feed_name)
+            feed: Feed = self.__get_feed(feed_name)
+            feed.add_new(new_article)
+            return True
+
         except FeedNotFoundException:
             return False
-
-        feed.add_new(new_article)
-        return True
 
     def contains(self, article: Article, feed_name: str) -> bool:
         """Determines whether a feed with the given name and article exist"""
@@ -76,7 +81,7 @@ class FeedManager:
         return False
 
     def get_current_article(self) -> Article:
-        # Gets the next article to be displayed.
+        """Gets the next article to be displayed."""
 
         fm_logger.debug('FeedManager.get_current_article')
 
@@ -87,7 +92,7 @@ class FeedManager:
         return current_feed.get_current_article()
 
     def get_next_article(self) -> Article:
-        # Gets the next article to be displayed.
+        """Gets the next article to be displayed."""
 
         fm_logger.debug('FeedManager.get_next_article')
 
@@ -105,7 +110,7 @@ class FeedManager:
             return current_feed.get_next_article()
 
     def is_empty(self) -> bool:
-        # Determines whether the model has any feeds.
+        """Determines whether the model has any feeds."""
 
         fm_logger.debug('FeedManager.is_empty')
 
@@ -115,13 +120,15 @@ class FeedManager:
         return False
 
     def remove(self, feed_name: str) -> bool:
-        # Removes the feed from the manager and updates the current feed if another exists.
-        # Returns false if no feed matched the name given.
+        """
+        Removes the feed from the manager and updates the current feed if another exists.
+        Returns false if no feed matched the name given.
+        """
 
         fm_logger.debug('FeedManager.remove')
 
         try:
-            matched_feed: Feed = self.get_feed(feed_name)
+            matched_feed: Feed = self.__get_feed(feed_name)
         except FeedNotFoundException:
             return False
 
@@ -156,7 +163,7 @@ class FeedManager:
             return True
 
     def size(self) -> int:
-        # Gets the number of feeds currently held
+        """Gets the number of feeds currently held"""
 
         fm_logger.debug('FeedManager.size')
 
@@ -174,13 +181,12 @@ class FeedManager:
             # DO not add the articles if the list of articles given is empty
             return
 
-        for feed in self.__list_of_feeds:
-            if feed.name == feed_name:
-                feed.update(feed_contents)
-                return
+        try:
+            feed = self.__get_feed(feed_name)
+            feed.update(feed_contents)
 
-        if self.is_empty():
-            self.__current_feed_index = 0
+        except:
+            if self.is_empty():
+                self.__current_feed_index = 0
+            self.__list_of_feeds.append(Feed(feed_name, feed_link, feed_contents))
 
-        new_feed = Feed(feed_name, feed_link, feed_contents)
-        self.__list_of_feeds.append(new_feed)
