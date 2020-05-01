@@ -57,9 +57,10 @@ class MainView(tk.Frame):
             self.font_color.add_command(label=c, command=lambda c=c:
                                         self.change_window('fg', c))
 
-        for f in fonts:
-            self.font_menu.add_command(label=f, command=lambda f=f:
-                                       self.change_window('font', f))
+        for font in fonts:
+            font_size = 'times ' + font
+            self.font_menu.add_command(label=font, command=lambda size=font_size:
+                                       self.change_window('font', size))
 
         self.menubar.add_cascade(label='Background color', menu=self.dropdown_menu)
         self.menubar.add_cascade(label='Font size', menu=self.font_menu)
