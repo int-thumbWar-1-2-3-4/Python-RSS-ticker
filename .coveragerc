@@ -1,4 +1,5 @@
 [run]
+
 branch = true
 cover_pylib = false
 omit =
@@ -7,6 +8,12 @@ omit =
     # omit everything in /usr
     /usr/*
 
+[report]
+
+exclude_lines =
+    if __name__ == .__main__.:
+
 [html]
+
 title = Python RSS Ticker Coverage Report
 directory = Coverage Report

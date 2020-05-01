@@ -42,9 +42,9 @@ class MainView(tk.Frame):
 
         color = ["red", "green", "blue", "yellow", "cyan", "magenta", "white",
                  "black"]
-        fonts = ['times 8', 'times 10', 'times 12', 'times 14', 'times 16',
-                 'times 18', 'times 20', 'times 24', 'times 26', 'times 28',
-                 'times 36', 'times 48']
+        fonts = ['8', '10', '12', '14', '16',
+                 '18', '20', '24', '26', '28',
+                 '36', '48']
 
         self.menubar = tk.Menu(self)
         self.dropdown_menu = tk.Menu(self.menubar, tearoff=0)
@@ -61,7 +61,7 @@ class MainView(tk.Frame):
             self.font_menu.add_command(label=f, command=lambda f=f:
                                        self.change_window('font', f))
 
-        self.menubar.add_cascade(label='bg color', menu=self.dropdown_menu)
+        self.menubar.add_cascade(label='Background color', menu=self.dropdown_menu)
         self.menubar.add_cascade(label='Font size', menu=self.font_menu)
         self.menubar.add_cascade(label='Font color', menu=self.font_color)
 
