@@ -2,11 +2,9 @@ import email
 from datetime import datetime
 
 import requests
-import validators
 
 from bs4 import BeautifulSoup
 from typing import List
-from validators import ValidationFailure
 from model.article import Article
 from controller.utilities import logger
 from model.feed import Feed

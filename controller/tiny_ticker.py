@@ -1,10 +1,9 @@
 """Controller.tiny_ticker."""
 import threading as th
 from typing import List
-
-from model.feed_manager import FeedManager
 from model.parser import get_feed_contents, get_feed_name
 from view.main_view import start_main_view
+from model.feed_manager import FeedManager
 from controller.utilities import logger, ticker_argument_parser
 
 
@@ -56,16 +55,13 @@ def main(main_view, arguments):
     """
     tt_logger.debug('main')
 
-    feed_url = arguments[0]
+    feed_url = arguments.url[0]
     feed_name = get_feed_name(feed_url)
     feed_contents = get_feed_contents(feed_url)
-
-    print(feed_contents)
 
     feed_manager = FeedManager()
     feed_manager.update(feed_name, feed_url, feed_contents)
     article = feed_manager.get_current_article()
-    main_view.display_entry(article.title, article.link)
 
     ten_second_loop(main_view, arguments.timer, feed_manager)
 
