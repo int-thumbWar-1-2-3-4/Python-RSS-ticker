@@ -17,7 +17,7 @@ class EmptyFeedException(Exception):
 
 class Feed:
 
-    def __init__(self, url: str, name: str, list_of_articles: List[Article]):
+    def __init__(self, name: str, url: str, list_of_articles: List[Article]):
         # Will not create with empty list
 
         f_logger.debug('Feed.__init__')

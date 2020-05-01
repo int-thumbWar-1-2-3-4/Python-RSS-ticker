@@ -186,10 +186,7 @@ class FeedManager:
             feed.update(feed_contents)
 
         except:
-            print("Feed: \"%s\" could not be found" % feed_name)
             if self.is_empty():
                 self.__current_feed_index = 0
-
-            new_feed = Feed(feed_name, feed_link, feed_contents)
-            self.__list_of_feeds.append(new_feed)
+            self.__list_of_feeds.append(Feed(feed_name, feed_link, feed_contents))
 

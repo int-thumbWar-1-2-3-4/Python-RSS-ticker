@@ -207,7 +207,7 @@ class FeedManagerTestCase(unittest.TestCase):
         article_2_1 = Article("Article 2_1", "Link 2_1", (datetime.now() - timedelta(days=5)))  # 5 days ago
         article_2_2 = Article("Article 2_2", "Link 2_2", (datetime.now() - timedelta(days=6)))  # 6 days ago
         article_2_3 = Article("Article 2_3", "Link 2_3", (datetime.now() - timedelta(days=7)))  # 7 days ago
-        test_feed_manager.update(test_feed_2_name, test_feed_1_link, [article_2_1, article_2_2, article_2_3])
+        test_feed_manager.update(test_feed_2_name, test_feed_2_link, [article_2_1, article_2_2, article_2_3])
 
         self.assertEqual(test_feed_manager.get_next_article(), article_2_2)  # Should rotate between feeds,
         # even though article_2_1 is older than all of the articles in test feed 1
@@ -219,7 +219,9 @@ class FeedManagerTestCase(unittest.TestCase):
 
         article_1_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))  # 4 days ago
         article_list = [article_1_1, article_1_2, article_1_4]
-        test_feed_manager.update(test_feed_2_name, test_feed_2_link, article_list)
+        test_feed_manager.update(test_feed_1_name, test_feed_1_link, article_list)
+
+        print(test_feed_manager.get_current_article().title)
 
         #                                                   If current article in feed no longer exists after update,
         self.assertEqual(test_feed_manager.get_current_article(), article_1_1)  # feed should restart at newest
