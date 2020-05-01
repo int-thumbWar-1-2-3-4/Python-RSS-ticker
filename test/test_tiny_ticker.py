@@ -26,26 +26,26 @@ class TestTinyTicker(unittest.TestCase):
         cls.test_view.destroy()
 
     @patch('controller.tiny_ticker.ticker_argument_parser')
-    @patch('controller.tiny_ticker.parse')
-    def test_call_ticker_argument_parser(self, mock_arg_parser, mock_parser):
+    def test_call_ticker_argument_parser(self, mock_arg_parser):
         """Unit test for controller.tiny_ticker.main. Tests the call to the argument parser."""
-        main(self.test_view)
+        test_url = 'http://www.fakeurl.com/rss'
+        main(self.test_view, [test_url])
         mock_arg_parser.assert_called()
 
-    @patch('controller.tiny_ticker.parse')
+    @patch('model.parser')
     def test_call_parse(self, mock_parser):
         """Unit test for controller.tiny_ticker.main. Tests the call to the model's feedmanager.parse."""
-        fake_url = ['www.fakeurl.com']
-        sys.argv = ['test', '--url', fake_url[0]]
+        test_url = ['http://www.fakeurl.com/rss']
+        sys.argv = ['test', '--url', test_url[0]]
 
-        main(self.test_view)
-        mock_parser.assert_called_with(fake_url[0])
+        main(self.test_view, test_url[0])
+        mock_parser.assert_called_with(test_url[0])
 
     @patch('controller.tiny_ticker.ten_second_loop')
-    @patch('controller.tiny_ticker.parse')
-    def test_call_ten_second_loop(self, mock_loop, mock_parser):
+    def test_call_ten_second_loop(self, mock_loop):
         """Unit test for controller.tiny_ticker.main. Tests the call to the ten second loop."""
-        main(self.test_view)
-        mock_loop.assert_called_with('www.fakeurl.com',)
+        test_url = ['http://www.fakeurl.com/rss']
+        main(self.test_view, test_url)
+        mock_loop.assert_called_with('www.fakeurl.com/rss')
 
 

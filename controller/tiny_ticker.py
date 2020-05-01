@@ -1,5 +1,6 @@
 """Controller.tiny_ticker."""
 import threading as th
+from typing import List
 
 from model.feed_manager import FeedManager
 from model.parser import get_feed_contents, get_feed_name
@@ -48,15 +49,14 @@ def call_switch_display(main_view, feed_manager: FeedManager):
     main_view.display_entry(article.title, article.link)
 
 
-def main(main_view):
+def main(main_view, arguments):
     """Controller.tiny_ticker.main gathers command-line args, calls the model, initiates the title loop.
     Arguments:
         mainView -- an instance of model.MainView
     """
     tt_logger.debug('main')
 
-    arguments = ticker_argument_parser()
-    feed_url = arguments.url[0]
+    feed_url = arguments[0]
     feed_name = get_feed_name(feed_url)
     feed_contents = get_feed_contents(feed_url)
 
@@ -73,8 +73,7 @@ def main(main_view):
 if __name__ == "__main__":
     tt_logger.debug('__main__')
     main_view = start_main_view()
-
-    main(main_view)
+    main(main_view, ticker_argument_parser())
 
     # KEEP THIS LAST
     main_view.mainloop()
