@@ -2,14 +2,16 @@ from typing import List
 from model.article import Article
 from controller.utilities import logger
 
-
 f_logger = logger('model.feed')
 
+"""
+This class should ONLY be automatically created by the feed_manager this prevents unnecessary creation of large object. 
+"""
 
 class Feed:
     # A collection of articles from a single feed.
 
-    def __init__(self, name: str, list_of_articles: List[Article]):
+    def __init__(self, url: str, name: str, list_of_articles: List[Article]):
         # Will not create with empty list
 
         f_logger.debug('Feed.__init__')
@@ -18,6 +20,7 @@ class Feed:
             # TODO: Make this create an exception if the list is empty
             pass
 
+        self.url: str = url
         self.name: str = name
 
         self.__list_of_articles: List[Article] = list_of_articles
@@ -116,4 +119,3 @@ class Feed:
         else:
             # Default to newest if the current article is no longer in the list.
             self.__current_article_index = 0
-
