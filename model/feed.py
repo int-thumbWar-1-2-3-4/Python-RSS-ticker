@@ -2,22 +2,31 @@ from typing import List
 from model.article import Article
 from controller.utilities import logger
 
-
 f_logger = logger('model.feed')
+
+"""
+A collection of articles from a single feed. It automatically sorts its feeds by date published
+This class should ONLY be automatically created by the feed_manager this prevents unnecessary creation of large object. 
+"""
+
+
+class EmptyFeedException(Exception):
+    """Exception if the feed is empty and cannot be created"""
+    pass
 
 
 class Feed:
-    # A collection of articles from a single feed.
 
-    def __init__(self, name: str, list_of_articles: List[Article]):
+    def __init__(self, name: str, url: str, list_of_articles: List[Article]):
         # Will not create with empty list
 
         f_logger.debug('Feed.__init__')
 
         if len(list_of_articles) == 0:
-            # TODO: Make this create an exception if the list is empty
-            pass
+            raise EmptyFeedException("The list_of_articles given is empty. " +
+                                     "The feed: \"%s\" could not be created." % name)
 
+        self.url: str = url
         self.name: str = name
 
         self.__list_of_articles: List[Article] = list_of_articles
@@ -26,7 +35,7 @@ class Feed:
         self.__current_article_index: int = 0
 
     def __sort(self):
-        # Sorts all of the articles on this feed from newest to oldest. Uses the insertion sort process.
+        """Sorts all of the articles on this feed from newest to oldest. Uses the insertion sort process."""
 
         #   Refactored from code at:
         #   https://runestone.academy/runestone/books/published/pythonds/SortSearch/TheInsertionSort.html
@@ -45,9 +54,11 @@ class Feed:
             self.__list_of_articles[position] = current_article
 
     def add_new(self, new_article: Article) -> bool:
-        # Adds a new article.py to the feed and sorts the feed after. Will not add a duplicate.
-        #        Current article.py will set to the new one.
-        #        Returns True is added, False otherwise.
+        """
+        Adds a new article.py to the feed and sorts the feed after. Will not add a duplicate.
+                Current article.py will set to the new one.
+                Returns True is added, False otherwise.
+        """
 
         f_logger.debug('Feed.add_new')
 
@@ -59,7 +70,7 @@ class Feed:
         return True
 
     def contains(self, article: Article) -> bool:
-        # Determines whether the given article's title matches one already in the feed.
+        """Determines whether the given article's title matches one already in the feed."""
 
         f_logger.debug('Feed.contains')
 
@@ -70,16 +81,18 @@ class Feed:
         return False
 
     def get_current_article(self) -> Article:
-        # Gets the current article for this feed.
+        """Gets the current article for this feed."""
 
         f_logger.debug('Feed.get_current_article')
 
         return self.__list_of_articles[self.__current_article_index]
 
     def get_next_article(self) -> Article:
-        # Gets the next article in this feed's order after the current one.
-        #           Wraps from end back to start.
-        #           Returns None if empty. Returns the current article if there is only 1 article.
+        """
+        Gets the next article in this feed's order after the current one.
+                  Wraps from end back to start.
+                  Returns None if empty. Returns the current article if there is only 1 article.
+        """
 
         f_logger.debug('Feed.get_next_article')
 
@@ -95,7 +108,7 @@ class Feed:
         return self.get_current_article()
 
     def update(self, new_list_of_articles: List[Article]):
-        # Updates the articles contained in this feed to the new one. Will not update if new list is empty
+        """"Updates the articles contained in this feed to the new one. Will not update if new list is empty"""
 
         f_logger.debug('Feed.update')
 
@@ -116,4 +129,3 @@ class Feed:
         else:
             # Default to newest if the current article is no longer in the list.
             self.__current_article_index = 0
-
