@@ -18,25 +18,25 @@ atom v1.0 specs can be found here: https://support.google.com/merchants/answer/1
 
 
 class InvalidAtomException(Exception):
-
     """Exception raised if an Atom feed is not correctly formatted."""
+
     pass
 
 
 class InvalidRssException(Exception):
-
     """Exception raised if an Rss feed is not correctly formatted."""
+
     pass
 
 
 class InvalidUrlException(Exception):
-
     """Exception raised if url is not formatted correctly."""
+
     pass
 
 
 def get_multi_feed_contents(urls: List[str]) -> List[Feed]:
-    """ Parse one or multiple feeds' contents from the files at the urls provided. Files must be .rss, .html, or .xml
+    """ Parse one or multiple feeds' contents from the files at the urls provided. Files must be .rss, .html, or .xml.
     """
 
     p_logger.debug('get_multi_feed_contents')
@@ -71,7 +71,6 @@ def get_feed_contents(url: str) -> List[Article]:
 
 def get_feed_name(url: str) -> str:
     """Uses BeautifulSoup to retrieve the name of an rss or atom feed file at the url provided."""
-
     # TODO: Find some way to combine get_feed_name with _parse_rss so BeautifulSoup doesnt have to be created twice
 
     p_logger.debug('get_feed_name')
@@ -161,8 +160,7 @@ def _parse_atom(bs_feed: BeautifulSoup) -> List[Article]:
 
 
 def _check_url(url: str):
-    """
-    Raises an exception if a url string is formatted incorrectly. It is not intended to be comprehensive.
+    """ Raises an exception if a url string is formatted incorrectly. It is not intended to be comprehensive.
     It filters some common issues that might prevent parsing, while explaining to the user what the issue might be.
     """
 
