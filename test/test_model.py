@@ -2,8 +2,8 @@ import os
 import sys
 import unittest
 from model import parser
-from datetime import timedelta, date, datetime
-from unittest.mock import patch, Mock
+from datetime import timedelta, datetime
+from unittest.mock import patch
 from model.feed_manager import *
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -22,7 +22,7 @@ class FeedTestCase(unittest.TestCase):
 
     def test_feed_add_new(self):
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago
-        feed = Feed("Feed Name", [article_1])
+        feed = Feed("Feed Name", "https://cyber.harvard.edu/rss/examples/rss2sample.xml", [article_1])
 
         self.assertFalse(feed.add_new(article_1))  # Should not add duplicate
         self.assertEqual(feed.get_current_article(), article_1)
@@ -34,7 +34,7 @@ class FeedTestCase(unittest.TestCase):
     def test_feed_contains(self):
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
 
-        test_feed = Feed("Test Feed", [article_1])
+        test_feed = Feed("Test Feed", "https://cyber.harvard.edu/rss/examples/rss2sample.xml", [article_1])
 
         self.assertTrue(test_feed.contains(article_1))
 
@@ -51,11 +51,11 @@ class FeedTestCase(unittest.TestCase):
 
     def test_feed_get_current_article(self):
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago
-        test_feed = Feed("Test Feed", [article_1])
+        test_feed = Feed("Test Feed", "https://cyber.harvard.edu/rss/examples/rss2sample.xml", [article_1])
         self.assertEqual(test_feed.get_next_article(), article_1)  # Should stay at first entry since it only contains 1
 
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))  # 2 days ago
-        test_feed = Feed("Test Feed", [article_1, article_2])
+        test_feed = Feed("Test Feed", "https://cyber.harvard.edu/rss/examples/rss2sample.xml", [article_1, article_2])
 
         self.assertEqual(test_feed.get_current_article(), article_1)  # Should start to first entry
 
@@ -75,11 +75,11 @@ class FeedTestCase(unittest.TestCase):
 
     def test_feed_get_next_article(self):
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
-        test_feed = Feed("Test Feed", [article_1])
+        test_feed = Feed("Test Feed", "https://cyber.harvard.edu/rss/examples/rss2sample.xml", [article_1])
         self.assertEqual(test_feed.get_next_article(), article_1)  # Should stay at first entry since it only contains 1
 
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))  # 2 days ago
-        test_feed = Feed("Test Feed", [article_1, article_2])
+        test_feed = Feed("Test Feed", "https://cyber.harvard.edu/rss/examples/rss2sample.xml", [article_1, article_2])
 
         self.assertEqual(test_feed.get_next_article(), article_2)
 
@@ -102,7 +102,8 @@ class FeedTestCase(unittest.TestCase):
         article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))  # 3 days ago
 
         feed_name = "Feed Name"
-        feed = Feed(feed_name, [article_1, article_2, article_3])
+        feed_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
+        feed = Feed(feed_name, feed_link, [article_1, article_2, article_3])
 
         self.assertEqual(feed.get_current_article(), article_1)
 
@@ -131,6 +132,7 @@ class FeedManagerTestCase(unittest.TestCase):
     def test_feed_manager_add(self):
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
         test_feed_name = "Test Feed 1"
+        test_feed_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
         test_feed_manager = FeedManager()
 
         boolean = test_feed_manager.add(article_1, test_feed_name)
@@ -138,7 +140,7 @@ class FeedManagerTestCase(unittest.TestCase):
 
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))  # 2 days ago
         article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))  # 3 days ago
-        test_feed_manager.update([article_1, article_2, article_3], test_feed_name)
+        test_feed_manager.update(test_feed_name, test_feed_link, [article_1, article_2, article_3])
 
         self.assertFalse(test_feed_manager.add(article_2, "Test Feed 2"))
 
@@ -149,6 +151,7 @@ class FeedManagerTestCase(unittest.TestCase):
     def test_feed_manager_contains(self):
         test_feed_manager = FeedManager()
         test_feed_name = "Test Feed"
+        test_feed_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
 
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))  # 2 days ago
@@ -157,7 +160,7 @@ class FeedManagerTestCase(unittest.TestCase):
         self.assertFalse(
             test_feed_manager.contains(article_1, test_feed_name))  # Feed named "Test Feed" not created yet.
 
-        test_feed_manager.update([article_1, article_2, article_3], test_feed_name)
+        test_feed_manager.update(test_feed_name, test_feed_link, [article_1, article_2, article_3])
 
         self.assertTrue(test_feed_manager.contains(article_1, test_feed_name))
 
@@ -167,40 +170,43 @@ class FeedManagerTestCase(unittest.TestCase):
 
     def test_feed_manager_get_current_article(self):
         test_feed_manager = FeedManager()
-        test_feed_1_name = "Test Feed 1"
+        test_feed_name = "Test Feed 1"
+        test_feed_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
 
         article_1_1 = Article("Article 1_1", "Link 1_1",
                               (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
         article_1_2 = Article("Article 1_2", "Link 1_2", (datetime.now() - timedelta(days=2)))  # 2 days ago
         article_1_3 = Article("Article 1_3", "Link 1_3", (datetime.now() - timedelta(days=3)))  # 3 days ago
-        test_feed_manager.update([article_1_1, article_1_2, article_1_3], test_feed_1_name)
+        test_feed_manager.update(test_feed_name, test_feed_link, [article_1_1, article_1_2, article_1_3])
 
         #                                                   If current article in feed no longer exists after update,
         self.assertEqual(test_feed_manager.get_current_article(), article_1_1)  # feed should restart at newest
 
-        test_feed_manager.remove(test_feed_1_name)
+        test_feed_manager.remove(test_feed_name)
         # tes_feed_manager should be empty now
 
         self.assertTrue(test_feed_manager.is_empty())
-        self.assertRaises(FeedManagerEmptyError, test_feed_manager.get_current_article)
+        self.assertRaises(FeedManagerEmptyException, test_feed_manager.get_current_article)
 
     def test_feed_manager_get_next_article(self):
         test_feed_manager = FeedManager()
         test_feed_1_name = "Test Feed 1"
+        test_feed_1_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
 
         article_1_1 = Article("Article 1_1", "Link 1_1",
                               (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
         article_1_2 = Article("Article 1_2", "Link 1_2", (datetime.now() - timedelta(days=2)))  # 2 days ago
         article_1_3 = Article("Article 1_3", "Link 1_3", (datetime.now() - timedelta(days=3)))  # 3 days ago
-        test_feed_manager.update([article_1_1, article_1_2, article_1_3], test_feed_1_name)
+        test_feed_manager.update(test_feed_1_name, test_feed_1_link, [article_1_1, article_1_2, article_1_3])
 
         self.assertEqual(test_feed_manager.get_next_article(), article_1_2)  # If only 1 feed, move to next within feed
 
         test_feed_2_name = "Test Feed 2"
+        test_feed_2_link = "https://www.theguardian.com/world/rss"
         article_2_1 = Article("Article 2_1", "Link 2_1", (datetime.now() - timedelta(days=5)))  # 5 days ago
         article_2_2 = Article("Article 2_2", "Link 2_2", (datetime.now() - timedelta(days=6)))  # 6 days ago
         article_2_3 = Article("Article 2_3", "Link 2_3", (datetime.now() - timedelta(days=7)))  # 7 days ago
-        test_feed_manager.update([article_2_1, article_2_2, article_2_3], test_feed_2_name)
+        test_feed_manager.update(test_feed_2_name, test_feed_1_link, [article_2_1, article_2_2, article_2_3])
 
         self.assertEqual(test_feed_manager.get_next_article(), article_2_2)  # Should rotate between feeds,
         # even though article_2_1 is older than all of the articles in test feed 1
@@ -212,7 +218,7 @@ class FeedManagerTestCase(unittest.TestCase):
 
         article_1_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))  # 4 days ago
         article_list = [article_1_1, article_1_2, article_1_4]
-        test_feed_manager.update(article_list, test_feed_1_name)
+        test_feed_manager.update(test_feed_2_name, test_feed_2_link, article_list)
 
         #                                                   If current article in feed no longer exists after update,
         self.assertEqual(test_feed_manager.get_current_article(), article_1_1)  # feed should restart at newest
@@ -221,11 +227,12 @@ class FeedManagerTestCase(unittest.TestCase):
         test_feed_manager.remove(test_feed_2_name)
         # tes_feed_manager should be empty now
 
-        self.assertRaises(FeedManagerEmptyError, test_feed_manager.get_next_article)
+        self.assertRaises(FeedManagerEmptyException, test_feed_manager.get_next_article)
 
     def test_feed_manager_is_empty(self):
         test_feed_manager = FeedManager()
         test_feed_name = "Test Feed"
+        test_feed_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
 
         self.assertTrue(test_feed_manager.is_empty())
 
@@ -233,33 +240,37 @@ class FeedManagerTestCase(unittest.TestCase):
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))  # 2 days ago
         article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))  # 3 days ago
         article_list = [article_1, article_2, article_3]
-        test_feed_manager.update(article_list, test_feed_name)
+        test_feed_manager.update(test_feed_name, test_feed_link, article_list)
 
         self.assertFalse(test_feed_manager.is_empty())
 
     def test_feed_manager_remove(self):
         test_feed_1_name = "Test Feed 1"
+        test_feed_1_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
+
         article_1_1 = Article("Article 1_1", "Link 1_1",
                               (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
         article_1_2 = Article("Article 1_2", "Link 1_2", (datetime.now() - timedelta(days=2)))  # 2 days ago
         article_1_3 = Article("Article 1_3", "Link 1_3", (datetime.now() - timedelta(days=3)))  # 3 days ago
 
         test_feed_manager = FeedManager()
-        test_feed_manager.update([article_1_1, article_1_2, article_1_3], test_feed_1_name)
+        test_feed_manager.update(test_feed_1_name, test_feed_1_link, [article_1_1, article_1_2, article_1_3])
 
         test_feed_2_name = "Test Feed 2"
+        test_feed_2_link = "https://www.theguardian.com/world/rss"
         self.assertFalse(test_feed_manager.remove(test_feed_2_name))
 
         article_2_1 = Article("Article 2_1", "Link 2_1", (datetime.now() - timedelta(days=5)))  # 5 days ago
         article_2_2 = Article("Article 2_2", "Link 2_2", (datetime.now() - timedelta(days=6)))  # 6 days ago
         article_2_3 = Article("Article 2_3", "Link 2_3", (datetime.now() - timedelta(days=7)))  # 7 days ago
-        test_feed_manager.update([article_2_1, article_2_2, article_2_3], test_feed_2_name)
+        test_feed_manager.update(test_feed_2_name, test_feed_2_link, [article_2_1, article_2_2, article_2_3])
 
         test_feed_3_name = "Test Feed 3"
+        test_feed_3_link = "https://www.theguardian.com/us/rss"
         article_3_1 = Article("Article 3_1", "Link 3_1", (datetime.now() - timedelta(days=5)))  # 5 days ago
         article_3_2 = Article("Article 3_2", "Link 3_2", (datetime.now() - timedelta(days=6)))  # 6 days ago
         article_3_3 = Article("Article 3_3", "Link 3_3", (datetime.now() - timedelta(days=7)))  # 7 days ago
-        test_feed_manager.update([article_3_1, article_3_2, article_3_3], test_feed_3_name)
+        test_feed_manager.update(test_feed_3_name, test_feed_3_link, [article_3_1, article_3_2, article_3_3])
 
         self.assertEqual(test_feed_manager.get_next_article(), article_2_2)
         self.assertEqual(test_feed_manager.get_next_article(), article_3_2)
@@ -281,7 +292,10 @@ class FeedManagerTestCase(unittest.TestCase):
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))  # 2 days ago
         article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))  # 3 days ago
         article_list = [article_1, article_2, article_3]
-        test_feed_manager.update(article_list, "Test Feed")
+
+        test_feed_1_name = "Test Feed 1"
+        test_feed_1_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
+        test_feed_manager.update(test_feed_1_name, test_feed_1_link, article_list)
 
         self.assertEqual(test_feed_manager.size(), 1)
 
@@ -297,34 +311,37 @@ class FeedManagerTestCase(unittest.TestCase):
         article_4 = Article("Article 4", "Link 4", (datetime.now() - timedelta(days=4)))  # 4 days ago
 
         test_feed_1_name = "Test Feed 1"
+        test_feed_1_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
+        article_list = [article_2, article_3, article_4]
+
         test_feed_manager = FeedManager()
-        test_feed_manager.update([article_1, article_2, article_3], test_feed_1_name)
+        test_feed_manager.update(test_feed_1_name, test_feed_1_link, article_list)
 
         self.assertEqual(test_feed_manager.size(), 1)
 
         article_list = [article_2, article_3, article_4]
-        test_feed_manager.update(article_list, test_feed_1_name)
+        test_feed_manager.update(test_feed_1_name, test_feed_1_link, article_list)
 
         self.assertEqual(test_feed_manager.size(), 1)
 
         test_feed_2_name = "Test Feed 2"
-        test_feed_manager.update([article_1, article_3, article_4], test_feed_2_name)
+        test_feed_2_link = "https://www.theguardian.com/world/rss"
+        article_list = [article_1, article_3, article_4]
+        test_feed_manager.update(test_feed_2_name, test_feed_2_link, article_list)
 
         self.assertEqual(test_feed_manager.size(), 2)
 
         article_list = [article_1, article_2, article_4]
-        test_feed_manager.update(article_list, test_feed_2_name)
+        test_feed_manager.update(test_feed_2_name, test_feed_2_link, article_list)
 
         self.assertEqual(test_feed_manager.size(), 2)
-
-        test_feed_manager.update([], test_feed_1_name)
 
 
 # @patch('parser.bs4.BeautifulSoup')
 class TestParser(unittest.TestCase):
 
-    def test_get_feed_contents(self):
-        self.assertTrue(True)
+    def test_get_multi_feed_contents(self):
+        pass
 
     @patch('model.parser.requests.get')
     @patch('model.parser.parser_type')
@@ -372,34 +389,16 @@ class TestParser(unittest.TestCase):
         test_not = ''
         test_fail = 'www.thistestshallnotpass.com'
 
-        result = parser.__check_url(test_xml)
+        result = parser._check_url(test_xml)
         self.assertTrue(result)
-        result = parser.__check_url(test_rss)
+        result = parser._check_url(test_rss)
         self.assertTrue(result)
-        result = parser.__check_url(test_tml)
+        result = parser._check_url(test_tml)
         self.assertTrue(result)
-        result = parser.__check_url(test_not)
+        result = parser._check_url(test_not)
         self.assertFalse(result)
-        result = parser.__check_url(test_fail)
+        result = parser._check_url(test_fail)
         self.assertFalse(result)
-
-    def test_parser_type(self):
-        pass
-
-    def test_remove_duplicates(self):
-        test_input_one = ['a','a','b','c','d','e','b','a','f']
-        expected_one = ['a','b','c','d','e','b','a','f']
-        test_imput_two = ['a','b','c','d','e','f']
-        test_imput_not = []
-
-        result = parser.__remove_duplicates(test_input_one)
-        self.assertEqual(result, expected_one)
-
-        result = parser.__remove_duplicates(test_imput_two)
-        self.assertEqual(result, test_imput_two)
-
-        result = parser.__remove_duplicates(test_imput_not)
-        self.assertEqual(result, [])
 
 
 if __name__ == '__main__':
