@@ -126,8 +126,8 @@ class TestMainView(unittest.TestCase):
         fake_link = 'www.virus.com'
 
         self.test_view.display_entry(fake_title, fake_link)
-        self.assertEqual(self.test_view.entry_title, fake_title)
-        self.assertEqual(self.test_view.entry_link, fake_link)
+        self.assertEqual(self.test_view.default_entry_title, fake_title)
+        self.assertEqual(self.test_view.default_entry_link, fake_link)
 
         self.test_view.content_label = PropertyMock()
         self.assertTrue(self.test_view.content_label.call().__setitem__('text', fake_title))

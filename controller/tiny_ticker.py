@@ -56,7 +56,8 @@ def main(main_view, arguments):
     """
     tt_logger.debug('main')
 
-    feed_url = arguments[0]
+    # feed_url = arguments[0]
+    feed_url = "https://www.theguardian.com/us/rss"
     feed_name = get_feed_name(feed_url)
     feed_contents = get_feed_contents(feed_url)
 

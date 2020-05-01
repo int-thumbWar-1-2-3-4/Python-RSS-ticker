@@ -15,21 +15,22 @@ class MainView(tk.Frame):
     and receives input from the controller and the user interface.
     """
 
-    entry_title = "Welcome to Tiny Ticker news feed"
-    entry_link = "https://github.com/int-thumbWar-1-2-3-4/Python-RSS-ticker"
-
     def __init__(self, master=None):
         """Constructor for view.main_view.MainView."""
+        super().__init__(master)
+
         mv_logger.debug('MainView.__init__')
 
-        super().__init__(master)
+        default_entry_title = "Welcome to Tiny Ticker news feed"
+        default_entry_link = "https://github.com/int-thumbWar-1-2-3-4/Python-RSS-ticker"
+
         self.master = master
         self.content_label = tk.Label(self, cursor="gumby")
+        self.display_entry(self.default_entry_title, self.default_entry_link)
 
-        self.pack()
         self.build_window()
-        self.display_entry(self.entry_title, self.entry_link)
         self.menu_bar()
+        self.pack()
 
     def menu_bar(self):
         """
@@ -92,12 +93,11 @@ class MainView(tk.Frame):
         self.winfo_toplevel().title("Tiny Ticker")
 
         self.content_label.pack(side="top")
-        self.content_label["text"] = self.entry_title
+        self.content_label["text"] = self.default_entry_title
         self.content_label.bind("<Button-1>",
                                 lambda event,
-                                content_label=self.entry_link:
-                                self.open_article(self.entry_link))
-        self.pack()
+                                content_label=self.default_entry_link:
+                                self.open_article(self.default_entry_link))
 
     def display_entry(self, entry_title: str, entry_link: str):
         """
@@ -112,10 +112,10 @@ class MainView(tk.Frame):
             entry_link -- a string that is the url for entry_title
         """
         mv_logger.debug('MainView.display_entry')
-        self.entry_title = entry_title
-        self.entry_link = entry_link
+        self.default_entry_title = entry_title
+        self.default_entry_link = entry_link
 
-        self.content_label["text"] = self.entry_title
+        self.content_label["text"] = self.default_entry_title
         self.content_label.update()
 
     def open_article(self, link):
