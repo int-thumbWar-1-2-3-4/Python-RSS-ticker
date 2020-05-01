@@ -8,7 +8,7 @@ from controller.utilities import logger, ticker_argument_parser
 
 
 tt_logger = logger('controller.tiny_ticker')
-
+arguments = ticker_argument_parser()
 
 def ten_second_loop(main_view, cycle, feed_manager: FeedManager):
     """
@@ -48,7 +48,7 @@ def call_switch_display(main_view, feed_manager: FeedManager):
     main_view.display_entry(article.title, article.link)
 
 
-def main(main_view, arguments):
+def main(main_view):
     """Controller.tiny_ticker.main gathers command-line args, calls the model, initiates the title loop.
     Arguments:
         mainView -- an instance of model.MainView
@@ -69,7 +69,7 @@ def main(main_view, arguments):
 if __name__ == "__main__":
     tt_logger.debug('__main__')
     main_view = start_main_view()
-    main(main_view, ticker_argument_parser())
+    main(main_view)
 
     # KEEP THIS LAST
     main_view.mainloop()
