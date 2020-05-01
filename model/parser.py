@@ -146,6 +146,8 @@ def _parse_rss(bs_feed: BeautifulSoup) -> List[Article]:
             continue
 
         # Convert the date from rfc822 (rss std format) to datetime
+        # The one line of code comes from:
+        # https://stackoverflow.com/questions/1568856/how-do-i-convert-rfc822-to-a-python-datetime-object
         date = datetime.utcfromtimestamp(email.utils.mktime_tz(email.utils.parsedate_tz(date)))
 
         feed_contents.append(Article(title, link, date))
