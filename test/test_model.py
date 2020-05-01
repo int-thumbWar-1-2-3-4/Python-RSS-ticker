@@ -221,8 +221,6 @@ class FeedManagerTestCase(unittest.TestCase):
         article_list = [article_1_1, article_1_2, article_1_4]
         test_feed_manager.update(test_feed_1_name, test_feed_1_link, article_list)
 
-        print(test_feed_manager.get_current_article().title)
-
         #                                                   If current article in feed no longer exists after update,
         self.assertEqual(test_feed_manager.get_current_article(), article_1_1)  # feed should restart at newest
 
