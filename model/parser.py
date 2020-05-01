@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 from typing import List
 from datetime import datetime
 from model.feed import Feed
-from email.utils import parsedate_tz
 from model.article import Article
 from controller.utilities import logger
 
@@ -20,23 +19,24 @@ atom v1.0 specs can be found here: https://support.google.com/merchants/answer/1
 
 class InvalidAtomException(Exception):
     """Exception raised if an Atom feed is not correctly formatted."""
+
     pass
 
 
 class InvalidRssException(Exception):
     """Exception raised if an Rss feed is not correctly formatted."""
+
     pass
 
 
 class InvalidUrlException(Exception):
-
     """Exception raised if url is not formatted correctly."""
+
     pass
 
 
 def get_multi_feed_contents(urls: List[str]) -> List[Feed]:
-    """
-    Parse one or multiple feeds' contents from the files at the urls provided. Files must be .rss, .html, or .xml
+    """ Parse one or multiple feeds' contents from the files at the urls provided. Files must be .rss, .html, or .xml.
     """
 
     p_logger.debug('get_multi_feed_contents')
@@ -50,7 +50,6 @@ def get_multi_feed_contents(urls: List[str]) -> List[Feed]:
 
 def get_feed_contents(url: str) -> List[Article]:
     """Uses BeautifulSoup to parse the contents an rss or atom feed file at the url provided."""
-
     p_logger.debug('get_feed_contents')
 
     try:
@@ -72,7 +71,6 @@ def get_feed_contents(url: str) -> List[Article]:
 
 def get_feed_name(url: str) -> str:
     """Uses BeautifulSoup to retrieve the name of an rss or atom feed file at the url provided."""
-
     # TODO: Find some way to combine get_feed_name with _parse_rss so BeautifulSoup doesnt have to be created twice
 
     p_logger.debug('get_feed_name')
@@ -96,7 +94,6 @@ def get_feed_name(url: str) -> str:
 
 def _parse_rss(bs_feed: BeautifulSoup) -> List[Article]:
     """Parses the data within BeautifulSoup into a single Feed object with 1 or more Articles."""
-
     p_logger.debug('_parse_rss')
 
     # Get the relevant meta about the feed itself (name & link)
@@ -172,7 +169,8 @@ def _check_url(url: str):
     if len(url) == 0:
         raise InvalidUrlException("This url is blank. Please indicate a valid url.")
 
-    if url.endswith("rss") or url.endswith("atom") or url.endswith("xml"):
+    if url.endswith("rss") or url.endswith("atom") or url.endswith("xml") or\
+       url.endswith("rss/") or url.endswith("atom/") or url.endswith("xml/"):
         # The url has a valid suffix, skip to validators.url(url)
         pass
     else:

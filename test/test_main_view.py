@@ -24,7 +24,7 @@ class TestMainView(unittest.TestCase):
         Tests the first line of code in this function.
         """
         expected_text = 'Tiny Ticker'
-        self.test_view.build_window()
+        self.test_view._build_window()
         self.assertTrue(self.test_view.winfo_toplevel().title, expected_text)
 
     def test_build_window_content_label(self):
@@ -36,11 +36,12 @@ class TestMainView(unittest.TestCase):
         with patch('view.main_view.tk.Label', new_callable=PropertyMock) as mock_label:
             root = tk.Tk()
             self.view = MainView(master=root)
-            self.view.build_window()
+            self.view._build_window()
             mock_label.assert_has_calls([
                 call().__setitem__('text', 'Welcome to Tiny Ticker news feed'),
                 call().pack(side="top"),
             ], any_order=True)
+
 
     def test_display_entry(self):
         """Unit test for view.main_view.Model.build_window."""
@@ -48,8 +49,8 @@ class TestMainView(unittest.TestCase):
         fake_link = 'www.virus.com'
 
         self.test_view.display_entry(fake_title, fake_link)
-        self.assertEqual(self.test_view.entry_title, fake_title)
-        self.assertEqual(self.test_view.entry_link, fake_link)
+        self.assertEqual(self.test_view.default_entry_title, fake_title)
+        self.assertEqual(self.test_view.default_entry_link, fake_link)
 
         self.test_view.content_label = PropertyMock()
         self.assertTrue(self.test_view.content_label.call().__setitem__('text', fake_title))
@@ -59,7 +60,7 @@ class TestMainView(unittest.TestCase):
         """Unit test for view.main_view.MainView.open_article."""
         test_link = 'www.goesnowhere.com'
 
-        self.test_view.open_article(test_link)
+        self.test_view._open_article(test_link)
         mock_open_new.assert_called_with(test_link)
 
     def test_change_windows_background(self):
@@ -68,7 +69,7 @@ class TestMainView(unittest.TestCase):
 
         Test background color change.
         """
-        self.test_view.change_window('bg', 'blue')
+        self.test_view._change_window('bg', 'blue')
         self.assertEqual(self.test_view.content_label['bg'], 'blue')
 
     def test_change_font_size(self):
@@ -77,7 +78,7 @@ class TestMainView(unittest.TestCase):
 
         Test font size change.
         """
-        self.test_view.change_window('font', '9')
+        self.test_view._change_window('font', '9')
         self.assertEqual(self.test_view.content_label['font'], '9')
 
     def test_change_font_color(self):
@@ -86,7 +87,7 @@ class TestMainView(unittest.TestCase):
 
         Test font color change.
         """
-        self.test_view.change_window('fg', 'red')
+        self.test_view._change_window('fg', 'red')
         self.assertEqual(self.test_view.content_label['fg'], 'red')
 
 
