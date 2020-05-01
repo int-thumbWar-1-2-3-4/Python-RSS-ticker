@@ -16,9 +16,12 @@ class EmptyFeedException(Exception):
 
 
 class Feed:
+    """
+    A single feed which automatically sorts its articles by published date from newest to oldest.
+    Will not create with empty list.
+    """
 
     def __init__(self, name: str, url: str, list_of_articles: List[Article]):
-        # Will not create with empty list
 
         f_logger.debug('Feed.__init__')
 

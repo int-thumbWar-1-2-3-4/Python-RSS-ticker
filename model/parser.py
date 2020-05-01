@@ -159,7 +159,6 @@ def _parse_rss(bs_feed: BeautifulSoup) -> List[Article]:
 
 
 def _parse_atom(bs_feed: BeautifulSoup) -> List[Article]:
-
     p_logger.debug('_parse_atom')
 
 #   TODO: Fill out the parser._parse_atom method

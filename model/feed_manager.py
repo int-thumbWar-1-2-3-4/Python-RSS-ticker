@@ -3,8 +3,13 @@ from model.feed import Feed
 from model.article import Article
 from controller.utilities import logger
 
-
 fm_logger = logger('model.feed_manager')
+
+"""
+This module holds all the feeds which will be rendered in the GUI. It manages feed creation and updating. Also it
+alternates articles between the feeds so one feed's are not shown back-to-back if there are more than 1 feed to choose 
+from.
+"""
 
 
 class FeedManagerEmptyException(Exception):
@@ -16,11 +21,6 @@ class FeedNotFoundException(Exception):
     """Exception for when the feed requested does not exist"""
     pass
 
-"""
-This module holds all the feeds which will be rendered in the GUI. It manages feed creation and updating. Also it
-alternates articles between the feeds so one feed's are not shown back-to-back if there are more than 1 feed to choose 
-from.
-"""
 
 class FeedManager:
     """
@@ -189,4 +189,3 @@ class FeedManager:
             if self.is_empty():
                 self.__current_feed_index = 0
             self.__list_of_feeds.append(Feed(feed_name, feed_link, feed_contents))
-
