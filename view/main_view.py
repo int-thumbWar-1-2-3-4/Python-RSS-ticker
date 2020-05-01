@@ -56,6 +56,10 @@ class MainView(tk.Frame):
         mv_logger.debug('MainView.display_entry')
 
         self.content_label["text"] = entry_title
+        self.content_label.unbind_all(self)
+        self.content_label.bind("<Button-1>",
+                                lambda event,
+                                       content_label=entry_title: self._open_article(entry_link))
         self.content_label.update()
 
     def _build_menu_bar(self):
