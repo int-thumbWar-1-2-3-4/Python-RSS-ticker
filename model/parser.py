@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 from typing import List
 from datetime import datetime
 from model.feed import Feed
-from email.utils import parsedate_tz
 from model.article import Article
 from controller.utilities import logger
 
@@ -19,11 +18,13 @@ atom v1.0 specs can be found here: https://support.google.com/merchants/answer/1
 
 
 class InvalidAtomException(Exception):
+
     """Exception raised if an Atom feed is not correctly formatted."""
     pass
 
 
 class InvalidRssException(Exception):
+
     """Exception raised if an Rss feed is not correctly formatted."""
     pass
 
@@ -35,8 +36,7 @@ class InvalidUrlException(Exception):
 
 
 def get_multi_feed_contents(urls: List[str]) -> List[Feed]:
-    """
-    Parse one or multiple feeds' contents from the files at the urls provided. Files must be .rss, .html, or .xml
+    """ Parse one or multiple feeds' contents from the files at the urls provided. Files must be .rss, .html, or .xml
     """
 
     p_logger.debug('get_multi_feed_contents')
@@ -50,7 +50,6 @@ def get_multi_feed_contents(urls: List[str]) -> List[Feed]:
 
 def get_feed_contents(url: str) -> List[Article]:
     """Uses BeautifulSoup to parse the contents an rss or atom feed file at the url provided."""
-
     p_logger.debug('get_feed_contents')
 
     try:
@@ -96,7 +95,6 @@ def get_feed_name(url: str) -> str:
 
 def _parse_rss(bs_feed: BeautifulSoup) -> List[Article]:
     """Parses the data within BeautifulSoup into a single Feed object with 1 or more Articles."""
-
     p_logger.debug('_parse_rss')
 
     # Get the relevant meta about the feed itself (name & link)
@@ -163,7 +161,8 @@ def _parse_atom(bs_feed: BeautifulSoup) -> List[Article]:
 
 
 def _check_url(url: str):
-    """ Raises an exception if a url string is formatted incorrectly. It is not intended to be comprehensive.
+    """
+    Raises an exception if a url string is formatted incorrectly. It is not intended to be comprehensive.
     It filters some common issues that might prevent parsing, while explaining to the user what the issue might be.
     """
 
