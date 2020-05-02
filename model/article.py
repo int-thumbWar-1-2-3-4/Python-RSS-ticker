@@ -10,7 +10,6 @@ class Article:
 
     def __init__(self, title: str, link: str, published_date: datetime):
         """Article.__init__."""
-
         a_logger.debug('Article.__init__')
         self.title = title
         self.link = link
