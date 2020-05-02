@@ -62,7 +62,6 @@ def get_feed_contents(url: str) -> List[Article]:
 
     if bs_feed.rss is not None:
         # If the top element in the xml is an rss element, parse the file as an rss feed
-        print(bs_feed)
         return _parse_rss(bs_feed)
 
     if bs_feed.feed is not None:
