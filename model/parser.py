@@ -37,7 +37,8 @@ class InvalidUrlException(Exception):
 
 
 def get_multi_feed_contents(urls: List[str]) -> List[Feed]:
-    """ Parse one or multiple feeds' contents from the files at the urls provided. Files must be .rss, .html, or .xml.
+    """
+    Parse one or multiple feeds' contents from the files at the urls provided. Files must be .rss, .html, or .xml.
     """
 
     p_logger.debug('get_multi_feed_contents')
@@ -51,7 +52,6 @@ def get_multi_feed_contents(urls: List[str]) -> List[Feed]:
 
 def get_feed_contents(url: str) -> List[Article]:
     """Uses BeautifulSoup to parse the contents an rss or atom feed file at the url provided."""
-
     p_logger.debug('get_feed_contents')
 
     try:
@@ -161,8 +161,7 @@ def _parse_atom(bs_feed: BeautifulSoup) -> List[Article]:
 
 
 def _check_url(url: str):
-    """
-    Raises an exception if a url string is formatted incorrectly. It is not intended to be comprehensive.
+    """ Raises an exception if a url string is formatted incorrectly. It is not intended to be comprehensive.
     It filters some common issues that might prevent parsing, while explaining to the user what the issue might be.
     """
 
