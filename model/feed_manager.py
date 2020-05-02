@@ -29,7 +29,6 @@ class FeedManager:
 
     def __init__(self):
         """FeedManager.__init__."""
-
         fm_logger.debug('FeedManager.__init__')
 
         self.__list_of_feeds: List[Feed] = list()
