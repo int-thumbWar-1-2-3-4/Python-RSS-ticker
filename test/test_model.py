@@ -1,9 +1,10 @@
 import os
 import sys
 import unittest
+from bs4 import BeautifulSoup
 from model import parser
 from datetime import timedelta, datetime
-from model.parser import InvalidUrlException, get_feed_contents, get_feed_name
+from model.parser import InvalidUrlException, InvalidRssException, get_feed_contents, get_feed_name
 from unittest.mock import patch
 from model.feed_manager import *
 
@@ -340,7 +341,7 @@ class FeedManagerTestCase(unittest.TestCase):
 
 class TestParser(unittest.TestCase):
 
-    def test_get_multi_feed_contents(self):
+    def test_get_multi_feed_contents_with_bad_url(self):
         with self.assertRaises(InvalidUrlException):
             parser.get_multi_feed_contents([])
 
@@ -356,11 +357,54 @@ class TestParser(unittest.TestCase):
         with self.assertRaises(InvalidUrlException):
             parser._check_url('')
 
-    def test_get_feed_contents(self):
+    def test_parse_rss_without_channel(self):
+        feed_with_no_channel = BeautifulSoup('''<?xml version="1.0" encoding="utf-8"?>
+            <?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/shared/bsp/xsl/rss/nolsol.xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+            </rss>''', 'lxml-xml')
+
+        with self.assertRaises(InvalidRssException):
+            parser._parse_rss(feed_with_no_channel)
+
+    def test_parse_rss_without_title(self):
+        feed_with_no_title = BeautifulSoup('''<?xml version="1.0" encoding="utf-8"?>
+            <?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/shared/bsp/xsl/rss/nolsol.xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+            <channel>
+                <description>BBC News - Home</description>
+            </channel>
+            </rss>''', 'lxml-xml')
+
+        with self.assertRaises(InvalidRssException):
+            parser._parse_rss(feed_with_no_title)
+
+    def test_parse_rss_without_link(self):
+        feed_with_no_link = BeautifulSoup('''<?xml version="1.0" encoding="utf-8"?>
+            <?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/shared/bsp/xsl/rss/nolsol.xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+            <channel>
+                <title>BBC News</title>
+                <description>BBC News - Home</description>
+            </channel>
+            </rss>''', 'lxml-xml')
+
+        with self.assertRaises(InvalidRssException):
+            parser._parse_rss(feed_with_no_link)
+
+    @patch('model.parser.requests.get')
+    @patch('model.parser.BeautifulSoup')
+    def test_get_feed_contents_without_item(self, mock_get, mock_bs):  
+        feed_with_no_item = ''' <?xml version="1.0" encoding="utf-8"?>
+            <?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/shared/bsp/xsl/rss/nolsol.xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+            </rss>'''
+
+        get_feed_contents.bs_feed = feed_with_no_item
+
+        with self.assertRaises(InvalidRssException):
+            get_feed_contents('http://feeds.bbci.co.uk/news/rss.xml')
+
+    def test_get_feed_contents_with_bad_imput(self):
         with self.assertRaises(InvalidUrlException):
             get_feed_contents('')
 
-    def test_get_feed_name(self):
+    def test_get_feed_name_with_bad_imput(self):
         with self.assertRaises(InvalidUrlException):
             get_feed_name('')
 

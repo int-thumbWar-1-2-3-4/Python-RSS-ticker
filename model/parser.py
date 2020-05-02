@@ -95,7 +95,6 @@ def get_feed_name(url: str) -> str:
 def _parse_rss(bs_feed: BeautifulSoup) -> List[Article]:
     """Parses the data within BeautifulSoup into a single Feed object with 1 or more Articles."""
     p_logger.debug('_parse_rss')
-
     # Get the relevant meta about the feed itself (name & link)
 
     if bs_feed.rss.channel is None:
