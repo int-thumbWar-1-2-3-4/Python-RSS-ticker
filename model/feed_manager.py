@@ -9,6 +9,7 @@ fm_logger = logger('model.feed_manager')
 
 class FeedManagerEmptyException(Exception):
     """Exception when the FeedManager is empty."""
+
     pass
 
 
@@ -36,7 +37,6 @@ class FeedManager:
 
     def __get_feed(self, feed_name: str) -> Feed:
         """Gets the feed which matches the given name. May return None if match could not be found."""
-
         fm_logger.debug('FeedManager.__get_feed')
 
         for feed in self.__list_of_feeds:
@@ -65,7 +65,7 @@ class FeedManager:
             return False
 
     def contains(self, article: Article, feed_name: str) -> bool:
-        """Determines whether a feed with the given name and article exist"""
+        """Determines whether a feed with the given name and article exist."""
 
         fm_logger.debug('FeedManager.contains')
 
@@ -92,7 +92,6 @@ class FeedManager:
 
     def get_next_article(self) -> Article:
         """Gets the next article to be displayed."""
-
         fm_logger.debug('FeedManager.get_next_article')
 
         if self.is_empty():
@@ -118,8 +117,7 @@ class FeedManager:
         return False
 
     def remove(self, feed_name: str) -> bool:
-        """
-        Removes the feed from the manager and updates the current feed if another exists.
+        """ Removes the feed from the manager and updates the current feed if another exists.
         Returns false if no feed matched the name given.
         """
 
@@ -162,13 +160,13 @@ class FeedManager:
 
     def size(self) -> int:
         """Gets the number of feeds currently held."""
-
         fm_logger.debug('FeedManager.size')
 
         return len(self.__list_of_feeds)
 
     def update(self, feed_name: str, feed_link: str, feed_contents: List[Article]):
-        """Creates a new Feed object if one doesnt already exist, or updates an existing feed wit the list given.
+        """
+        Creates a new Feed object if one doesnt already exist, or updates an existing feed wit the list given.
         Will not update if article list is empty.
         """
 
