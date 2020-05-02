@@ -340,7 +340,7 @@ class FeedManagerTestCase(unittest.TestCase):
 
 class TestParser(unittest.TestCase):
 
-    def test_get_multi_feed_contents(self):
+    def test_get_multi_feed_contents_with_bad_url(self):
         with self.assertRaises(InvalidUrlException):
             parser.get_multi_feed_contents([])
 
@@ -356,11 +356,11 @@ class TestParser(unittest.TestCase):
         with self.assertRaises(InvalidUrlException):
             parser._check_url('')
 
-    def test_get_feed_contents(self):
+    def test_get_feed_contents_with_bad_imput(self):
         with self.assertRaises(InvalidUrlException):
             get_feed_contents('')
 
-    def test_get_feed_name(self):
+    def test_get_feed_name_with_bad_imput(self):
         with self.assertRaises(InvalidUrlException):
             get_feed_name('')
 
