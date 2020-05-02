@@ -17,7 +17,7 @@ class TestMainView(unittest.TestCase):
     def tearDown(cls):
         cls.test_view.destroy()
 
-<<<<<<< HEAD
+
     def test_build_window_winfo_toplevel(self):
         """
         Unit test for view.main_view.Model.build_window.
@@ -28,8 +28,7 @@ class TestMainView(unittest.TestCase):
         self.test_view._build_window("test_title", "test_link")
         self.assertTrue(self.test_view.winfo_toplevel().title, expected_text)
 
-=======
->>>>>>> 3ec3d06b2ac0fa7e5eeb7dceb4ca3ec88dd8d4c7
+
     def test_build_window_content_label(self):
         """
         Unit test for view.main_view.Model.build_window.
@@ -39,11 +38,8 @@ class TestMainView(unittest.TestCase):
         with patch('view.main_view.tk.Label', new_callable=PropertyMock) as mock_label:
             root = tk.Tk()
             self.view = MainView(master=root)
-<<<<<<< HEAD
-            self.view._build_window("test_title", "test_link")
-=======
             self.view._build_window("Test Title", "https://github.com/int-thumbWar-1-2-3-4/Python-RSS-ticker")
->>>>>>> 3ec3d06b2ac0fa7e5eeb7dceb4ca3ec88dd8d4c7
+
             mock_label.assert_has_calls([
                 call().__setitem__('text', 'Welcome to Tiny Ticker news feed'),
                 call().pack(side="top"),
