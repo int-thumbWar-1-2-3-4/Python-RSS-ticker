@@ -11,13 +11,14 @@ This class should ONLY be automatically created by the feed_manager this prevent
 
 
 class EmptyFeedException(Exception):
-    """Exception if the feed is empty and cannot be created"""
+    """Exception if the feed is empty and cannot be created."""
     pass
 
 
 class Feed:
 
     def __init__(self, name: str, url: str, list_of_articles: List[Article]):
+        """Feed.__init__."""
         # Will not create with empty list
 
         f_logger.debug('Feed.__init__')
@@ -36,7 +37,6 @@ class Feed:
 
     def __sort(self):
         """Sorts all of the articles on this feed from newest to oldest. Uses the insertion sort process."""
-
         #   Refactored from code at:
         #   https://runestone.academy/runestone/books/published/pythonds/SortSearch/TheInsertionSort.html
 
@@ -71,7 +71,6 @@ class Feed:
 
     def contains(self, article: Article) -> bool:
         """Determines whether the given article's title matches one already in the feed."""
-
         f_logger.debug('Feed.contains')
 
         for list_article in self.__list_of_articles:
@@ -82,7 +81,6 @@ class Feed:
 
     def get_current_article(self) -> Article:
         """Gets the current article for this feed."""
-
         f_logger.debug('Feed.get_current_article')
 
         return self.__list_of_articles[self.__current_article_index]
@@ -108,7 +106,7 @@ class Feed:
         return self.get_current_article()
 
     def update(self, new_list_of_articles: List[Article]):
-        """"Updates the articles contained in this feed to the new one. Will not update if new list is empty"""
+        """"Updates the articles contained in this feed to the new one. Will not update if new list is empty."""
 
         f_logger.debug('Feed.update')
 
