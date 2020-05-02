@@ -6,7 +6,7 @@ import tkinter as tk
 from datetime import datetime
 from model.feed import Feed
 from model.article import Article
-from unittest.mock import patch
+from unittest.mock import patch, PropertyMock
 from view.main_view import MainView
 from model.feed_manager import FeedManager
 from controller.tiny_ticker import main, ten_second_loop, call_switch_display
@@ -28,13 +28,13 @@ class TestMain(unittest.TestCase):
     def tearDown(cls):
         """Test.test_tiny_ticker.TestTinyTicker.tearDown."""
         cls.test_view.destroy()
-    
-    @patch('model.feed_manager.create_feed_manager')
+
     @patch('controller.tiny_ticker.ten_second_loop')
-    def test_call_ten_second_loop(self, mock_loop, mock_create_feed_manager):
+    def test_call_ten_second_loop(self, mock_loop):
         """Unit test for controller.tiny_ticker.main. Tests the call to the ten second loop."""
-        main(self.test_view)
-        mock_loop.assert_called()
+        with patch('model.feed_manager.create_feed_manager', new_callable=PropertyMock) as mock_create:
+            main(self.test_view)
+            mock_loop.assert_called()
 
 
 class TestLoop(unittest.TestCase):
