@@ -3,7 +3,7 @@ import sys
 import unittest
 from model import parser
 from datetime import timedelta, datetime
-from model.parser import InvalidUrlException, get_feed_contents, get_feed_name
+from model.parser import InvalidUrlException, InvalidRssException, get_feed_contents, get_feed_name
 from unittest.mock import patch
 from model.feed_manager import *
 
@@ -355,6 +355,32 @@ class TestParser(unittest.TestCase):
 
         with self.assertRaises(InvalidUrlException):
             parser._check_url('')
+
+    @patch('model.parser.requests.get')
+    @patch('model.parser.BeautifulSoup')
+    def test_get_feed_contents_without_channel(self, mock_get, mock_bs):  
+        feed_with_no_channel = ''' <?xml version="1.0" encoding="utf-8"?>
+            <?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/shared/bsp/xsl/rss/nolsol.xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+            </rss>'''
+
+        get_feed_contents.bs_feed = feed_with_no_channel
+
+        with self.assertRaises(InvalidRssException):
+            get_feed_contents('http://feeds.bbci.co.uk/news/rss.xml')
+
+    @patch('model.parser.requests.get')
+    @patch('model.parser.BeautifulSoup')
+    def test_get_feed_contents_without_title(self, mock_get, mock_bs):
+        feed_with_no_title = '''<?xml version="1.0" encoding="utf-8"?>
+            <?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/shared/bsp/xsl/rss/nolsol.xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+            <channel>
+            </channel>
+            </rss>'''
+
+        get_feed_contents.bs_feed = feed_with_no_title
+
+        with self.assertRaises(InvalidRssException):
+            get_feed_contents('http://feeds.bbci.co.uk/news/rss.xml')
 
     def test_get_feed_contents_with_bad_imput(self):
         with self.assertRaises(InvalidUrlException):

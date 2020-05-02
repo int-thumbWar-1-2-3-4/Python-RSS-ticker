@@ -28,7 +28,7 @@ class TestMain(unittest.TestCase):
     def tearDown(cls):
         """Test.test_tiny_ticker.TestTinyTicker.tearDown."""
         cls.test_view.destroy()
-
+    
     @patch('model.feed_manager.create_feed_manager')
     @patch('controller.tiny_ticker.ten_second_loop')
     def test_call_ten_second_loop(self, mock_loop, mock_create_feed_manager):
