@@ -1,11 +1,8 @@
 """Controller.tiny_ticker."""
 import threading as th
-from datetime import datetime, timedelta
 from typing import List
-
 from model import parser
 from model.article import Article
-from model.feed import Feed
 from view.main_view import start_main_view, MainView
 from model.feed_manager import create_feed_manager, FeedManager
 from controller.utilities import logger, ticker_argument_parser
