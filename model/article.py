@@ -9,6 +9,7 @@ class Article:
     # A single rss item, i.e. a single news article.py
 
     def __init__(self, title: str, link: str, published_date: datetime):
+        """model.__init__."""
 
         a_logger.debug('Article.__init__')
         self.title = title

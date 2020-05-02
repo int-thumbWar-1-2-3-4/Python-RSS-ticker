@@ -1,8 +1,6 @@
 from typing import List
-
 from model import parser
 from model.feed import Feed
-from model.parser import get_feed_name, get_feed_contents
 from model.article import Article
 from controller.utilities import logger
 
@@ -10,21 +8,19 @@ fm_logger = logger('model.feed_manager')
 
 
 class FeedManagerEmptyException(Exception):
-    """Exception when the FeedManager is empty"""
+    """Exception when the FeedManager is empty."""
     pass
 
 
 class FeedNotFoundException(Exception):
-    """Exception for when the feed requested does not exist"""
+    """Exception for when the feed requested does not exist."""
     pass
-
 
 """
 This module holds all the feeds which will be rendered in the GUI. It manages feed creation and updating. Also it
 alternates articles between the feeds so one feed's are not shown back-to-back if there are more than 1 feed to choose 
 from.
 """
-
 
 class FeedManager:
     """
@@ -33,6 +29,7 @@ class FeedManager:
     """
 
     def __init__(self):
+        """model.__init__."""
 
         fm_logger.debug('FeedManager.__init__')
 
@@ -115,7 +112,6 @@ class FeedManager:
 
     def is_empty(self) -> bool:
         """Determines whether the model has any feeds."""
-
         fm_logger.debug('FeedManager.is_empty')
 
         if self.size() == 0:
@@ -167,15 +163,14 @@ class FeedManager:
             return True
 
     def size(self) -> int:
-        """Gets the number of feeds currently held"""
+        """Gets the number of feeds currently held."""
 
         fm_logger.debug('FeedManager.size')
 
         return len(self.__list_of_feeds)
 
     def update(self, feed_name: str, feed_link: str, feed_contents: List[Article]):
-        """
-        Creates a new Feed object if one doesnt already exist, or updates an existing feed wit the list given.
+        """Creates a new Feed object if one doesnt already exist, or updates an existing feed wit the list given.
         Will not update if article list is empty.
         """
 
