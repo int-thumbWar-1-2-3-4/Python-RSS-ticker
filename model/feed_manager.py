@@ -13,14 +13,13 @@ class FeedManagerEmptyException(Exception):
 
 
 class FeedNotFoundException(Exception):
-    """Exception for when the feed requested does not exist."""
+    """
+    Exception for when the feed requested does not exist. This module holds all the feeds which will be rendered
+    in the GUI. It manages feed creation and updating. Also it alternates articles between the feeds so one feed's
+    are not shown back-to-back if there are more than 1 feed to choose from.
+    """
     pass
 
-"""
-This module holds all the feeds which will be rendered in the GUI. It manages feed creation and updating. Also it
-alternates articles between the feeds so one feed's are not shown back-to-back if there are more than 1 feed to choose 
-from.
-"""
 
 class FeedManager:
     """
@@ -29,7 +28,7 @@ class FeedManager:
     """
 
     def __init__(self):
-        """model.__init__."""
+        """FeedManager.__init__."""
 
         fm_logger.debug('FeedManager.__init__')
 
