@@ -56,6 +56,10 @@ class MainView(tk.Frame):
         mv_logger.debug('MainView.display_entry')
 
         self.content_label["text"] = entry_title
+        self.content_label.unbind_all(self)
+        self.content_label.bind("<Button-1>",
+                                lambda event,
+                                       content_label=entry_title: self._open_article(entry_link))
         self.content_label.update()
 
     def _build_menu_bar(self):
@@ -81,9 +85,11 @@ class MainView(tk.Frame):
             dropdown_menu.add_command(label=color, command=lambda c=color: self._change_window('bg', c))
             font_color.add_command(label=color, command=lambda c=color: self._change_window('fg', c))
 
+
         for font in fonts:
             font_size = 'times ' + font
-            font_menu.add_command(label=font, command=lambda f=font_size: self._change_window('font', f))
+            font_menu.add_command(label=font, command=lambda size=font_size: self._change_window('font', size))
+
 
         menubar.add_cascade(label='Background color', menu=dropdown_menu)
         menubar.add_cascade(label='Font size', menu=font_menu)
@@ -106,7 +112,7 @@ class MainView(tk.Frame):
         self.content_label["text"] = entry_title
         self.content_label.bind("<Button-1>",
                                 lambda event,
-                                content_label=entry_title: self._open_article(entry_link))
+                                       content_label=entry_title: self._open_article(entry_link))
 
     def _change_window(self, element, value):
         """View.main_view.MainView.change_window.
