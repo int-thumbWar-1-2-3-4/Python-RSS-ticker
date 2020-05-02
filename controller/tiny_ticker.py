@@ -1,8 +1,13 @@
 """Controller.tiny_ticker."""
 import threading as th
+from datetime import datetime, timedelta
 from typing import List
-from view.main_view import start_main_view
-from model.feed_manager import create_feed_manager
+
+from model import parser
+from model.article import Article
+from model.feed import Feed
+from view.main_view import start_main_view, MainView
+from model.feed_manager import create_feed_manager, FeedManager
 from controller.utilities import logger, ticker_argument_parser
 
 
@@ -30,6 +35,21 @@ def ten_second_loop(main_view, cycle, feed_manager):
     call_switch_display(main_view, feed_manager)
 
 
+def call_new_feed(feed_manager: FeedManager, new_feed_url: str):
+    """
+    Controller.tiny_ticker.call_switch_display calls view.main_view.call_new_feed.
+
+    Downloads the contents of a new feed and adds it to the feed_manager
+
+    Arguments:
+         feed_manager -- the FeedManager which the new feed will be added to
+    """
+
+    feed_contents: List[Article] = parser.get_feed_contents(new_feed_url)
+    feed_name: str = parser.get_feed_name(new_feed_url)
+    feed_manager.update(feed_name, new_feed_url, feed_contents)
+
+
 def call_switch_display(main_view, feed_manager):
     """
     Controller.tiny_ticker.call_switch_display calls view.main_view.display_entry.
@@ -47,18 +67,21 @@ def call_switch_display(main_view, feed_manager):
     main_view.display_entry(article.title, article.link)
 
 
-def main(main_view):
+def main(main_view: MainView):
     """Controller.tiny_ticker.main gathers command-line args, calls the model, initiates the title loop.
     Arguments:
         mainView -- an instance of model.MainView
     """
     tt_logger.debug('main')
 
-    ten_second_loop(main_view, arguments.timer, create_feed_manager(arguments.url[0]))
+    feed_manager = create_feed_manager(arguments.url[0])
+    main_view.attach_new_feed_menu(feed_manager, call_new_feed)
+    ten_second_loop(main_view, arguments.timer, feed_manager)
 
 
 if __name__ == "__main__":
     tt_logger.debug('__main__')
+
     main_view = start_main_view()
     main(main_view)
 

@@ -1,11 +1,10 @@
 import unittest
 import tkinter as tk
-from unittest.mock import call, patch, PropertyMock
+from unittest.mock import call, patch, PropertyMock, Mock
 from view.main_view import MainView, start_main_view
 
 
 class TestMainView(unittest.TestCase):
-
     """Testing Class for view.main_view."""
 
     @classmethod
@@ -44,7 +43,6 @@ class TestMainView(unittest.TestCase):
                 call().__setitem__('text', 'Welcome to Tiny Ticker news feed'),
                 call().pack(side="top"),
             ], any_order=True)
-
 
     def test_display_entry(self):
         """Unit test for view.main_view.Model.build_window."""
@@ -91,9 +89,22 @@ class TestMainView(unittest.TestCase):
         self.test_view._change_window('fg', 'red')
         self.assertEqual(self.test_view.content_label['fg'], 'red')
 
+    @patch('view.main_view.simpledialog')
+    @patch('model.feed_manager.FeedManager')
+    @patch('controller.tiny_ticker.call_new_feed')
+    def test_prompt_new_feed(self, mock_simpledialog, mock_feed_manager, mock_call_new_feed):
+        """
+        Unit test for view.main_view.MainView.test_prompt_new_feed.
+
+        Test adding a new feed during runtime.
+        """
+
+        mock_simpledialog.askstring.return_value = "https://www.theguardian.com/us/rss"
+        self.test_view._prompt_new_feed(mock_feed_manager, mock_call_new_feed)
+        mock_call_new_feed.assert_called()
+
 
 class TestStartMainView(unittest.TestCase):
-    
     """Test class for view.main_view.start_main_view."""
 
     def test_start_main_view(self):

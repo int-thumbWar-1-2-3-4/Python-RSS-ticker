@@ -1,7 +1,10 @@
 """View.main_view."""
 import webbrowser
 import tkinter as tk
+from tkinter import simpledialog
+
 from controller.utilities import logger
+from model.feed_manager import FeedManager
 
 mv_logger = logger('view.main_view')
 
@@ -41,6 +44,19 @@ class MainView(tk.Frame):
         self._build_menu_bar()
         self.pack()
 
+    def attach_new_feed_menu(self, feed_manager: FeedManager, call_new_feed_method):
+        """
+        View.main_view.attach_new_feed_menu.
+
+        An access method for tiny_ticker which provides the menus a method within tiny_ticker.py to be called
+        when the user inputs a new feed url.
+
+        Arguments:
+            feed_manager -- the feed_manager which the controller will add the new feed to
+        """
+        self.new_feed_menu.add_command(label="Add New Feed...",
+                                       command=lambda: self._prompt_new_feed(feed_manager, call_new_feed_method))
+
     def display_entry(self, entry_title: str, entry_link: str):
         """
         View.main_view.MainView.display_entry.
@@ -59,17 +75,32 @@ class MainView(tk.Frame):
         self.content_label.unbind_all(self)
         self.content_label.bind("<Button-1>",
                                 lambda event,
-                                       content_label=entry_title: self._open_article(entry_link))
+                                content_label=entry_title: self._open_article(entry_link))
         self.content_label.update()
+
+    def _prompt_new_feed(self, feed_manager:FeedManager, call_new_feed_method):
+        """
+        View.main_view.MainView._prompt_new_feed
+
+        Creates a popup window which prompts the user to input a link for a new feed.
+        """
+
+        mv_logger.debug('MainView._add_feed')
+
+        user_input_url = simpledialog.askstring(title="", prompt="New Feed URL:")
+
+        if user_input_url is not None and user_input_url != "":
+            # Only call call_new_feed_method if the input url is not blank.
+            call_new_feed_method(feed_manager, user_input_url)
 
     def _build_menu_bar(self):
         """
-        View.main_view.MainView.menu_bar.
+        View.main_view.MainView._build_menu_bar
 
         This function adds a drop down menu for our tk window. It also assigns
         a lambda function to each of the dropdown menu's options.
         """
-        mv_logger.debug('MainView.menubar')
+        mv_logger.debug('MainView._build_menu_bar')
 
         colors = ["red", "green", "blue", "yellow", "cyan", "magenta", "white", "black"]
         fonts = ['8', '10', '12', '14', '16',
@@ -78,12 +109,13 @@ class MainView(tk.Frame):
 
         menubar = tk.Menu(self)
         dropdown_menu = tk.Menu(menubar, tearoff=0)
-        font_color = tk.Menu(menubar)
+        font_color_menu = tk.Menu(menubar)
         font_menu = tk.Menu(menubar)
+        self.new_feed_menu = tk.Menu(menubar)
 
         for color in colors:
             dropdown_menu.add_command(label=color, command=lambda c=color: self._change_window('bg', c))
-            font_color.add_command(label=color, command=lambda c=color: self._change_window('fg', c))
+            font_color_menu.add_command(label=color, command=lambda c=color: self._change_window('fg', c))
 
 
         for font in fonts:
@@ -93,29 +125,30 @@ class MainView(tk.Frame):
 
         menubar.add_cascade(label='Background color', menu=dropdown_menu)
         menubar.add_cascade(label='Font size', menu=font_menu)
-        menubar.add_cascade(label='Font color', menu=font_color)
+        menubar.add_cascade(label='Font color', menu=font_color_menu)
+        menubar.add_cascade(label='Add Feed', menu=self.new_feed_menu)
 
         self.master.config(menu=menubar)
 
     def _build_window(self, entry_title: str, entry_link: str):
         """
-        View.main_view.MainView.build_window.
+        View.main_view.MainView._build_window.
 
         Sets the title of the window and the initial label. Here the label
         is also bound to a button that when clicked, willcall open_article
         with the current link as a parameter.
         """
-        mv_logger.debug('MainView.build_window')
+        mv_logger.debug('MainView._build_window')
         self.winfo_toplevel().title("Tiny Ticker")
 
         self.content_label.pack(side="top")
         self.content_label["text"] = entry_title
         self.content_label.bind("<Button-1>",
                                 lambda event,
-                                       content_label=entry_title: self._open_article(entry_link))
+                                content_label=entry_title: self._open_article(entry_link))
 
     def _change_window(self, element, value):
-        """View.main_view.MainView.change_window.
+        """View.main_view.MainView._change_window.
 
         Modifies the tkinter window's background color, font color or font size.
 
@@ -123,13 +156,13 @@ class MainView(tk.Frame):
             element -- Dictates which display feature is changed
             value -- Is what the feature is changed to
         """
-        mv_logger.debug('MainView.change_window')
+        mv_logger.debug('MainView._change_window')
 
         self.content_label[element] = value
 
-    def _open_article(self, link):
+    def _open_article(self, link: str):
         """
-        View.main_view.MainView.open_article.
+        View.main_view.MainView._open_article.
 
         Opens entry_link's web page associated in the default browser.
         Entry link is associated with the current entry_title
@@ -137,6 +170,6 @@ class MainView(tk.Frame):
         Arguments:
             link -- url for the current entry_title
         """
-        mv_logger.debug('MainView.open_article')
+        mv_logger.debug('MainView._open_article')
         webbrowser.open_new(link)
         self.content_label.update()
