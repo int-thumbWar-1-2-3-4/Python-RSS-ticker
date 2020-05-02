@@ -5,13 +5,12 @@ from controller.utilities import logger
 f_logger = logger('model.feed')
 
 """
-A collection of articles from a single feed. It automatically sorts its feeds by date published
+A collection of articles from a single feed. It automatically sorts its feeds by date published.
 This class should ONLY be automatically created by the feed_manager this prevents unnecessary creation of large object. 
 """
-
-
 class EmptyFeedException(Exception):
     """Exception if the feed is empty and cannot be created."""
+
     pass
 
 
@@ -86,8 +85,7 @@ class Feed:
         return self.__list_of_articles[self.__current_article_index]
 
     def get_next_article(self) -> Article:
-        """
-        Gets the next article in this feed's order after the current one.
+        """ Gets the next article in this feed's order after the current one.
                   Wraps from end back to start.
                   Returns None if empty. Returns the current article if there is only 1 article.
         """
@@ -106,7 +104,7 @@ class Feed:
         return self.get_current_article()
 
     def update(self, new_list_of_articles: List[Article]):
-        """"Updates the articles contained in this feed to the new one. Will not update if new list is empty."""
+        """" Updates the articles contained in this feed to the new one. Will not update if new list is empty."""
 
         f_logger.debug('Feed.update')
 
