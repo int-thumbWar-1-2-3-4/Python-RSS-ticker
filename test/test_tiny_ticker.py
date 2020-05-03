@@ -9,6 +9,7 @@ from model.article import Article
 from unittest.mock import patch, PropertyMock
 from view.main_view import MainView
 from model.feed_manager import FeedManager
+from controller.utilities import ticker_argument_parser
 from controller.tiny_ticker import main, ten_second_loop, call_switch_display, call_new_feed
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))

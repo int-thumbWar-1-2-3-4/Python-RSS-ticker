@@ -1,7 +1,7 @@
 """Controller.tiny_ticker."""
 import threading as th
-from typing import List
 from model import parser
+from typing import List
 from model.article import Article
 from view.main_view import start_main_view, MainView
 from model.feed_manager import create_feed_manager, FeedManager
@@ -70,10 +70,13 @@ def main(main_view: MainView):
         mainView -- an instance of model.MainView
     """
     tt_logger.debug('main')
-
-    feed_manager = create_feed_manager(arguments.url[0])
+    urls = arguments.url
+    print(urls)
+    feed_manager = create_feed_manager(urls.pop(0))
     main_view.attach_new_feed_menu(feed_manager, call_new_feed)
     ten_second_loop(main_view, arguments.timer, feed_manager)
+    for u in urls:
+        call_new_feed(feed_manager, u)
 
 
 if __name__ == "__main__":

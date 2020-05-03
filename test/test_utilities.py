@@ -45,6 +45,15 @@ class TestArgumentParser(unittest.TestCase):
         self.assertTrue(args.url, args.timer)
         self.assertEqual(args.url, fake_url)
 
+    def test_multiple_urls(self):
+        fake_url = ['www.fakeurl.com', 'www.otherurl.com']
+        sys.argv = ['test', '--url', fake_url[0], fake_url[1]]
+        args = ticker_argument_parser()
+
+        self.assertTrue(args.url, args.timer)
+        self.assertEqual(args.url[0], fake_url[0])
+        self.assertEqual(args.url[1], fake_url[1])
+
     def test_file(self):
         """
         Unit test for controller.utilities.ticker_argument_parser's
@@ -108,7 +117,9 @@ class TestArgumentParser(unittest.TestCase):
         sys.argv = ['test', '-u', url, '-t', time, '-f', file, '-l', logger]
         args = ticker_argument_parser()
         self.assertEqual(args.url[0], url)
-        # self.assertEqual(args.time, 13)
+        self.assertEqual(args.timer, 13)
+        self.assertEqual(args.file[0], file)
+        self.assertEqual(args.logger[0], logger)
 
 
 class TestTickerArgumentParser(unittest.TestCase):
