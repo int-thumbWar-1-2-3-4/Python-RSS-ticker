@@ -1,21 +1,20 @@
 """Test.test_tiny_ticker."""
+
 import os
 import sys
 import unittest
 import tkinter as tk
 from datetime import datetime, timedelta
-from model.feed import Feed
 from model.article import Article
 from unittest.mock import patch, PropertyMock
 from view.main_view import MainView
 from model.feed_manager import FeedManager
-from controller.utilities import ticker_argument_parser
 from controller.tiny_ticker import main, ten_second_loop, call_switch_display, call_new_feed
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-class TestMain(unittest.TestCase):
 
+class TestMain(unittest.TestCase):
     """Test class for controller.tiny_ticker."""
 
     @classmethod
@@ -31,19 +30,25 @@ class TestMain(unittest.TestCase):
 
     @patch('controller.tiny_ticker.ten_second_loop')
     def test_call_ten_second_loop(self, mock_loop):
-        """Unit test for controller.tiny_ticker.main. Tests the call to the ten second loop."""
+        """
+        Unit test for controller.tiny_ticker.main.
+
+        Tests the call to the ten second loop.
+        """
+
         with patch('model.feed_manager.create_feed_manager', new_callable=PropertyMock) as mock_create:
             main(self.test_view)
             mock_loop.assert_called()
 
 
 class TestLoop(unittest.TestCase):
+    """Test class for controller.tiny_ticker."""
 
     test_title = 'test title'
     test_url = 'www.nowhere.com'
     test_date = '5/11/2020'
 
-    @patch('controller.tiny_ticker.th.Timer')
+    @patch('controller.tiny_ticker.threading.Timer')
     @patch('view.main_view')
     @patch('controller.tiny_ticker.call_switch_display')
     def test_ten_second_loop_calls_its_self(self, mock_timer, mock_main_view, mock_switch_display):

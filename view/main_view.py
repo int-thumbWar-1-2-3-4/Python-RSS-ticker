@@ -1,40 +1,42 @@
-"""View.main_view."""
+"""
+View.main_view
+
+This module manages the gui for this application.
+"""
+
 import webbrowser
 import tkinter as tk
 from tkinter import simpledialog
-
 from controller.utilities import logger
 from model.feed_manager import FeedManager
 
 mv_logger = logger('view.main_view')
 
 
-def start_main_view():
-    """
-    View.main_view.start_main_view.
-
-    This function is called from controller.start and it Initiates our gui.
-    """
-    mv_logger.debug('start_main_view')
-
-    root = tk.Tk()
-    return MainView(master=root)
-
-
 class MainView(tk.Frame):
     """
-    Class view.main_view.MainView.
+    view.main_view.MainView
 
-    This class fills out a tikinter root. It creates, displays, modifies
+    This class fills out a tikinter frame. It creates, displays, modifies
     and receives input from the controller and the user interface.
     """
 
     def __init__(self, master=None,
                  entry_title="Welcome to Tiny Ticker news feed",
                  entry_link="https://github.com/int-thumbWar-1-2-3-4/Python-RSS-ticker"):
-        """Constructor for view.main_view.MainView."""
-        super().__init__(master)
+        """
+        view.main_view.MainView.__init__
 
+        Populates this frame with content and a menu. Prepares the frame for display but does not prompt
+        it to be made visible.
+
+        Arguments:
+            master -- the Tkinter object which manages the gui for this application. Defaults to None
+            entry_title -- the title for the entry to display. Defaults to a dummy string.
+            entry_link -- the link for the entry to display. Defaults to a dummy string.
+        """
+
+        super().__init__(master)
         mv_logger.debug('MainView.__init__')
 
         self.master = master
@@ -53,7 +55,11 @@ class MainView(tk.Frame):
 
         Arguments:
             feed_manager -- the feed_manager which the controller will add the new feed to
+            call_new_feed_method -- the method to be called when the user chooses to add a new feed
         """
+
+        mv_logger.debug('MainView.attach_new_feed_menu')
+
         self.new_feed_menu.add_command(label="Add New Feed...",
                                        command=lambda: self._prompt_new_feed(feed_manager, call_new_feed_method))
 
@@ -62,13 +68,14 @@ class MainView(tk.Frame):
         View.main_view.MainView.display_entry.
 
         This function updates both entry_title and entry_link with the
-        appropriate parameters and changes the text ofcontent_label to
+        appropriate parameters and changes the text of content_label to
         that of the new entry_title.
 
         Arguments:
             entry_title -- a string showing a headline
-            entry_link -- a string that is the url for entry_title
+            entry_link -- a string that is the url for the article
         """
+
         mv_logger.debug('MainView.display_entry')
 
         self.content_label["text"] = entry_title
@@ -78,14 +85,18 @@ class MainView(tk.Frame):
                                 content_label=entry_title: self._open_article(entry_link))
         self.content_label.update()
 
-    def _prompt_new_feed(self, feed_manager:FeedManager, call_new_feed_method):
+    def _prompt_new_feed(self, feed_manager: FeedManager, call_new_feed_method):
         """
         View.main_view.MainView._prompt_new_feed
 
         Creates a popup window which prompts the user to input a link for a new feed.
+
+        Arguments:
+            feed_manager -- the FeedManager to add the new feed to
+            call_new_feed_method -- the method to be called when the user chooses to add a new feed
         """
 
-        mv_logger.debug('MainView._add_feed')
+        mv_logger.debug('MainView._prompt_new_feed')
 
         user_input_url = simpledialog.askstring(title="", prompt="New Feed URL:")
 
@@ -100,6 +111,7 @@ class MainView(tk.Frame):
         This function adds a drop down menu for our tk window. It also assigns
         a lambda function to each of the dropdown menu's options.
         """
+
         mv_logger.debug('MainView._build_menu_bar')
 
         colors = ["red", "green", "blue", "yellow", "cyan", "magenta", "white", "black"]
@@ -135,8 +147,12 @@ class MainView(tk.Frame):
         View.main_view.MainView._build_window.
 
         Sets the title of the window and the initial label. Here the label
-        is also bound to a button that when clicked, willcall open_article
+        is also bound to a button that when clicked, will call open_article
         with the current link as a parameter.
+
+        Arguments:
+            entry_title -- a string showing a headline
+            entry_link -- a string that is the url for the article
         """
         mv_logger.debug('MainView._build_window')
         self.winfo_toplevel().title("Tiny Ticker")
@@ -147,8 +163,9 @@ class MainView(tk.Frame):
                                 lambda event,
                                 content_label=entry_title: self._open_article(entry_link))
 
-    def _change_window(self, element, value):
-        """View.main_view.MainView._change_window.
+    def _change_window(self, element: str, value: str):
+        """
+        View.main_view.MainView._change_window.
 
         Modifies the tkinter window's background color, font color or font size.
 
@@ -156,6 +173,7 @@ class MainView(tk.Frame):
             element -- Dictates which display feature is changed
             value -- Is what the feature is changed to
         """
+
         mv_logger.debug('MainView._change_window')
 
         self.content_label[element] = value
@@ -168,8 +186,25 @@ class MainView(tk.Frame):
         Entry link is associated with the current entry_title
 
         Arguments:
-            link -- url for the current entry_title
+            link -- url for the currently displayed Article
         """
+
         mv_logger.debug('MainView._open_article')
+
         webbrowser.open_new(link)
         self.content_label.update()
+
+
+def start_main_view() -> MainView:
+    """
+    View.main_view.start_main_view.
+
+    This function is called from controller.start and it Initiates our gui.
+
+    Returns a new instance of MainView
+    """
+
+    mv_logger.debug('start_main_view')
+
+    root = tk.Tk()
+    return MainView(master=root)

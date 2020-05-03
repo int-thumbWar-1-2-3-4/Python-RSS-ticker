@@ -1,4 +1,6 @@
+"""Test.test_utilities."""
 # https://github.com/drsjb80/MockingPython/blob/master/thecastleargv.py
+
 import sys
 import unittest
 import logging as lg
@@ -7,25 +9,25 @@ from controller.utilities import logger, ticker_argument_parser
 
 
 class TestUtilities(unittest.TestCase):
-
     """Test class for controller.utilities."""
     
     def test_logger(self):
-        """
-        Unit test for controller.utilities.logger. Should return a Logger
-        bject.
-        """
+        """Unit test for controller.utilities.logger"""
+
         result = logger('name')
         self.assertTrue(isinstance(result, lg.Logger))
 
 
 class TestArgumentParser(unittest.TestCase):
-    """Test class for tests.test_argument_parser."""
+    """Test class for controller.ticker_argument_parser"""
+
     def test_has_each_argument(self):
         """
-        Unit test for controller.utilities.ticker_argument_parser. Are all
-        args present?
+        Unit test for controller.utilities.ticker_argument_parser.
+
+        Are all args present?
         """
+
         sys.argv = ['PRSST']
         args = ticker_argument_parser()
         self.assertTrue('url' in args)
@@ -35,9 +37,9 @@ class TestArgumentParser(unittest.TestCase):
 
     def test_url(self):
         """
-        Unit test for controller.utilities.ticker_argument_parser's url
-        argument.
+        Unit test for controller.utilities.ticker_argument_parser's url argument.
         """
+
         fake_url = ['www.fakeurl.com']
         sys.argv = ['test', '--url', fake_url[0]]
         args = ticker_argument_parser()
@@ -46,6 +48,10 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(args.url, fake_url)
 
     def test_multiple_urls(self):
+        """
+        Unit test for controller.utilities.ticker_argument_parser's url argument with multiple urls.
+        """
+
         fake_url = ['www.fakeurl.com', 'www.otherurl.com']
         sys.argv = ['test', '--url', fake_url[0], fake_url[1]]
         args = ticker_argument_parser()
@@ -56,9 +62,9 @@ class TestArgumentParser(unittest.TestCase):
 
     def test_file(self):
         """
-        Unit test for controller.utilities.ticker_argument_parser's
-        file argument.
+        Unit test for controller.utilities.ticker_argument_parser's file argument.
         """
+
         fake_file = ['fakefile.txt']
         sys.argv = ['test', '--file', fake_file[0]]
         args = ticker_argument_parser()
@@ -68,9 +74,9 @@ class TestArgumentParser(unittest.TestCase):
 
     def test_logger(self):
         """
-        Unit test for controller.utilities.ticker_argument_parser's
-        logger argument.
+        Unit test for controller.utilities.ticker_argument_parser's logger argument.
         """
+
         fake_logger = ['WARNING']
         sys.argv = ['test', '--logger', fake_logger[0]]
         args = ticker_argument_parser()
@@ -81,9 +87,9 @@ class TestArgumentParser(unittest.TestCase):
 
     def test_timer(self):
         """
-        Unit test for controller.utilities.ticker_argument_parser's
-        timer argument.
+        Unit test for controller.utilities.ticker_argument_parser's timer argument.
         """
+
         sys.argv = ['news ticker', '--timer', '17']
         args = ticker_argument_parser()
 
@@ -93,9 +99,9 @@ class TestArgumentParser(unittest.TestCase):
 
     def test_default_timer(self):
         """
-        Unit test for controller.utilities.ticker_argument_parser's
-        default timer value.
+        Unit test for controller.utilities.ticker_argument_parser's default timer value.
         """
+
         sys.argv = ['this is the prog field (the name of the program']
         args = ticker_argument_parser()
 
@@ -105,8 +111,7 @@ class TestArgumentParser(unittest.TestCase):
 
     def test_all_args(self):
         """
-        Unit test for controller.utilities.ticker_argument_parser testing
-        the handling of all arguments at once.
+        Unit test for controller.utilities.ticker_argument_parser testing the handling of all arguments at once.
         """
         # TODO, finish this test. The argument needs to be expanded
 
@@ -124,12 +129,15 @@ class TestArgumentParser(unittest.TestCase):
 
 class TestTickerArgumentParser(unittest.TestCase):
     """Test class to test the creation of the argument parser."""
+
     @patch('controller.utilities.argparse.ArgumentParser')
     def test_calls_argparse_function_argument_parser(self, mock_parser):
         """
         Unit test for controller.utilities.ticker_argument_parser.
+
         Checks that our argument parser was reated correctly.
         """
+
         self.description = "Select a file or feed to parse."
         ticker_argument_parser()
         mock_parser.assert_called_with(description=self.description,
