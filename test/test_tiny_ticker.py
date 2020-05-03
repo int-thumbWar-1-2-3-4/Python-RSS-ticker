@@ -48,7 +48,7 @@ class TestLoop(unittest.TestCase):
     test_url = 'www.nowhere.com'
     test_date = '5/11/2020'
 
-    @patch('controller.tiny_ticker.th.Timer')
+    @patch('controller.tiny_ticker.threading.Timer')
     @patch('view.main_view')
     @patch('controller.tiny_ticker.call_switch_display')
     def test_ten_second_loop_calls_its_self(self, mock_timer, mock_main_view, mock_switch_display):
