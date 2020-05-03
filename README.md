@@ -30,4 +30,5 @@
        - controller.tiny_ticker.main
             Gathers command-line args, loads feeds into the model, and initiates the title loop.
        Arguments:
-        mainView -- the gui view which displays feed articles
+           - mainView -- the gui view which displays feed articles
+        
