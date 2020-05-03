@@ -1,3 +1,5 @@
+"""Test.test_model"""
+
 import os
 import sys
 import unittest
@@ -12,17 +14,27 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 
 class ArticleTestCase(unittest.TestCase):
+    """Test class for model.article"""
 
     def test_article(self):
+        """Unit test for model.article.Article"""
+
         article_title = "Test Article"
         article_link = "https://www.theguardian.com/us-news/2020/apr/08/bernie-sanders-ends-2020-presidential-race"
         article_published_date = datetime.now()
-        Article(article_title, article_link, article_published_date)
+        test_article = Article(article_title, article_link, article_published_date)
+
+        self.assertEqual(test_article.title, article_title)
+        self.assertEqual(test_article.link, article_link)
+        self.assertEqual(test_article.published_date, article_published_date)
 
 
 class FeedTestCase(unittest.TestCase):
+    """Test class for model.feed"""
 
     def test_feed_add_new(self):
+        """Unit test for model.feed.Feed.add_new"""
+
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago
         feed = Feed("Feed Name", "https://cyber.harvard.edu/rss/examples/rss2sample.xml", [article_1])
 
@@ -34,6 +46,8 @@ class FeedTestCase(unittest.TestCase):
         self.assertTrue(feed.add_new(article_4))
 
     def test_feed_contains(self):
+        """Unit test for model.feed.Feed.contains"""
+
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
 
         test_feed = Feed("Test Feed", "https://cyber.harvard.edu/rss/examples/rss2sample.xml", [article_1])
@@ -52,6 +66,8 @@ class FeedTestCase(unittest.TestCase):
         self.assertTrue(test_feed.contains(article_4))
 
     def test_feed_get_current_article(self):
+        """Unit test for model.feed.Feed.get_current_article"""
+
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago
         test_feed = Feed("Test Feed", "https://cyber.harvard.edu/rss/examples/rss2sample.xml", [article_1])
         self.assertEqual(test_feed.get_next_article(), article_1)  # Should stay at first entry since it only contains 1
@@ -76,6 +92,8 @@ class FeedTestCase(unittest.TestCase):
         self.assertEqual(test_feed.get_current_article(), article_3)  # Should stay the same between updates if possible
 
     def test_feed_get_next_article(self):
+        """Unit test for model.feed.Feed.get_next_article"""
+
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
         test_feed = Feed("Test Feed", "https://cyber.harvard.edu/rss/examples/rss2sample.xml", [article_1])
         self.assertEqual(test_feed.get_next_article(), article_1)  # Should stay at first entry since it only contains 1
@@ -99,6 +117,8 @@ class FeedTestCase(unittest.TestCase):
         self.assertEqual(test_feed.get_next_article(), article_1)  # Should loop around end to start
 
     def test_feed_update(self):
+        """Unit test for model.feed.Feed.update"""
+
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))  # 2 days ago
         article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))  # 3 days ago
@@ -130,8 +150,11 @@ class FeedTestCase(unittest.TestCase):
 
 
 class FeedManagerTestCase(unittest.TestCase):
+    """Test class for model.feed_manager"""
 
     def test_feed_manager_add(self):
+        """Unit test for model.feed_manager.FeedManager.add"""
+
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
         test_feed_name = "Test Feed 1"
         test_feed_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
@@ -151,6 +174,8 @@ class FeedManagerTestCase(unittest.TestCase):
         self.assertTrue(test_feed_manager.add(article_4, test_feed_name))
 
     def test_feed_manager_contains(self):
+        """Unit test for model.feed_manager.FeedManager.contains"""
+
         test_feed_manager = FeedManager()
         test_feed_name = "Test Feed"
         test_feed_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
@@ -171,6 +196,8 @@ class FeedManagerTestCase(unittest.TestCase):
         self.assertFalse(test_feed_manager.contains(article_4, test_feed_name))
 
     def test_feed_manager_get_current_article(self):
+        """Unit test for model.feed_manager.FeedManager.get_current_article"""
+
         test_feed_manager = FeedManager()
         test_feed_name = "Test Feed 1"
         test_feed_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
@@ -191,6 +218,8 @@ class FeedManagerTestCase(unittest.TestCase):
         self.assertRaises(FeedManagerEmptyException, test_feed_manager.get_current_article)
 
     def test_feed_manager_get_next_article(self):
+        """Unit test for model.feed_manager.FeedManager.get_next_article"""
+
         test_feed_manager = FeedManager()
         test_feed_1_name = "Test Feed 1"
         test_feed_1_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
@@ -232,6 +261,8 @@ class FeedManagerTestCase(unittest.TestCase):
         self.assertRaises(FeedManagerEmptyException, test_feed_manager.get_next_article)
 
     def test_feed_manager_is_empty(self):
+        """Unit test for model.feed_manager.FeedManager.is_empty"""
+
         test_feed_manager = FeedManager()
         test_feed_name = "Test Feed"
         test_feed_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
@@ -247,6 +278,8 @@ class FeedManagerTestCase(unittest.TestCase):
         self.assertFalse(test_feed_manager.is_empty())
 
     def test_feed_manager_remove(self):
+        """Unit test for model.feed_manager.FeedManager.remove"""
+
         test_feed_1_name = "Test Feed 1"
         test_feed_1_link = "https://cyber.harvard.edu/rss/examples/rss2sample.xml"
 
@@ -286,6 +319,8 @@ class FeedManagerTestCase(unittest.TestCase):
         self.assertTrue(test_feed_manager.remove(test_feed_1_name)) # Current_feed_index should decrement with this
 
     def test_feed_manager_size(self):
+        """Unit test for model.feed_manager.FeedManager.size"""
+
         test_feed_manager = FeedManager()
 
         self.assertEqual(test_feed_manager.size(), 0)
@@ -307,6 +342,8 @@ class FeedManagerTestCase(unittest.TestCase):
         self.assertEqual(test_feed_manager.size(), 1)
 
     def test_feed_manager_update(self):
+        """Unit test for model.feed_manager.FeedManager.update"""
+
         article_1 = Article("Article 1", "Link 1", (datetime.now() - timedelta(days=1)))  # 1 day ago (most recent)
         article_2 = Article("Article 2", "Link 2", (datetime.now() - timedelta(days=2)))  # 2 days ago
         article_3 = Article("Article 3", "Link 3", (datetime.now() - timedelta(days=3)))  # 3 days ago
@@ -340,12 +377,17 @@ class FeedManagerTestCase(unittest.TestCase):
 
 
 class TestParser(unittest.TestCase):
+    """Test class for model.parser"""
 
     def test_get_multi_feed_contents_with_bad_url(self):
+        """Unit test for model.parser.get_multi_feed_contents"""
+        # TODO: DELETE test_get_multi_feed_contents_with_bad_url as get_multi_feed_contents is not functional
+
         with self.assertRaises(InvalidUrlException):
             parser.get_multi_feed_contents([])
 
     def test_check_url(self):
+        """Unit test for model.parser._check_url"""
 
         parser._check_url('www.test_url.net/feeds/xml/')
         parser._check_url('www.test_url.net/feeds/rss')
@@ -358,6 +400,8 @@ class TestParser(unittest.TestCase):
             parser._check_url('')
 
     def test_parse_rss_without_channel(self):
+        """Unit test for model.parser._parse_rss"""
+
         feed_with_no_channel = BeautifulSoup('''<?xml version="1.0" encoding="utf-8"?>
             <?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/shared/bsp/xsl/rss/nolsol.xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
             </rss>''', 'lxml-xml')
@@ -366,6 +410,8 @@ class TestParser(unittest.TestCase):
             parser._parse_rss(feed_with_no_channel)
 
     def test_parse_rss_without_title(self):
+        """Unit test for model.parser._parse_rss"""
+
         feed_with_no_title = BeautifulSoup('''<?xml version="1.0" encoding="utf-8"?>
             <?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/shared/bsp/xsl/rss/nolsol.xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
             <channel>
@@ -377,6 +423,8 @@ class TestParser(unittest.TestCase):
             parser._parse_rss(feed_with_no_title)
 
     def test_parse_rss_without_link(self):
+        """Unit test for model.parser._parse_rss"""
+
         feed_with_no_link = BeautifulSoup('''<?xml version="1.0" encoding="utf-8"?>
             <?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/shared/bsp/xsl/rss/nolsol.xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
             <channel>
@@ -390,7 +438,9 @@ class TestParser(unittest.TestCase):
 
     @patch('model.parser.requests.get')
     @patch('model.parser.BeautifulSoup')
-    def test_get_feed_contents_without_item(self, mock_get, mock_bs):  
+    def test_get_feed_contents_without_item(self, mock_get, mock_bs):
+        """Unit test for model.parser._get_feed_contents"""
+
         feed_with_no_item = ''' <?xml version="1.0" encoding="utf-8"?>
             <?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/shared/bsp/xsl/rss/nolsol.xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
             </rss>'''
@@ -400,11 +450,15 @@ class TestParser(unittest.TestCase):
         with self.assertRaises(InvalidRssException):
             get_feed_contents('http://feeds.bbci.co.uk/news/rss.xml')
 
-    def test_get_feed_contents_with_bad_imput(self):
+    def test_get_feed_contents_with_bad_input(self):
+        """Unit test for model.parser._get_feed_contents"""
+
         with self.assertRaises(InvalidUrlException):
             get_feed_contents('')
 
-    def test_get_feed_name_with_bad_imput(self):
+    def test_get_feed_name_with_bad_input(self):
+        """Unit test for model.parser._get_feed_name"""
+
         with self.assertRaises(InvalidUrlException):
             get_feed_name('')
 

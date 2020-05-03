@@ -1,4 +1,15 @@
-import email
+"""
+model.parser
+
+This module imports and parses rss v2.0 and atom v1.0 files as collections of Articles called Feeds.
+
+!!! At this moment the parser only has a dummy method for .atom feed parsing and cannot actually parse them !!!
+
+rss v2.0 specs can be found here: https://cyber.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
+atom v1.0 specs can be found here: https://support.google.com/merchants/answer/160593?hl=en
+"""
+
+from email import utils
 import requests
 from re import search
 from bs4 import BeautifulSoup
@@ -10,35 +21,43 @@ from controller.utilities import logger
 
 p_logger = logger('model.parser.py')
 
-"""
-This module imports and parses rss v2.0 and atom v1.0 files as collections of Articles called Feeds.
-
-rss v2.0 specs can be found here: https://cyber.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
-atom v1.0 specs can be found here: https://support.google.com/merchants/answer/160593?hl=en
-"""
-
 
 class InvalidAtomException(Exception):
-    """Exception raised if an Atom feed is not correctly formatted."""
+    """
+    model.parser.InvalidAtomException
 
+    Exception raised if an Atom feed is not correctly formatted.
+    """
     pass
 
 
 class InvalidRssException(Exception):
-    """Exception raised if an Rss feed is not correctly formatted."""
+    """
+    model.parser.InvalidRssException
 
+    Exception raised if an Rss feed is not correctly formatted.
+    """
     pass
 
 
 class InvalidUrlException(Exception):
-    """Exception raised if url is not formatted correctly."""
+    """
+    model.parser.InvalidUrlException
 
+    Exception raised if an improperly formatted url is given
+    """
     pass
 
 
 def get_multi_feed_contents(urls: List[str]) -> List[Feed]:
     """
+    model.parser.get_multi_feed_contents
+
     Parse one or multiple feeds' contents from the files at the urls provided. Files must be .rss, .html, or .xml.
+
+    Raises an exception if the set of urls is empty
+
+    Returns a new list of Feeds
     """
 
     p_logger.debug('get_multi_feed_contents')
@@ -46,12 +65,25 @@ def get_multi_feed_contents(urls: List[str]) -> List[Feed]:
     if len(urls) == 0:
         raise InvalidUrlException("urls[] is empty. Please include a URL.")
 
-    # TODO: Make get_feed_contents(List[str]) return the contents of multiple feeds
+    # TODO: DELETE the get_multi_feed_contents method as it is no longer useful
     return List[List[Article]]
 
 
 def get_feed_contents(url: str) -> List[Article]:
-    """Uses BeautifulSoup to parse the contents an rss or atom feed file at the url provided."""
+    """
+    model.parser.get_feed_contents
+
+    Uses BeautifulSoup to parse the contents an rss or atom feed file at the url provided.
+
+    Raises an exception if the url is not properly formatted.
+    Also raises an exception if an atom feed is indicated, as that file format is not currently supported.
+
+    Returns a new list of articles.
+
+    Arguments:
+        url -- the url location of the feed to parse
+    """
+
     p_logger.debug('get_feed_contents')
 
     try:
@@ -68,11 +100,25 @@ def get_feed_contents(url: str) -> List[Article]:
 
     if bs_feed.feed is not None:
         # return _parse_atom(bs_feed)
-        pass
+        # TODO: Remove this exception once atom feeds are supported.
+
+        raise InvalidUrlException("The url given indicates an atom feed, which is not currently supported")
 
 
 def get_feed_name(url: str) -> str:
-    """Uses BeautifulSoup to retrieve the name of an rss or atom feed file at the url provided."""
+    """
+    model.parser.get_feed_name
+
+    Uses BeautifulSoup to retrieve the name of an rss or atom feed file at the url provided.
+
+    Raises an exception if the url is not properly formatted.
+    Also raises an exception if an atom feed is indicated, as that file format is not currently supported.
+
+    Returns the name of the feed.
+
+    Arguments:
+        url -- the url location of the feed to parse
+    """
     # TODO: Find some way to combine get_feed_name with _parse_rss so BeautifulSoup doesnt have to be created twice
 
     p_logger.debug('get_feed_name')
@@ -91,11 +137,26 @@ def get_feed_name(url: str) -> str:
 
     if bs_feed.feed is not None:
         # return feed title
-        pass
+        # TODO: Remove this exception once atom feeds are supported.
+
+        raise InvalidUrlException("The url given indicates an atom feed, which is not currently supported")
 
 
 def _parse_rss(bs_feed: BeautifulSoup) -> List[Article]:
-    """Parses the data within BeautifulSoup into a single Feed object with 1 or more Articles."""
+    """
+    model.parser._parse_rss
+
+    Parses the data within BeautifulSoup into a list of Articles.
+
+    Raises exceptions if the rss file is not properly formatted to be parsed. Could also raise an exception if the rss
+    feed has no entries.
+
+    Returns the contents of the feed.
+
+    Arguments:
+        bs_feed -- the BeautifulSoup object which contains data on this feed.
+    """
+
     p_logger.debug('_parse_rss')
     # Get the relevant meta about the feed itself (name & link)
 
@@ -121,7 +182,7 @@ def _parse_rss(bs_feed: BeautifulSoup) -> List[Article]:
     items = bs_feed.find_all("item")
 
     if len(items) == 0:
-        raise InvalidRssException("This rss feed either has no items (entries")
+        raise InvalidRssException("This rss feed has no entries.")
 
     for item in items:
         title = item.title.string
@@ -143,7 +204,7 @@ def _parse_rss(bs_feed: BeautifulSoup) -> List[Article]:
         # Convert the date from rfc822 (rss std format) to datetime
         # The one line of code comes from:
         # https://stackoverflow.com/questions/1568856/how-do-i-convert-rfc822-to-a-python-datetime-object
-        date = datetime.utcfromtimestamp(email.utils.mktime_tz(email.utils.parsedate_tz(date)))
+        date = datetime.utcfromtimestamp(utils.mktime_tz(utils.parsedate_tz(date)))
 
         feed_contents.append(Article(title, link, date))
 
@@ -154,15 +215,38 @@ def _parse_rss(bs_feed: BeautifulSoup) -> List[Article]:
 
 
 def _parse_atom(bs_feed: BeautifulSoup) -> List[Article]:
+    """
+    model.parser._parse_atom
+
+    Parses the data within BeautifulSoup into a list of Articles.
+    !!! THIS METHOD IS CURRENTLY BLANK !!! It will be filled out in the future in order to support atom files.
+
+    Raises exceptions if the atom file is not properly formatted to be parsed. Could also raise an exception if the atom
+    feed has no entries.
+
+    Returns the contents of the feed.
+
+    Arguments:
+        bs_feed -- the BeautifulSoup object which contains data on this feed.
+    """
 
     p_logger.debug('_parse_atom')
 
 #   TODO: Fill out the parser._parse_atom method
 
+    return []
+
 
 def _check_url(url: str):
-    """ Raises an exception if a url string is formatted incorrectly. It is not intended to be comprehensive.
-    It filters some common issues that might prevent parsing, while explaining to the user what the issue might be.
+    """
+    model.parser._check_url
+
+    Raises an exception if a given url is not formatted correctly.
+    It is not intended to be comprehensive. Rather, it filters some common issues that might prevent parsing, while
+    explaining to the user what the issue might be.
+
+    Arguments:
+        url -- the url to validate
     """
 
     p_logger.debug('_check_url')
