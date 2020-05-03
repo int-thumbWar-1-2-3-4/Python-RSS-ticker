@@ -71,7 +71,6 @@ def main(main_view: MainView):
     """
     tt_logger.debug('main')
     urls = arguments.url
-    print(urls)
     feed_manager = create_feed_manager(urls.pop(0))
     main_view.attach_new_feed_menu(feed_manager, call_new_feed)
     ten_second_loop(main_view, arguments.timer, feed_manager)
