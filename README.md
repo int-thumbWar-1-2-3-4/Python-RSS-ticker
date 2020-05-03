@@ -5,9 +5,9 @@
 
         Tkinter - A GUI module that is commonly used in Python
 
-        Application Flow 
-## Controller 
-   - Contains methods for mediating communication between this application's modules. 
+## Application Flow 
+ 
+   - Controller Contains methods for mediating communication between this application's modules. 
    - It also initializes and runs the Tiny Ticker application.
        - controller.tiny_ticker.ten_second_loop
             Switches the display every <cycle> seconds. This function spans a timed looping thread. Every 'cycle' seconds this
