@@ -4,7 +4,6 @@ import os
 import sys
 import unittest
 from bs4 import BeautifulSoup
-from model import parser
 from datetime import timedelta, datetime
 from model.parser import InvalidUrlException, InvalidRssException, get_feed_contents, get_feed_name
 from unittest.mock import patch
@@ -378,13 +377,6 @@ class FeedManagerTestCase(unittest.TestCase):
 
 class TestParser(unittest.TestCase):
     """Test class for model.parser"""
-
-    def test_get_multi_feed_contents_with_bad_url(self):
-        """Unit test for model.parser.get_multi_feed_contents"""
-        # TODO: DELETE test_get_multi_feed_contents_with_bad_url as get_multi_feed_contents is not functional
-
-        with self.assertRaises(InvalidUrlException):
-            parser.get_multi_feed_contents([])
 
     def test_check_url(self):
         """Unit test for model.parser._check_url"""
